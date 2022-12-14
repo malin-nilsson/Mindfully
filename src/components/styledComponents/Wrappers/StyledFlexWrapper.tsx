@@ -14,9 +14,15 @@ export const StyledFlexWrapper = styled.div`
   padding: ${(props: IStylingProps) => props.padding || ''};
 `
 export const StyledButtonWrapper = styled.div`
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+
+  @media ${devices.tablet} {
+    width: 50%;
+  }
+
   @media ${devices.desktop} {
     width: 30%;
-    display: flex;
-    flex-direction: column;
   }
 `

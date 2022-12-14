@@ -8,7 +8,7 @@ export default function NavbarStartpage() {
     <StyledNavStartpage>
       <NavLink to="/" className="logo">
         <span>
-          <img src="/assets/logo-beige.png" alt="Mindfully Logo"></img>
+          <img src="/assets/logo-dkblue.png" alt="Mindfully Logo"></img>
         </span>
         <StyledHeadingLogo>Mindfully</StyledHeadingLogo>
       </NavLink>

@@ -15,9 +15,9 @@ body {
   box-sizing: border-box;
   font-size: 12pt;
   scroll-behavior: smooth;
-  background-color: var(--dark-blue);
+  background-color: var(--dark-beige);
   font-family: var(--text-font);
-  color: var(--dark-beige);
+  color: var(--dark-blue);
   cursor: default;
 }
 

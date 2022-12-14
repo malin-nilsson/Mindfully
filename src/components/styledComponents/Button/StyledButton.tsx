@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { devices } from '../../Breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledButton = styled.button`
@@ -18,6 +19,10 @@ export const StyledButton = styled.button`
   background-color: ${(props: IStylingProps) =>
     props.bgColor || 'var(--dark-beige)'};
   transition: transform 0.2s ease-in-out;
+
+  @media ${devices.tablet} {
+    font-size: 1rem;
+  }
 
   &:hover {
     cursor: pointer;
