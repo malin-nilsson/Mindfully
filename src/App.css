@@ -1,3 +1,30 @@
-.App {
-  text-align: center;
+:root {
+  --dark-blue: #001432;
+  --dark-beige: #f8e2b1;
+  --light-beige: #fffcf9;
+  --logo-font: 'Pacifico', cursive;
+  --heading-font: 'DM Serif Display', serif;
+  --text-font: 'Open Sans', sans-serif;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  max-width: 2400px;
+  box-sizing: border-box;
+  font-size: 12pt;
+  scroll-behavior: smooth;
+  background-color: var(--dark-blue);
+  font-family: var(--text-font);
+  color: var(--dark-beige);
+  cursor: default;
+}
+
+a {
+  text-decoration: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
