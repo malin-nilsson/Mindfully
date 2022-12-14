@@ -1,0 +1,59 @@
+import styled from 'styled-components'
+import { devices } from '../../Breakpoints/Breakpoints'
+
+export const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin-top: 1rem;
+  background-color: var(--dark-blue);
+  border-radius: 0.9rem;
+  padding: 1rem;
+  width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+
+  @media ${devices.tablet} {
+    padding: 2rem 2.5rem;
+    width: 100%;
+  }
+
+  input {
+    font-size: 0.9rem;
+    padding: 1rem;
+    outline: none;
+    border: 1px solid var(--dark-beige);
+    border-radius: 0.9rem;
+    color: var(--dark-beige);
+
+    &:focus {
+      outline: none;
+      border: 1px solid var(--light-beige);
+    }
+  }
+
+  input[type='text'],
+  [type='email'],
+  [type='password'] {
+    background: var(--dark-blue);
+  }
+
+  label {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+  }
+
+  a {
+    color: var(--dark-beige);
+    text-decoration: underline;
+  }
+`

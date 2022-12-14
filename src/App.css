@@ -25,6 +25,11 @@ a {
   text-decoration: none;
 }
 
+main {
+  padding: 1rem;
+  position: relative;
+}
+
 ::-webkit-scrollbar {
   display: none;
 }
