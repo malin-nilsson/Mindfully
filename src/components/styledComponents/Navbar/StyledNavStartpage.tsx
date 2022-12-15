@@ -8,8 +8,8 @@ export default function NavbarStartpage() {
   return (
     <StyledNavStartpage>
       <NavLink to="/" className="logo">
-        <StyledImageWrapper>
-          <img src="/assets/logo-dkblue.png" alt="Mindfully Logo"></img>
+        <StyledImageWrapper maxHeight="25px" margin="00">
+          <img src="/assets/logo/logo-dkblue.png" alt="Mindfully Logo"></img>
         </StyledImageWrapper>
         <StyledHeadingLogo>Mindfully</StyledHeadingLogo>
       </NavLink>
@@ -18,6 +18,8 @@ export default function NavbarStartpage() {
 }
 
 export const StyledNavStartpage = styled.nav`
+  max-width: 13rem;
+
   .logo {
     padding: 20px;
     display: flex;

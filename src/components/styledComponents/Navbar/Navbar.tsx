@@ -24,7 +24,7 @@ export default function Navbar() {
       <StyledLogoIcon>
         <Link to="/" className="logo-wrapper">
           <StyledImageWrapper>
-            <img src="/assets/logo-dkblue.png" alt="Mindfully logo"></img>
+            <img src="/assets/logo/logo-dkblue.png" alt="Mindfully logo"></img>
           </StyledImageWrapper>
           <span>
             <StyledHeadingLogo>Mindfully</StyledHeadingLogo>
