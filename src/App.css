@@ -1,7 +1,7 @@
 :root {
   --dark-blue: #001432;
-  --dark-beige: #f8e2b1;
-  --light-beige: #fffcf9;
+  --dark-beige: #ffe1aa;
+  --light-beige: #fdf0d4;
   --logo-font: 'Pacifico', cursive;
   --heading-font: 'DM Serif Display', serif;
   --text-font: 'Open Sans', sans-serif;
@@ -23,11 +23,6 @@ body {
 
 a {
   text-decoration: none;
-}
-
-main {
-  padding: 1rem;
-  position: relative;
 }
 
 ::-webkit-scrollbar {

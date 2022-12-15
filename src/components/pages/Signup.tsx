@@ -10,7 +10,7 @@ export default function Signup() {
   return (
     <StyledFlexWrapper>
       <StyledForm>
-        <StyledHeadingM>Create an account.</StyledHeadingM>
+        <StyledHeadingM>Create an account</StyledHeadingM>
         <div className="input-group">
           <label>Choose a username</label>
           <input type="text" placeholder="Username" />

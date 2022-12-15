@@ -10,6 +10,7 @@ export interface IStylingProps {
   padding?: string
   margin?: string
   width?: string
+  height?: string
   color?: string
   bgColor?: string
   border?: string

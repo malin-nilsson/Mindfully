@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { devices } from '../../Breakpoints/Breakpoints'
+import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledButton = styled.button`

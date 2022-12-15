@@ -10,7 +10,7 @@ export default function Login() {
   return (
     <StyledFlexWrapper>
       <StyledForm>
-        <StyledHeadingM>Welcome back.</StyledHeadingM>
+        <StyledHeadingM>Welcome back</StyledHeadingM>
         <div className="input-group">
           <label>Username</label>
           <input type="text" placeholder="Username" />
