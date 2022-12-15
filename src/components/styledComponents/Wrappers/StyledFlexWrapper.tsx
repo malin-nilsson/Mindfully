@@ -4,7 +4,7 @@ import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledFlexWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   flex-wrap: wrap;
   justify-content: ${(props: IStylingProps) => props.justify || 'center'};
   align-items: center;

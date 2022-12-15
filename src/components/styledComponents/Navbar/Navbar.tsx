@@ -97,6 +97,11 @@ export default function Navbar() {
 const StyledNav = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media ${devices.desktop} {
+    position: fixed;
+    width: 20%;
+  }
 `
 const StyledNavLinks = styled.nav`
   display: flex;

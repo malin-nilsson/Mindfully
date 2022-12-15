@@ -9,7 +9,7 @@ export const StyledLogoIcon = styled.div`
   cursor: pointer;
 
   @media ${devices.desktop} {
-    position: ${(props: IStylingProps) => props.position || 'fixed'};
+    position: ${(props: IStylingProps) => props.position || ''};
     padding: 2rem 1.6rem 1rem;
   }
   img {

@@ -6,7 +6,7 @@ export default function Layout() {
   return (
     <StyledGridWrapper>
       <Navbar />
-      <main>
+      <main className="desktop-main-content">
         <Outlet></Outlet>
       </main>
     </StyledGridWrapper>
