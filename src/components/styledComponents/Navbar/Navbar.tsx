@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
+import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState<Boolean>(false)
@@ -22,10 +23,9 @@ export default function Navbar() {
     <StyledNav>
       <StyledLogoIcon>
         <Link to="/" className="logo-wrapper">
-          <span>
-            {' '}
+          <StyledImageWrapper>
             <img src="/assets/logo-dkblue.png" alt="Mindfully logo"></img>
-          </span>
+          </StyledImageWrapper>
           <span>
             <StyledHeadingLogo>Mindfully</StyledHeadingLogo>
           </span>

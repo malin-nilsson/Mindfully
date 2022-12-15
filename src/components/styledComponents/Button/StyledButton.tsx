@@ -30,8 +30,6 @@ export const StyledButton = styled.button`
   }
 
   img {
-    max-height: 25px;
     transform: rotate(-30deg);
-    margin-right: 5px;
   }
 `

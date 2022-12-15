@@ -11,6 +11,7 @@ export interface IStylingProps {
   margin?: string
   width?: string
   height?: string
+  maxHeight?: string
   color?: string
   bgColor?: string
   border?: string

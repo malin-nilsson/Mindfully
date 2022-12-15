@@ -2,14 +2,15 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { StyledHeadingLogo } from '../Headings/StyledHeadings'
+import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 
 export default function NavbarStartpage() {
   return (
     <StyledNavStartpage>
       <NavLink to="/" className="logo">
-        <span>
+        <StyledImageWrapper>
           <img src="/assets/logo-dkblue.png" alt="Mindfully Logo"></img>
-        </span>
+        </StyledImageWrapper>
         <StyledHeadingLogo>Mindfully</StyledHeadingLogo>
       </NavLink>
     </StyledNavStartpage>
@@ -21,8 +22,5 @@ export const StyledNavStartpage = styled.nav`
     padding: 20px;
     display: flex;
     align-items: center;
-  }
-  img {
-    max-height: 35px;
   }
 `

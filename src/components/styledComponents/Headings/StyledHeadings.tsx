@@ -11,7 +11,7 @@ export const StyledHeadingXL = styled.h1`
   color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
 
   @media ${devices.tablet} {
-    font-size: 3rem;
+    font-size: 2.7rem;
   }
 `
 
@@ -24,7 +24,7 @@ export const StyledHeadingL = styled.h2`
   color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
 
   @media ${devices.tablet} {
-    font-size: 2.7rem;
+    font-size: 2.5rem;
   }
 `
 

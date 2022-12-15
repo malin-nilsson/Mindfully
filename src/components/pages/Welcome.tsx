@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
-import { StyledHeadingL } from '../styledComponents/Headings/StyledHeadings'
+import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,
@@ -10,7 +10,7 @@ export default function Welcome() {
   return (
     <>
       <StyledFlexWrapper padding="1.5rem">
-        <StyledHeadingL>Take a mindful break.</StyledHeadingL>
+        <StyledHeadingXL>Take a mindful break.</StyledHeadingXL>
         <StyledButtonWrapper>
           <Link to="/login">
             <StyledButton
