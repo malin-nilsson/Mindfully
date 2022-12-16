@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom'
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
   const [cards, setCards] = useState(true)
+  const [loading, setLoading] = useState(true)
 
   return (
     <StyledHeroBg>
@@ -43,8 +44,8 @@ export default function Home() {
                 </StyledImageWrapper>
 
                 <p>
-                  Explore the library of meditations, from guided breath
-                  practice, to sound meditations.
+                  Explore the library and come back every time you need a
+                  mindful break.
                 </p>
               </StyledCard>
             </Link>
@@ -62,8 +63,8 @@ export default function Home() {
                 <img src="/assets/icons/lightbulb.png"></img>
               </StyledImageWrapper>
               <p>
-                Take a minute to check in and see which meditation practice fits
-                you best at this moment.
+                Take a quick assessment to see which meditation fits you the
+                best at this moment.
               </p>
             </StyledCard>
           </StyledFlexWrapper>
