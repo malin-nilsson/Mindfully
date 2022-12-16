@@ -5,8 +5,11 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../assets/Moods/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
+import { getAuth, signOut } from 'firebase/auth'
 
 export default function Home() {
+  const auth = getAuth()
+
   return (
     <StyledFlexWrapper
       bgColor="var(--dark-blue)"
@@ -14,6 +17,7 @@ export default function Home() {
       padding="3rem 0"
       height="100vh"
     >
+      <button onClick={() => signOut(auth)}>Sign out</button>
       <StyledHeadingL color="var(--dark-beige)">
         {' '}
         <StyledImageWrapper maxHeight="45px" margin="0 1.3rem 0 0">

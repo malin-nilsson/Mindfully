@@ -10,6 +10,12 @@ import Layout from './components/Layout'
 import LayoutStartpage from './components/LayoutStartpage'
 import Login from './components/pages/Login'
 import Signup from './components/pages/Signup'
+import { initializeApp } from 'firebase/app'
+import { firebaseConfig } from './firebase/config'
+import AuthRoute from './components/auth/AuthRoute'
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
 
 function App() {
   return (
@@ -21,9 +27,30 @@ function App() {
           <Route path="/signup" element={<Signup />} />
         </Route>
         <Route path="/" element={<Layout />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/library" element={<Library />} />
+          <Route
+            path="/home"
+            element={
+              <AuthRoute>
+                <Home />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <AuthRoute>
+                <Profile />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="/library"
+            element={
+              <AuthRoute>
+                <Library />
+              </AuthRoute>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>
