@@ -5,12 +5,22 @@ import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import GoogleIcon from '@mui/icons-material/Google'
 import { Link, useNavigate } from 'react-router-dom'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
 
 export default function Login() {
   const auth = getAuth()
   const navigate = useNavigate()
   const [authing, setAuthing] = useState(false)
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [authenticating, setAuthenticating] = useState(false)
 
   const signInWithGoogle = async () => {
     setAuthing(true)
@@ -26,19 +36,61 @@ export default function Login() {
       })
   }
 
+  const signInWithEmailPassword = () => {
+    if (errorMessage !== '') setErrorMessage('')
+
+    setAuthenticating(true)
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((result) => {
+        console.log(result)
+        navigate('/home')
+      })
+      .catch((error) => {
+        console.log(error)
+        setAuthenticating(false)
+
+        if (error.code.includes('auth/user-not-found')) {
+          setErrorMessage(
+            'User not found. Did you enter the correct e-mail address?',
+          )
+        } else if (error.code.includes('auth/wrong-password')) {
+          setErrorMessage(
+            'The password you entered is incorrect, please try again.',
+          )
+        } else {
+          setErrorMessage('Unable to sign up. Please try again later.')
+        }
+      })
+  }
+
   return (
     <StyledFlexWrapper>
-      <StyledForm>
+      <StyledForm onSubmit={(e) => e.preventDefault()}>
         <StyledHeadingM>Welcome back</StyledHeadingM>
         <div className="input-group">
-          <label>Username</label>
-          <input type="text" placeholder="Username" />
+          <label>Email</label>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            placeholder="Email address"
+          />
         </div>
         <div className="input-group">
           <label>Password</label>
-          <input type="password" placeholder="Password" />
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            placeholder="Password"
+          />
         </div>
-        <StyledButton margin="1rem 0 0.5rem">Sign in</StyledButton>
+        <StyledButton
+          onClick={() => signInWithEmailPassword()}
+          disabled={authenticating}
+          margin="1rem 0 0.5rem"
+        >
+          Sign in
+        </StyledButton>
         <StyledButton
           type="button"
           onClick={() => signInWithGoogle()}
@@ -52,6 +104,7 @@ export default function Login() {
         <p>
           Don't have an account? <Link to="/signup">Create one here.</Link>
         </p>
+        <p>{errorMessage}</p>
       </StyledForm>
     </StyledFlexWrapper>
   )
