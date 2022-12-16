@@ -19,3 +19,13 @@ export const StyledHero = styled.div`
     background-attachment: fixed;
   }
 `
+
+export const StyledHeroBg = styled.div`
+  background-image: url('/assets/nightsky.jpg');
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding-bottom: 13rem;
+  height: 100%;
+`

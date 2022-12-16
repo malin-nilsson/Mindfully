@@ -9,7 +9,7 @@ export const StyledFlexWrapper = styled.div`
   justify-content: ${(props: IStylingProps) => props.justify || 'center'};
   align-items: ${(props: IStylingProps) => props.align || 'center'};
   gap: ${(props: IStylingProps) => props.gap || '1rem'};
-  margin: 0 auto;
+  margin: ${(props: IStylingProps) => props.margin || '0 auto'};
   height: ${(props: IStylingProps) => props.height || ''};
   background-color: ${(props: IStylingProps) => props.bgColor || ''};
   width: ${(props: IStylingProps) => props.width || ''};

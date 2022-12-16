@@ -1,47 +1,104 @@
-import { StyledHeadingL } from '../styledComponents/Headings/StyledHeadings'
-import { StyledText } from '../styledComponents/Text/StyledText'
+import {
+  StyledHeadingM,
+  StyledHeadingS,
+  StyledHeadingXL,
+} from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../assets/Moods/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { getAuth } from 'firebase/auth'
+import { StyledHeroBg } from '../styledComponents/Hero/StyledHero'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
+  const [selfAssessment, setSelfAssessment] = useState(false)
+  const [cards, setCards] = useState(true)
+
   return (
-    <StyledFlexWrapper
-      bgColor="var(--dark-blue)"
-      justify="flex-start"
-      padding="1rem 0"
-      height="100vh"
-      width="100%"
-    >
-      <StyledHeadingL color="var(--dark-beige)">
-        {' '}
-        <StyledImageWrapper maxHeight="45px" margin="0 1.3rem 0 0">
-          <img src="/assets/icons/flower.png" alt="Flower"></img>
-        </StyledImageWrapper>
-        Hi, Malin.
-      </StyledHeadingL>
-      <StyledText
-        margin="0"
-        color="var(--dark-beige)"
-        fontSize="1.6rem"
-        fontWeight="100"
-      >
-        How are you feeling today?
-      </StyledText>
-      <StyledFlexWrapper direction="row" width="50%" gap="2rem">
-        {moods.map((mood) => {
-          return (
-            <StyledCard width="10%" borderRadius="50%">
-              <StyledImageWrapper maxHeight="30px">
-                <img src={mood} alt="Emoji"></img>
-                Sad
+    <StyledHeroBg>
+      {cards && (
+        <>
+          <StyledFlexWrapper
+            justify="flex-start"
+            padding="1.5rem 0 0"
+            width="100%"
+          >
+            <StyledFlexWrapper>
+              <StyledHeadingXL color="var(--dark-beige)">
+                Hi, Malin.
+              </StyledHeadingXL>
+            </StyledFlexWrapper>
+          </StyledFlexWrapper>
+
+          <StyledFlexWrapper padding="2rem 0 1.5rem" direction="row" gap="3rem">
+            <Link to="/explore">
+              <StyledCard>
+                <StyledHeadingS color="var(--dark-blue)">
+                  Find a Meditation
+                </StyledHeadingS>
+
+                <StyledImageWrapper maxHeight="40px">
+                  <img src="/assets/icons/zen.png"></img>
+                </StyledImageWrapper>
+
+                <p>
+                  Explore the library of meditations, from guided breath
+                  practice, to sound meditations.
+                </p>
+              </StyledCard>
+            </Link>
+
+            <StyledCard
+              onClick={() => {
+                setSelfAssessment(true)
+                setCards(false)
+              }}
+            >
+              <StyledHeadingS color="var(--dark-blue)">
+                Self assessment
+              </StyledHeadingS>
+              <StyledImageWrapper maxHeight="40px">
+                <img src="/assets/icons/lightbulb.png"></img>
               </StyledImageWrapper>
+              <p>
+                Take a minute to check in and see which meditation practice fits
+                you best at this moment.
+              </p>
             </StyledCard>
-          )
-        })}
-      </StyledFlexWrapper>
-    </StyledFlexWrapper>
+          </StyledFlexWrapper>
+        </>
+      )}
+
+      {selfAssessment && (
+        <>
+          <StyledFlexWrapper padding="4rem 0 1rem">
+            <StyledHeadingM>How are you feeling today?</StyledHeadingM>
+          </StyledFlexWrapper>
+          <StyledFlexWrapper
+            margin="2rem auto"
+            direction="row"
+            width="80%"
+            gap="3rem"
+          >
+            {moods.map((mood) => {
+              return (
+                <StyledCard
+                  width="15%"
+                  borderRadius="15px"
+                  height="7rem"
+                  justify="center"
+                >
+                  <StyledImageWrapper maxHeight="60px">
+                    <img src={mood} alt="Emoji"></img>
+                    Sad
+                  </StyledImageWrapper>
+                </StyledCard>
+              )
+            })}
+          </StyledFlexWrapper>
+        </>
+      )}
+    </StyledHeroBg>
   )
 }
