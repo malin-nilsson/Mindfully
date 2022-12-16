@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
@@ -8,12 +8,17 @@ import CloseIcon from '@mui/icons-material/Close'
 import { StyledLogoIcon } from '../Logo/StyledLogoIcon'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks'
-import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
+import AppsIcon from '@mui/icons-material/Apps'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+import { getAuth, signOut } from 'firebase/auth'
+import { StyledButton } from '../Button/StyledButton'
+import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState<Boolean>(false)
+  const auth = getAuth()
 
   const toggleMobileMenu = () => {
     setIsActive((isActive) => !isActive)
@@ -59,6 +64,15 @@ export default function Navbar() {
           </li>
           <li>
             <NavLink
+              to="/explore"
+              className={({ isActive }) => (isActive ? 'active-link' : '')}
+              onClick={() => (isActive ? toggleMobileMenu() : '')}
+            >
+              <AppsIcon /> Explore
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/profile"
               className={({ isActive }) => (isActive ? 'active-link' : '')}
               onClick={() => (isActive ? toggleMobileMenu() : '')}
@@ -68,27 +82,37 @@ export default function Navbar() {
           </li>
           <li>
             <NavLink
-              to="/library"
+              to="/journey"
               className={({ isActive }) => (isActive ? 'active-link' : '')}
               onClick={() => (isActive ? toggleMobileMenu() : '')}
             >
-              <LibraryBooksIcon /> Library
+              <MenuBookIcon />
+              My journey
             </NavLink>
           </li>
-
           <li>
             <NavLink
-              to="/"
+              to="/favorites"
               className={({ isActive }) => (isActive ? 'active-link' : '')}
               onClick={() => (isActive ? toggleMobileMenu() : '')}
             >
-              <span>
-                <QuestionAnswerIcon />{' '}
-              </span>
-              <span>Talk to Mindfully</span>
+              <FavoriteIcon /> Favorites
             </NavLink>
           </li>
         </ul>
+        <StyledFlexWrapper width="85%">
+          {' '}
+          <StyledButton
+            fontSize="0.9rem"
+            bgColor="var(--dark-beige)"
+            color="var(--dark-blue)"
+            border="1px solid var(--dark-blue)"
+            margin="0.5rem 0 0"
+            onClick={() => signOut(auth)}
+          >
+            Sign out
+          </StyledButton>
+        </StyledFlexWrapper>
       </StyledNavLinks>
     </StyledNav>
   )

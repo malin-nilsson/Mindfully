@@ -7,8 +7,8 @@ export const StyledFlexWrapper = styled.div`
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   flex-wrap: wrap;
   justify-content: ${(props: IStylingProps) => props.justify || 'center'};
-  align-items: center;
-  gap: 10px;
+  align-items: ${(props: IStylingProps) => props.align || 'center'};
+  gap: ${(props: IStylingProps) => props.gap || '1rem'};
   margin: 0 auto;
   height: ${(props: IStylingProps) => props.height || ''};
   background-color: ${(props: IStylingProps) => props.bgColor || ''};

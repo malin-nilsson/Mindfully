@@ -15,6 +15,7 @@ export interface IStylingProps {
   color?: string
   bgColor?: string
   border?: string
+  borderRadius?: string
   position?: string
   display?: string
   background?: string

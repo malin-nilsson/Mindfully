@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledCard = styled.div`
   display: flex;
@@ -7,7 +8,8 @@ export const StyledCard = styled.div`
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  border-radius: 50%;
   padding: 2rem;
   background: var(--dark-beige);
+  border-radius: ${(props: IStylingProps) => props.borderRadius || ''};
+  width: ${(props: IStylingProps) => props.width || ''};
 `

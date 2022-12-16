@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 // COMPONENTS //
 import Welcome from './components/pages/Welcome'
 import Home from './components/pages/Home'
-import Library from './components/pages/Library'
+import Explore from './components/pages/Explore'
 import Profile from './components/pages/Profile'
 import Layout from './components/Layout'
 import LayoutStartpage from './components/LayoutStartpage'
@@ -13,6 +13,8 @@ import Signup from './components/pages/Signup'
 import { initializeApp } from 'firebase/app'
 import { firebaseConfig } from './firebase/config'
 import AuthRoute from './components/auth/AuthRoute'
+import Favorites from './components/pages/Favorites'
+import MyJourney from './components/pages/MyJourney'
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
@@ -43,11 +45,30 @@ function App() {
               </AuthRoute>
             }
           />
+
           <Route
-            path="/library"
+            path="/explore"
             element={
               <AuthRoute>
-                <Library />
+                <Explore />
+              </AuthRoute>
+            }
+          />
+
+          <Route
+            path="/journey"
+            element={
+              <AuthRoute>
+                <MyJourney />
+              </AuthRoute>
+            }
+          />
+
+          <Route
+            path="/favorites"
+            element={
+              <AuthRoute>
+                <Favorites />
               </AuthRoute>
             }
           />

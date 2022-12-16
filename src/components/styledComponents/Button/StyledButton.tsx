@@ -11,9 +11,9 @@ export const StyledButton = styled.button`
   border-radius: 0.9rem;
   border: ${(props: IStylingProps) => props.border || 'none'};
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};
   padding: 1rem 2rem;
-  width: 100%;
+  width: ${(props: IStylingProps) => props.width || '100%'};
   color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
   margin: ${(props: IStylingProps) => props.margin || ''};
   background-color: ${(props: IStylingProps) =>
@@ -21,7 +21,7 @@ export const StyledButton = styled.button`
   transition: transform 0.2s ease-in-out;
 
   @media ${devices.tablet} {
-    font-size: 1rem;
+    font-size: ${(props: IStylingProps) => props.fontSize || '1rem'};
   }
 
   &:hover {
