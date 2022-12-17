@@ -3,13 +3,14 @@ import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledCard = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: 2rem;
   justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
-  align-items: center;
+  align-items: ${(props: IStylingProps) => props.align || 'center'};
   flex-wrap: wrap;
   color: var(--dark-blue);
-  padding: 1.7rem 1.6rem 1.3rem;
+  padding: ${(props: IStylingProps) =>
+    props.padding || ' 1.7rem 1.6rem 1.3rem'};
   background: var(--dark-beige);
   border-radius: ${(props: IStylingProps) => props.borderRadius || '15px'};
   width: ${(props: IStylingProps) => props.width || '15.5rem'};
@@ -25,5 +26,9 @@ export const StyledCard = styled.div`
   p {
     margin: 0 0 1rem;
     font-size: 0.9rem;
+  }
+  span {
+    font-size: 0.9rem;
+    font-weight: 100;
   }
 `

@@ -56,6 +56,16 @@ export const StyledHeadingS = styled.h4`
   }
 `
 
+export const StyledHeadingXS = styled.h5`
+  font-family: var(--text-font);
+  color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin: 0;
+  font-weight: 500;
+  border-bottom: 2px solid var(--dark-blue);
+`
+
 export const StyledHeadingLogo = styled.h4`
   font-family: var(--logo-font);
   color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};

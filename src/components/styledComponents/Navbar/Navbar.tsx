@@ -99,20 +99,19 @@ export default function Navbar() {
               <FavoriteIcon /> Favorites
             </NavLink>
           </li>
+          <StyledFlexWrapper padding="0" margin="0" width="100%">
+            <StyledButton
+              fontSize="0.9rem"
+              bgColor="var(--dark-beige)"
+              color="var(--dark-blue)"
+              border="1px solid var(--dark-blue)"
+              margin="0.5rem 0 0"
+              onClick={() => signOut(auth)}
+            >
+              Sign out
+            </StyledButton>
+          </StyledFlexWrapper>
         </ul>
-        <StyledFlexWrapper width="85%">
-          {' '}
-          <StyledButton
-            fontSize="0.9rem"
-            bgColor="var(--dark-beige)"
-            color="var(--dark-blue)"
-            border="1px solid var(--dark-blue)"
-            margin="0.5rem 0 0"
-            onClick={() => signOut(auth)}
-          >
-            Sign out
-          </StyledButton>
-        </StyledFlexWrapper>
       </StyledNavLinks>
     </StyledNav>
   )
@@ -153,7 +152,7 @@ const StyledNavLinks = styled.nav`
     width: 100%;
 
     @media ${devices.desktop} {
-      margin-top: 9rem;
+      margin: 9rem 0 1rem;
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -169,7 +168,6 @@ const StyledNavLinks = styled.nav`
       text-decoration: none;
       font-size: 1.3rem;
       font-weight: 300;
-      padding: 1.2rem;
       display: flex;
       align-items: center;
       gap: 1rem;

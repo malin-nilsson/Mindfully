@@ -5,19 +5,34 @@ import {
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import { moods } from '../../assets/Moods/Moods'
+import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { StyledHeroBg } from '../styledComponents/Hero/StyledHero'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
   const [cards, setCards] = useState(true)
   const [loading, setLoading] = useState(true)
+  const [displayName, setDisplayName] = useState('')
+  const auth = getAuth()
+
+  useEffect(() => {
+    const AuthCheck = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const currentUser = user.displayName as string
+        const firstName = currentUser.split(' ')[0]
+        setDisplayName(firstName)
+      } else {
+        console.log('unauthorized')
+      }
+    })
+    return () => AuthCheck()
+  }, [])
 
   return (
-    <StyledHeroBg>
+    <>
       {cards && (
         <>
           <StyledFlexWrapper
@@ -27,7 +42,7 @@ export default function Home() {
           >
             <StyledFlexWrapper>
               <StyledHeadingXL color="var(--dark-beige)">
-                Hi, Malin.
+                Hi, {displayName}.
               </StyledHeadingXL>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
@@ -89,10 +104,11 @@ export default function Home() {
                   borderRadius="15px"
                   height="7rem"
                   justify="center"
+                  key={mood.id}
                 >
                   <StyledImageWrapper maxHeight="60px">
-                    <img src={mood} alt="Emoji"></img>
-                    Sad
+                    <img src={mood.img} alt="Emoji"></img>
+                    {mood.title}
                   </StyledImageWrapper>
                 </StyledCard>
               )
@@ -100,6 +116,6 @@ export default function Home() {
           </StyledFlexWrapper>
         </>
       )}
-    </StyledHeroBg>
+    </>
   )
 }

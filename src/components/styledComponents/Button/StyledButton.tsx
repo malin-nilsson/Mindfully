@@ -10,7 +10,7 @@ export const StyledButton = styled.button`
   gap: 10px;
   border-radius: 0.9rem;
   border: ${(props: IStylingProps) => props.border || 'none'};
-  font-weight: 600;
+  font-weight: ${(props: IStylingProps) => props.fontWeight || '600'};
   font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};
   padding: 1rem 2rem;
   width: ${(props: IStylingProps) => props.width || '100%'};
@@ -22,6 +22,11 @@ export const StyledButton = styled.button`
 
   @media ${devices.tablet} {
     font-size: ${(props: IStylingProps) => props.fontSize || '1rem'};
+    width: ${(props: IStylingProps) => props.width || '50%'};
+  }
+
+  @media ${devices.desktop} {
+    width: ${(props: IStylingProps) => props.width || '90%'};
   }
 
   &:hover {

@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom'
+import { StyledHeroBg } from './styledComponents/Hero/StyledHero'
 import Navbar from './styledComponents/Navbar/Navbar'
 import { StyledGridWrapper } from './styledComponents/Wrappers/StyledGridWrapper'
 
@@ -7,7 +8,9 @@ export default function Layout() {
     <StyledGridWrapper>
       <Navbar />
       <main className="desktop-main-content">
-        <Outlet></Outlet>
+        <StyledHeroBg>
+          <Outlet></Outlet>
+        </StyledHeroBg>
       </main>
     </StyledGridWrapper>
   )
