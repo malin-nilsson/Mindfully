@@ -15,7 +15,7 @@ export default function Welcome() {
         <StyledButtonWrapper>
           <Link to="/login">
             <StyledButton
-              bgColor="var(--dark-blue)"
+              bgColor="var(--mid-blue)"
               color="var(--dark-beige)"
               margin="0.5rem 0"
             >
@@ -26,7 +26,7 @@ export default function Welcome() {
             </StyledButton>
           </Link>
           <Link to="/signup">
-            <StyledButton border="1px solid var(--dark-blue)" margin="0.5rem 0">
+            <StyledButton border="1px solid var(--mid-blue)" margin="0.5rem 0">
               <StyledImageWrapper maxHeight="22px">
                 <img src="/assets/icons/stars-dkblue.png" alt="Stars"></img>
               </StyledImageWrapper>

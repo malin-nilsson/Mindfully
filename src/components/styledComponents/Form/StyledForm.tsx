@@ -7,7 +7,7 @@ export const StyledForm = styled.form`
   gap: 10px;
   max-width: 400px;
   margin-top: 1rem;
-  background-color: var(--dark-blue);
+  background-color: var(--mid-blue);
   border-radius: 0.9rem;
   padding: 1rem;
   width: 90%;
@@ -39,7 +39,7 @@ export const StyledForm = styled.form`
   input[type='text'],
   [type='email'],
   [type='password'] {
-    background: var(--dark-blue);
+    background: var(--mid-blue);
   }
 
   label {

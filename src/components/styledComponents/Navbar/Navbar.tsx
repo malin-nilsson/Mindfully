@@ -103,8 +103,8 @@ export default function Navbar() {
             <StyledButton
               fontSize="0.9rem"
               bgColor="var(--dark-beige)"
-              color="var(--dark-blue)"
-              border="1px solid var(--dark-blue)"
+              color="var(--mid-blue)"
+              border="1px solid var(--mid-blue)"
               margin="0.5rem 0 0"
               onClick={() => signOut(auth)}
             >
@@ -164,7 +164,7 @@ const StyledNavLinks = styled.nav`
 
     li a {
       width: 100%;
-      color: var(--dark-blue);
+      color: var(--mid-blue);
       text-decoration: none;
       font-size: 1.3rem;
       font-weight: 300;
@@ -189,7 +189,7 @@ const StyledNavLinks = styled.nav`
   // STYLING FOR ACTIVE LINK
   .active-link {
     background-color: var(--light-beige);
-    color: var(--dark-blue);
+    color: var(--mid-blue);
   }
 
   // MOBILE MENU STYLING

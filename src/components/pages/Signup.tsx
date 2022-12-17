@@ -118,7 +118,7 @@ export default function Signup() {
           type="button"
           onClick={() => signInWithGoogle()}
           disabled={authing}
-          bgColor="var(--dark-blue)"
+          bgColor="var(--mid-blue)"
           color="var(--dark-beige)"
           border="1px solid var(--dark-beige)"
         >

@@ -9,7 +9,7 @@ export const StyledHeadingXL = styled.h1`
   text-align: center;
   margin: 1rem 0;
   padding: 0;
-  color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
 
   @media ${devices.tablet} {
     font-size: 2.9rem;
@@ -22,7 +22,7 @@ export const StyledHeadingL = styled.h2`
   text-align: center;
   margin: 1rem 0;
   padding: 0;
-  color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
 
   @media ${devices.tablet} {
     font-size: 2.5rem;
@@ -49,7 +49,7 @@ export const StyledHeadingS = styled.h4`
   font-size: 1.3rem;
   margin: 0;
   font-weight: 100;
-  border-bottom: 2px solid var(--dark-blue);
+  border-bottom: 2px solid var(--mid-blue);
 
   @media ${devices.tablet} {
     font-size: 1.3rem;
@@ -63,12 +63,12 @@ export const StyledHeadingXS = styled.h5`
   text-transform: uppercase;
   margin: 0;
   font-weight: 500;
-  border-bottom: 2px solid var(--dark-blue);
+  border-bottom: 2px solid var(--mid-blue);
 `
 
 export const StyledHeadingLogo = styled.h4`
   font-family: var(--logo-font);
-  color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
   text-transform: lowercase;
   letter-spacing: 0.05rem;
   font-size: 1.4rem;

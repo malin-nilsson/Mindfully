@@ -1,17 +1,16 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { StyledCard } from '../styledComponents/Card/Card'
+import { useState } from 'react'
+import { StyledCard, StyledMeditationCard } from '../styledComponents/Card/Card'
 import {
   StyledHeadingXL,
-  StyledHeadingS,
   StyledHeadingM,
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import { SoundMeditationCatalog as meditations } from '../../data/SoundMeditations'
-import { StyledButton } from '../styledComponents/Button/StyledButton'
+import { MeditationCatalog as meditations } from '../../data/Meditations'
+import { StyledSelect } from '../styledComponents/Select/Select'
 
 export default function Explore() {
+  const [allMeditations, setAllMeditations] = useState(true)
   return (
     <>
       <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
@@ -19,37 +18,46 @@ export default function Explore() {
           <StyledHeadingXL color="var(--dark-beige)">Explore</StyledHeadingXL>
         </StyledFlexWrapper>
       </StyledFlexWrapper>
-      <StyledFlexWrapper direction="row">
-        <StyledButton fontWeight="300" width="18rem">
-          Guided breathing meditations
-        </StyledButton>
-        <StyledButton fontWeight="300" width="18rem">
-          Sound meditations
-        </StyledButton>
+      <StyledFlexWrapper direction="row" color="var(--dark-beige)">
+        <span>Filter: </span>
+        <StyledSelect>
+          <select>
+            <option value="1">All meditations</option>
+            <option value="2">Guided Breathing Meditations</option>
+            <option value="3">Sound Meditations</option>
+          </select>
+        </StyledSelect>
       </StyledFlexWrapper>
-      <StyledFlexWrapper padding="3rem 1rem 1rem">
-        {' '}
-        <StyledHeadingM>Sound meditations</StyledHeadingM>{' '}
-      </StyledFlexWrapper>
-
-      <StyledFlexWrapper padding="2rem 1rem 1.5rem" direction="row" gap="3rem">
-        {meditations.map((meditation) => {
-          return (
-            <StyledCard
-              width="25%"
-              borderRadius="15px"
-              height="12rem"
-              justify="center"
-              key={meditation.id}
-            >
-              <StyledImageWrapper maxHeight="150px">
-                <img src={meditation.img} alt="Emoji"></img>
-                {meditation.title}
-              </StyledImageWrapper>
-            </StyledCard>
-          )
-        })}
-      </StyledFlexWrapper>
+      {allMeditations && (
+        <>
+          <StyledFlexWrapper
+            padding="4rem 1rem 1.5rem"
+            direction="row"
+            gap="3rem"
+          >
+            {meditations.map((meditation) => {
+              return (
+                <StyledMeditationCard
+                  width="20%"
+                  borderRadius="15px"
+                  height="11rem"
+                  justify="center"
+                  key={meditation.id}
+                  padding="1.5rem 1rem"
+                  background="var(--dark-blue)"
+                  border="1px solid var(--light-blue)"
+                  color="var(--dark-beige)"
+                >
+                  <StyledImageWrapper maxHeight="50px">
+                    <img src={meditation.img} alt="Emoji"></img>
+                    <span>{meditation.title} </span>
+                  </StyledImageWrapper>
+                </StyledMeditationCard>
+              )
+            })}
+          </StyledFlexWrapper>
+        </>
+      )}
     </>
   )
 }

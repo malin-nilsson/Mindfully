@@ -50,7 +50,7 @@ export default function Home() {
           <StyledFlexWrapper padding="2rem 0 1.5rem" direction="row" gap="3rem">
             <Link to="/explore">
               <StyledCard>
-                <StyledHeadingS color="var(--dark-blue)">
+                <StyledHeadingS color="var(--mid-blue)">
                   Find a Meditation
                 </StyledHeadingS>
 
@@ -71,7 +71,7 @@ export default function Home() {
                 setCards(false)
               }}
             >
-              <StyledHeadingS color="var(--dark-blue)">
+              <StyledHeadingS color="var(--mid-blue)">
                 Self assessment
               </StyledHeadingS>
               <StyledImageWrapper maxHeight="40px">

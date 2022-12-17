@@ -45,14 +45,14 @@ export default function Profile() {
 
           <StyledFlexWrapper align="flex-start">
             <StyledFlexWrapper direction="row" align="flex-start" margin="0">
-              <StyledHeadingXS color="var(--dark-blue)">
+              <StyledHeadingXS color="var(--mid-blue)">
                 Email address:
               </StyledHeadingXS>
               <span>{email}</span>
             </StyledFlexWrapper>
 
             <StyledFlexWrapper direction="row" align="flex-start" margin="0">
-              <StyledHeadingXS color="var(--dark-blue)">
+              <StyledHeadingXS color="var(--mid-blue)">
                 Registered:
               </StyledHeadingXS>
               <span>{signupDate}</span>

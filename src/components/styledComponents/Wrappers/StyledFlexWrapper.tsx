@@ -14,6 +14,7 @@ export const StyledFlexWrapper = styled.div`
   background-color: ${(props: IStylingProps) => props.bgColor || ''};
   width: ${(props: IStylingProps) => props.width || ''};
   padding: ${(props: IStylingProps) => props.padding || ''};
+  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
 `
 export const StyledButtonWrapper = styled.div`
   width: 90%;

@@ -1,5 +1,7 @@
 :root {
-  --dark-blue: #001432;
+  --light-blue: #162234;
+  --mid-blue: #001432;
+  --dark-blue: #02070f;
   --dark-beige: #f7dba8;
   --light-beige: #fdf0d4;
   --logo-font: 'Pacifico', cursive;
@@ -17,7 +19,7 @@ body {
   scroll-behavior: smooth;
   background-color: var(--dark-beige);
   font-family: var(--text-font);
-  color: var(--dark-blue);
+  color: var(--mid-blue);
   cursor: default;
 }
 

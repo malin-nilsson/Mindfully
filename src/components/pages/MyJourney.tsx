@@ -3,7 +3,7 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 
 export default function MyJourney() {
   return (
-    <StyledFlexWrapper bgColor="var(--dark-blue)" height="100vh">
+    <StyledFlexWrapper bgColor="var(--mid-blue)" height="100vh">
       My journey
     </StyledFlexWrapper>
   )

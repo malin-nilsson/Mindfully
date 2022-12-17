@@ -8,7 +8,7 @@ export const StyledCard = styled.div`
   justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
   align-items: ${(props: IStylingProps) => props.align || 'center'};
   flex-wrap: wrap;
-  color: var(--dark-blue);
+  color: var(--mid-blue);
   padding: ${(props: IStylingProps) =>
     props.padding || ' 1.7rem 1.6rem 1.3rem'};
   background: var(--dark-beige);
@@ -30,5 +30,18 @@ export const StyledCard = styled.div`
   span {
     font-size: 0.9rem;
     font-weight: 100;
+  }
+`
+
+export const StyledMeditationCard = styled(StyledCard)`
+  background: var(--dark-blue);
+  color: var(--dark-beige);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid var(--light-blue);
+
+  &:hover {
+    cursor: pointer;
+    transform: translate(-0.2rem, -0.5rem);
+    background: var(--light-blue);
   }
 `

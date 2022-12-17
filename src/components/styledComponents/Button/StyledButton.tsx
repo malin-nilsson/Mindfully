@@ -14,7 +14,7 @@ export const StyledButton = styled.button`
   font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};
   padding: 1rem 2rem;
   width: ${(props: IStylingProps) => props.width || '100%'};
-  color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
   margin: ${(props: IStylingProps) => props.margin || ''};
   background-color: ${(props: IStylingProps) =>
     props.bgColor || 'var(--dark-beige)'};
