@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
@@ -10,16 +10,15 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  UserCredential,
   updateProfile,
 } from 'firebase/auth'
+import { doc, setDoc } from 'firebase/firestore'
+import { db } from '../../firebase/config'
 
 export default function Signup() {
   const auth = getAuth()
   const navigate = useNavigate()
   const [authing, setAuthing] = useState(false)
-
   const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -32,8 +31,16 @@ export default function Signup() {
     setAuthing(true)
 
     signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
-        console.log(response.user.uid)
+      .then(async (response) => {
+        const userData = {
+          firstName: response.user.displayName,
+          email: response.user.email,
+          createdAt: response.user.metadata.creationTime,
+        }
+
+        await setDoc(doc(db, 'users', response.user.uid), {
+          userData,
+        })
         navigate('/home')
       })
       .catch((error) => {
@@ -54,9 +61,17 @@ export default function Signup() {
     setRegistering(true)
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCred) => {
+      .then(async (userCred) => {
+        const userData = {
+          firstName: displayName,
+          email: email,
+          createdAt: userCred.user.metadata.creationTime,
+        }
+
+        await setDoc(doc(db, 'users', userCred.user.uid), {
+          userData,
+        })
         updateProfile(userCred.user, { displayName })
-        console.log(userCred)
         navigate('/home')
       })
       .catch((error) => {

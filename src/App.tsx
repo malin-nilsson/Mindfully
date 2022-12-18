@@ -10,51 +10,72 @@ import Layout from './components/Layout'
 import LayoutStartpage from './components/LayoutStartpage'
 import Login from './components/pages/Login'
 import Signup from './components/pages/Signup'
-import { initializeApp } from 'firebase/app'
-import { firebaseConfig } from './firebase/config'
 import AuthRoute from './components/auth/AuthRoute'
+import RedirectRoute from './utils/redirectUser'
 import Favorites from './components/pages/Favorites'
 import MyJourney from './components/pages/MyJourney'
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
 import { UserContext, defaultValue, UserInterface } from './context/UserContext'
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
+import { IUser } from './models/IUser'
 
 function App() {
   const auth = getAuth()
   const [currentUser, setCurrentUser] = useState<UserInterface>(defaultValue)
 
   useEffect(() => {
-    const AuthCheck = onAuthStateChanged(auth, (user) => {
-      if (user) {
+    const getCurrentUser = onAuthStateChanged(auth, (user) => {
+      if (user != null) {
         const name = user.displayName as string
         const firstName = name.split(' ')[0]
         let date = new Date(user.metadata.creationTime as string).toDateString()
 
-        const userObject = {
+        const userObject: IUser = {
+          id: user.uid,
           displayName: firstName,
           email: user.email,
           metadata: {
             creationTime: date,
           },
         }
-        setCurrentUser({ user: userObject })
+
+        setCurrentUser({ ...user, user: userObject })
       } else {
         console.log('Not logged in')
       }
     })
-    return () => AuthCheck()
+    return () => getCurrentUser()
   }, [auth])
+
   return (
     <UserContext.Provider value={currentUser}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LayoutStartpage />}>
-            <Route index element={<Welcome />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route
+              index
+              element={
+                <RedirectRoute>
+                  <Welcome />
+                </RedirectRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RedirectRoute>
+                  <Login />
+                </RedirectRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <RedirectRoute>
+                  <Signup />
+                </RedirectRoute>
+              }
+            />
           </Route>
           <Route path="/" element={<Layout />}>
             <Route

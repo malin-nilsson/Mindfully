@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
 import { StyledHeadingLogo } from '../Headings/StyledHeadings'
@@ -19,6 +19,7 @@ import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 export default function Navbar() {
   const [isActive, setIsActive] = useState<Boolean>(false)
   const auth = getAuth()
+  const navigate = useNavigate()
 
   const toggleMobileMenu = () => {
     setIsActive((isActive) => !isActive)
@@ -27,7 +28,7 @@ export default function Navbar() {
   return (
     <StyledNav>
       <StyledLogoIcon>
-        <Link to="/" className="logo-wrapper">
+        <Link to="/home" className="logo-wrapper">
           <StyledImageWrapper>
             <img src="/assets/logo/logo-dkblue.png" alt="Mindfully logo"></img>
           </StyledImageWrapper>
@@ -106,7 +107,10 @@ export default function Navbar() {
               color="var(--mid-blue)"
               border="1px solid var(--mid-blue)"
               margin="0.5rem 0 0"
-              onClick={() => signOut(auth)}
+              onClick={() => {
+                navigate('/')
+                signOut(auth)
+              }}
             >
               Sign out
             </StyledButton>

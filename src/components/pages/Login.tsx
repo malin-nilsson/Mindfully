@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
@@ -11,6 +11,8 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
+import { setDoc, doc } from 'firebase/firestore'
+import { db } from '../../firebase/config'
 
 export default function Login() {
   const auth = getAuth()
@@ -26,8 +28,16 @@ export default function Login() {
     setAuthing(true)
 
     signInWithPopup(auth, new GoogleAuthProvider())
-      .then((response) => {
-        console.log(response.user.uid)
+      .then(async (response) => {
+        const userData = {
+          firstName: response.user.displayName,
+          email: response.user.email,
+          createdAt: response.user.metadata.creationTime,
+        }
+
+        await setDoc(doc(db, 'users', response.user.uid), {
+          userData,
+        })
         navigate('/home')
       })
       .catch((error) => {
@@ -43,7 +53,6 @@ export default function Login() {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        console.log(result)
         navigate('/home')
       })
       .catch((error) => {

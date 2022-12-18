@@ -7,6 +7,7 @@ export interface UserInterface {
 
 export const defaultValue: UserInterface = {
   user: {
+    id: '',
     displayName: '',
     email: '',
     metadata: {

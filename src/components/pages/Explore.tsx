@@ -1,13 +1,29 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 import { StyledSelect } from '../styledComponents/Select/Select'
+import { db } from '../../firebase/config'
+import { addDoc, collection } from 'firebase/firestore'
+import { IMeditation } from '../../models/IMeditation'
+import { UserContext } from '../../context/UserContext'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState(true)
+  let currentUser = useContext(UserContext)
+
+  const saveFavorite = async (favorite: IMeditation) => {
+    const data = {
+      title: favorite.title,
+      userId: currentUser.user.id,
+    }
+
+    const docRef = await addDoc(collection(db, 'favorites'), {
+      data,
+    })
+  }
   return (
     <>
       <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
@@ -35,7 +51,6 @@ export default function Explore() {
             {meditations.map((meditation) => {
               return (
                 <StyledMeditationCard
-                  width="20%"
                   borderRadius="15px"
                   height="11rem"
                   justify="center"
@@ -44,6 +59,7 @@ export default function Explore() {
                   background="var(--dark-blue)"
                   border="1px solid var(--light-blue)"
                   color="var(--dark-beige)"
+                  onClick={() => saveFavorite(meditation)}
                 >
                   <StyledImageWrapper maxHeight="50px">
                     <img src={meditation.img} alt="Emoji"></img>

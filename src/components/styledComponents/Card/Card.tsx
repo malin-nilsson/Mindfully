@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledCard = styled.div`
@@ -38,10 +39,15 @@ export const StyledMeditationCard = styled(StyledCard)`
   color: var(--dark-beige);
   transition: all 0.3s ease-in-out;
   border: 1px solid var(--light-blue);
+  width: 100%;
 
   &:hover {
     cursor: pointer;
     transform: translate(-0.2rem, -0.5rem);
     background: var(--light-blue);
+  }
+
+  @media ${devices.tablet} {
+    width: 20%;
   }
 `
