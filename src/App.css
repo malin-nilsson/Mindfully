@@ -30,6 +30,10 @@ body {
   }
 }
 
+.MuiIcon-colorPrimary {
+  color: pink;
+}
+
 a {
   text-decoration: none;
 }

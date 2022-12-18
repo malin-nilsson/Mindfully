@@ -7,9 +7,9 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getAuth } from 'firebase/auth'
 import { UserContext } from '../../context/UserContext'
 
 export default function Home() {
