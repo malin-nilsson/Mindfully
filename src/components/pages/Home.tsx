@@ -7,9 +7,10 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { UserContext } from '../../context/UserContext'
 
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
@@ -17,19 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [displayName, setDisplayName] = useState('')
   const auth = getAuth()
-
-  useEffect(() => {
-    const AuthCheck = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        const currentUser = user.displayName as string
-        const firstName = currentUser.split(' ')[0]
-        setDisplayName(firstName)
-      } else {
-        console.log('unauthorized')
-      }
-    })
-    return () => AuthCheck()
-  }, [])
+  let currentUser = useContext(UserContext)
 
   return (
     <>
@@ -42,7 +31,7 @@ export default function Home() {
           >
             <StyledFlexWrapper>
               <StyledHeadingXL color="var(--dark-beige)">
-                Hi, {displayName}.
+                Hi, {currentUser.user.displayName}.
               </StyledHeadingXL>
             </StyledFlexWrapper>
           </StyledFlexWrapper>

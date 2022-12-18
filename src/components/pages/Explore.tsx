@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { StyledCard, StyledMeditationCard } from '../styledComponents/Card/Card'
 import {
   StyledHeadingXL,
@@ -8,14 +8,18 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 import { StyledSelect } from '../styledComponents/Select/Select'
+import { UserContext } from '../../context/UserContext'
 
 export default function Explore() {
+  let currentUser = useContext(UserContext)
   const [allMeditations, setAllMeditations] = useState(true)
   return (
     <>
       <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
         <StyledFlexWrapper>
-          <StyledHeadingXL color="var(--dark-beige)">Explore</StyledHeadingXL>
+          <StyledHeadingXL color="var(--dark-beige)">
+            Explore, {currentUser.user.displayName}
+          </StyledHeadingXL>
         </StyledFlexWrapper>
       </StyledFlexWrapper>
       <StyledFlexWrapper direction="row" color="var(--dark-beige)">
