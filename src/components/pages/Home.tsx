@@ -16,8 +16,6 @@ export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
   const [cards, setCards] = useState(true)
   const [loading, setLoading] = useState(true)
-  const [displayName, setDisplayName] = useState('')
-  const auth = getAuth()
   let currentUser = useContext(UserContext)
 
   return (

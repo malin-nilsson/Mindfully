@@ -66,6 +66,7 @@ export default function Signup() {
           firstName: displayName,
           email: email,
           createdAt: userCred.user.metadata.creationTime,
+          favorites: [],
         }
 
         await setDoc(doc(db, 'users', userCred.user.uid), {

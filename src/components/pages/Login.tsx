@@ -42,6 +42,7 @@ export default function Login() {
       })
       .catch((error) => {
         console.log(error)
+        setErrorMessage(error.message)
         setAuthing(false)
       })
   }
@@ -98,7 +99,7 @@ export default function Login() {
           disabled={authenticating}
           margin="1rem 0 0.5rem"
         >
-          Sign in
+          Log in
         </StyledButton>
         <StyledButton
           type="button"

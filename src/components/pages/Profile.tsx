@@ -1,19 +1,13 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { StyledCard } from '../styledComponents/Card/Card'
 import {
   StyledHeadingXS,
   StyledHeadingXL,
 } from '../styledComponents/Headings/StyledHeadings'
-import { StyledText } from '../styledComponents/Text/StyledText'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
-import { Timestamp } from '@firebase/firestore'
 import { UserContext } from '../../context/UserContext'
 
 export default function Profile() {
-  const [email, setEmail] = useState('')
-  const [signupDate, setSignupDate] = useState('')
-  const auth = getAuth()
   let currentUser = useContext(UserContext)
 
   return (
