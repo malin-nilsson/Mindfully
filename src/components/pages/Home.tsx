@@ -7,9 +7,9 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { getAuth } from 'firebase/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { UserContext } from '../../context/UserContext'
 
 export default function Home() {
@@ -17,6 +17,18 @@ export default function Home() {
   const [cards, setCards] = useState(true)
   const [loading, setLoading] = useState(true)
   let currentUser = useContext(UserContext)
+  const [displayName, setDisplayName] = useState('')
+  const auth = getAuth()
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setDisplayName(user.displayName as string)
+      } else {
+        console.log('Not logged in')
+      }
+    })
+  }, [])
 
   return (
     <>
@@ -29,7 +41,7 @@ export default function Home() {
           >
             <StyledFlexWrapper>
               <StyledHeadingXL color="var(--dark-beige)">
-                Hi, {currentUser.user.displayName}.
+                Hi, {displayName}.
               </StyledHeadingXL>
             </StyledFlexWrapper>
           </StyledFlexWrapper>

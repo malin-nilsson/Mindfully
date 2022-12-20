@@ -49,5 +49,6 @@ export const StyledMeditationCard = styled(StyledCard)`
 
   @media ${devices.tablet} {
     width: 20%;
+    margin: unset;
   }
 `

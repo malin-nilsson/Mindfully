@@ -6,9 +6,8 @@ import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrap
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import { db } from '../../firebase/config'
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore'
+import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore'
 import { IMeditation } from '../../models/IMeditation'
-import { UserContext } from '../../context/UserContext'
 import { getAuth } from 'firebase/auth'
 
 export default function Explore() {
@@ -18,12 +17,34 @@ export default function Explore() {
   const saveFavorite = async (favorite: IMeditation) => {
     if (auth.currentUser) {
       const userRef = doc(db, 'users', auth.currentUser.uid)
-      // Add new favorite to firestore array
-      const favorites = arrayUnion(favorite)
-      // Update favorites in firestore
-      await updateDoc(userRef, {
-        favorites,
-      })
+
+      try {
+        // Get docs for user
+        const docSnap = await getDoc(userRef)
+        if (docSnap.exists()) {
+          // Get user favorites
+          const faves = docSnap.data().favorites
+
+          for (let i = 0; i < faves.length; i++) {
+            // If favorite already exists in Firestore, return
+            if (faves[i].title === favorite.title) {
+              return
+            } // Else, add favorite to Firestore
+            else {
+              // Add new favorite to existing Firestore array
+              const favorites = arrayUnion(favorite)
+              // Update favorites doc in firestore
+              await updateDoc(userRef, {
+                favorites,
+              })
+            }
+          }
+        } else {
+          console.log('document does not exist')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
   return (

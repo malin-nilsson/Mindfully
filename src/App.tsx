@@ -23,29 +23,30 @@ function App() {
   const auth = getAuth()
   const [currentUser, setCurrentUser] = useState<UserInterface>(defaultValue)
 
-  useEffect(() => {
-    const getCurrentUser = onAuthStateChanged(auth, (user) => {
-      if (user != null) {
-        const name = user.displayName as string
-        const firstName = name.split(' ')[0]
-        let date = new Date(user.metadata.creationTime as string).toDateString()
+  // useEffect(() => {
+  //   getCurrentUser()
+  // }, [auth])
 
-        const userObject: IUser = {
-          id: user.uid,
-          displayName: firstName,
-          email: user.email,
-          metadata: {
-            creationTime: date,
-          },
-        }
+  // const getCurrentUser = onAuthStateChanged(auth, (user) => {
+  //   if (user !== null) {
+  //     const name = user.displayName as string
+  //     const firstName = name.split(' ')[0]
+  //     let date = new Date(user.metadata.creationTime as string).toDateString()
 
-        setCurrentUser({ ...user, user: userObject })
-      } else {
-        console.log('Not logged in')
-      }
-    })
-    return () => getCurrentUser()
-  }, [auth])
+  //     const userObject: IUser = {
+  //       id: user.uid,
+  //       displayName: firstName,
+  //       email: user.email,
+  //       metadata: {
+  //         creationTime: date,
+  //       },
+  //     }
+
+  //     setCurrentUser({ ...user, user: userObject })
+  //   } else {
+  //     console.log('Not logged in')
+  //   }
+  // })
 
   return (
     <UserContext.Provider value={currentUser}>

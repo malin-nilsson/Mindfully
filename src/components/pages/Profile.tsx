@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { StyledCard } from '../styledComponents/Card/Card'
 import {
   StyledHeadingXS,
@@ -6,9 +6,28 @@ import {
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { UserContext } from '../../context/UserContext'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function Profile() {
   let currentUser = useContext(UserContext)
+  const auth = getAuth()
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    signedUp: '',
+  })
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserInfo({
+          email: user.email as string,
+          signedUp: user.metadata.creationTime as string,
+        })
+      } else {
+        console.log('Not logged in')
+      }
+    })
+  }, [auth])
 
   return (
     <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
@@ -31,14 +50,14 @@ export default function Profile() {
               <StyledHeadingXS color="var(--mid-blue)">
                 Email address:
               </StyledHeadingXS>
-              <span>{currentUser.user.email}</span>
+              <span>{userInfo.email}</span>
             </StyledFlexWrapper>
 
             <StyledFlexWrapper direction="row" align="flex-start" margin="0">
               <StyledHeadingXS color="var(--mid-blue)">
                 Registered:
               </StyledHeadingXS>
-              <span>{currentUser.user.metadata.creationTime}</span>
+              <span>{userInfo.signedUp}</span>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
         </StyledCard>
