@@ -88,7 +88,7 @@ export default function Navbar() {
               onClick={() => (isActive ? toggleMobileMenu() : '')}
             >
               <MenuBookIcon />
-              My journey
+              My Journey
             </NavLink>
           </li>
           <li>
