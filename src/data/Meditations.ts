@@ -37,7 +37,7 @@ export const MeditationCatalog: IMeditation[] = [
   },
   {
     title: '4-7-8 Breathing Technique',
-    tag: 'Guided Breathing mMditation',
+    tag: 'Guided Breathing Meditation',
     img: fourSevenEight,
     audio: '',
     id: 43241,
