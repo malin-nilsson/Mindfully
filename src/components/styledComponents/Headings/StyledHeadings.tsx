@@ -36,7 +36,7 @@ export const StyledHeadingM = styled.h3`
   margin: 0;
   padding: 0;
   text-align: left;
-  font-weight: 300;
+  font-weight: ${(props: IStylingProps) => props.fontWeight || '300'};
 
   @media ${devices.tablet} {
     font-size: 2rem;
@@ -60,10 +60,12 @@ export const StyledHeadingXS = styled.h5`
   font-family: var(--text-font);
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
   font-size: 0.9rem;
-  text-transform: uppercase;
+  text-transform: ${(props: IStylingProps) =>
+    props.textTransform || 'uppercase'};
   margin: 0;
   font-weight: 500;
-  border-bottom: 2px solid var(--mid-blue);
+  border-bottom: ${(props: IStylingProps) =>
+    props.borderBottom || ' 2px solid var(--mid-blue)'};
 `
 
 export const StyledHeadingLogo = styled.h4`
