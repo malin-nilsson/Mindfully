@@ -66,13 +66,13 @@ export default function Signup() {
           firstName: displayName,
           email: email,
           createdAt: userCred.user.metadata.creationTime,
-          favorites: [],
         }
+        updateProfile(userCred.user, { displayName })
 
         await setDoc(doc(db, 'users', userCred.user.uid), {
           userData,
         })
-        updateProfile(userCred.user, { displayName })
+
         navigate('/home')
       })
       .catch((error) => {

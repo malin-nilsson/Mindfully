@@ -10,29 +10,32 @@ import { StyledCard } from '../styledComponents/Card/Card'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { UserContext } from '../../context/UserContext'
 
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
   const [cards, setCards] = useState(true)
   const [loading, setLoading] = useState(true)
-  let currentUser = useContext(UserContext)
   const [displayName, setDisplayName] = useState('')
   const auth = getAuth()
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user !== null) {
         setDisplayName(user.displayName as string)
+        console.log(user.displayName)
+        setIsLoading(false)
       } else {
         console.log('Not logged in')
       }
     })
-  }, [])
+  }, [auth])
 
   return (
     <>
-      {cards && (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
         <>
           <StyledFlexWrapper
             justify="flex-start"

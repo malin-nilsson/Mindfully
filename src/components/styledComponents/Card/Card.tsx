@@ -5,7 +5,7 @@ import { IStylingProps } from '../models/IStylingProps'
 export const StyledCard = styled.div`
   display: flex;
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
-  gap: 2rem;
+  gap: ${(props: IStylingProps) => props.gap || '2rem'};
   justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
   align-items: ${(props: IStylingProps) => props.align || 'center'};
   flex-wrap: wrap;

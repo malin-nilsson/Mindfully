@@ -59,7 +59,7 @@ export const StyledHeadingS = styled.h4`
 export const StyledHeadingXS = styled.h5`
   font-family: var(--text-font);
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
-  font-size: 0.9rem;
+  font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};
   text-transform: ${(props: IStylingProps) =>
     props.textTransform || 'uppercase'};
   margin: 0;

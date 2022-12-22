@@ -1,14 +1,12 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { MeditationContext } from '../../context/MeditationContext'
 import { db } from '../../firebase/config'
 import { IMeditation } from '../../models/IMeditation'
-import { StyledCard, StyledMeditationCard } from '../styledComponents/Card/Card'
-import {
-  StyledHeadingS,
-  StyledHeadingXL,
-} from '../styledComponents/Headings/StyledHeadings'
+import { StyledMeditationCard } from '../styledComponents/Card/Card'
+import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 
@@ -37,9 +35,9 @@ export default function Favorites() {
         if (docSnap.exists()) {
           // Get user favorites
           const faves = docSnap.data().favorites
-          for (let i = 0; i < faves.length; i++) {}
-          setFavorites(faves)
-          console.log(faves)
+          if (faves) {
+            setFavorites(faves)
+          }
         } else {
           console.log('Document does not exist')
         }
@@ -47,6 +45,11 @@ export default function Favorites() {
         console.log(error)
       }
     }
+  }
+
+  const setMeditation = (m: IMeditation) => {
+    localStorage.setItem('selectedMeditation', JSON.stringify(m))
+    console.log(m)
   }
 
   return (
@@ -85,9 +88,10 @@ export default function Favorites() {
                     background="var(--dark-blue)"
                     border="1px solid var(--light-blue)"
                     color="var(--dark-beige)"
+                    onClick={() => setMeditation(favorite)}
                   >
                     <StyledImageWrapper maxHeight="50px">
-                      <img src={favorite.img} alt="Emoji"></img>
+                      <img src={favorite.icon} alt="Emoji"></img>
                       <span>{favorite.title} </span>
                     </StyledImageWrapper>
                     <StyledFlexWrapper align="flex-end" width="100%">

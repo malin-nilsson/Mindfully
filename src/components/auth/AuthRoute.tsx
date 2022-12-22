@@ -9,7 +9,7 @@ export default function AuthRoute(props: IAuthRouteProps) {
   const { children } = props
   const auth = getAuth()
   const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const AuthCheck = onAuthStateChanged(auth, (user) => {

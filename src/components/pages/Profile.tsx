@@ -5,11 +5,11 @@ import {
   StyledHeadingXL,
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
-import { UserContext } from '../../context/UserContext'
+// import { UserContext } from '../../context/UserContext'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function Profile() {
-  let currentUser = useContext(UserContext)
+  // let currentUser = useContext(UserContext)
   const auth = getAuth()
   const [userInfo, setUserInfo] = useState({
     email: '',
@@ -18,7 +18,7 @@ export default function Profile() {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user !== null) {
         setUserInfo({
           email: user.email as string,
           signedUp: user.metadata.creationTime as string,

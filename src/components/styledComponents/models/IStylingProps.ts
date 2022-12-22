@@ -20,6 +20,6 @@ export interface IStylingProps {
   position?: string
   display?: string
   background?: string
-  navBackground?: string
+  backgroundImage?: string
   overflow?: string
 }

@@ -6,7 +6,7 @@ import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrap
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import { db } from '../../firebase/config'
-import { arrayUnion, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { arrayUnion, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
 import { IMeditation } from '../../models/IMeditation'
 import { getAuth } from 'firebase/auth'
 
@@ -30,20 +30,26 @@ export default function Explore() {
         if (docSnap.exists()) {
           // Get user favorites
           const faves = docSnap.data().favorites
-
-          for (let i = 0; i < faves.length; i++) {
-            // If favorite already exists in Firestore, return
-            if (faves[i].title === favorite.title) {
-              return
-            } // Else, add favorite to Firestore
-            else {
-              // Add new favorite to existing Firestore array
-              const favorites = arrayUnion(favorite)
-              // Update favorites doc in firestore
-              await updateDoc(userRef, {
-                favorites,
-              })
+          if (faves) {
+            for (let i = 0; i < faves.length; i++) {
+              // If favorite already exists in Firestore, return
+              if (faves[i].title === favorite.title) {
+                return
+              } // Else, add favorite to Firestore
+              else {
+                // Add new favorite to existing Firestore array
+                const favorites = arrayUnion(favorite)
+                // Update favorites doc in firestore
+                await updateDoc(userRef, {
+                  favorites,
+                })
+              }
             }
+          } else {
+            const favorites = [favorite]
+            await updateDoc(userRef, {
+              favorites,
+            })
           }
         } else {
           console.log('document does not exist')
@@ -108,7 +114,7 @@ export default function Explore() {
                   onClick={() => saveFavorite(meditation)}
                 >
                   <StyledImageWrapper maxHeight="50px">
-                    <img src={meditation.img} alt="Emoji"></img>
+                    <img src={meditation.icon} alt="Emoji"></img>
                     <span>{meditation.title} </span>
                   </StyledImageWrapper>
                   <StyledFlexWrapper align="flex-end" width="100%">
@@ -137,7 +143,7 @@ export default function Explore() {
                   onClick={() => saveFavorite(meditation)}
                 >
                   <StyledImageWrapper maxHeight="50px">
-                    <img src={meditation.img} alt="Emoji"></img>
+                    <img src={meditation.icon} alt="Emoji"></img>
                     <span>{meditation.title} </span>
                   </StyledImageWrapper>
                   <StyledFlexWrapper align="flex-end" width="100%">

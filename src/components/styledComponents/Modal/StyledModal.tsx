@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
@@ -6,33 +5,71 @@ import CloseIcon from '@mui/icons-material/Close'
 import { StyledCard } from '../Card/Card'
 import { StyledHeadingM, StyledHeadingXS } from '../Headings/StyledHeadings'
 import UpdateIcon from '@mui/icons-material/Update'
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { Slider } from '@mui/material'
 import { StyledButton } from '../Button/StyledButton'
+import { devices } from '../../breakpoints/Breakpoints'
+import { useEffect, useState } from 'react'
+import { IMeditation } from '../../../models/IMeditation'
+import { IStylingProps } from '../models/IStylingProps'
 
 export default function Modal() {
+  const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
+    id: 0,
+    tag: '',
+    title: '',
+    icon: '',
+    img: '',
+    audio: '',
+  })
+
+  useEffect(() => {
+    const meditation = JSON.parse(
+      localStorage.getItem('selectedMeditation') as string,
+    )
+    setSelectedMeditation(meditation)
+  }, [])
+
   return (
-    <StyledModal>
+    <StyledModal backgroundImage={`url(${selectedMeditation.img})`}>
       <StyledFlexWrapper
         align="flex-end"
         padding="2rem 1rem"
         width="auto"
         margin="unset"
+        className="modal-wrapper"
       >
-        <StyledImageWrapper align="flex-end">
-          <CloseIcon style={{ color: '#fff' }} fontSize="large" />
+        <StyledImageWrapper
+          align="flex-end"
+          borderRadius="50%"
+          background="var(--dark-blue)"
+          padding="0.2rem"
+        >
+          <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
       </StyledFlexWrapper>
       <StyledFlexWrapper
-        margin="0 1rem 1rem"
-        justify="flex-end"
-        align="flex-start"
+        justify="flex-start"
+        align="center"
+        direction="row"
+        className="modal-footer-wrapper"
       >
-        <StyledCard padding="0" align="flex-start" width="25rem">
+        <StyledFlexWrapper margin="unset">
+          <ArrowBackIosNewIcon
+            fontSize="large"
+            style={{ color: 'var(--dark-beige)' }}
+          />
+        </StyledFlexWrapper>
+        <StyledCard
+          align="flex-start"
+          width="unset"
+          className="modal-card"
+          justify="center"
+        >
           <StyledFlexWrapper
             direction="row"
             align="center"
             justify="flex-start"
-            padding="0.5rem 0.8rem"
             margin="unset"
           >
             <UpdateIcon />
@@ -40,6 +77,7 @@ export default function Modal() {
               textTransform="unset"
               color="var(--dark-blue)"
               borderBottom="none"
+              fontSize="1rem"
             >
               Meditation length
             </StyledHeadingXS>
@@ -49,11 +87,11 @@ export default function Modal() {
             direction="row"
             align="center"
             justify="flex-start"
-            margin="0 1rem"
+            margin="unset"
             width="100%"
             gap="unset"
           >
-            <StyledFlexWrapper gap="unset" margin="unset">
+            <StyledFlexWrapper gap="unset" margin="unset" align="flex-start">
               <StyledHeadingM fontWeight="700" color="var(--dark-blue)">
                 15
               </StyledHeadingM>
@@ -78,10 +116,10 @@ export default function Modal() {
                 style={{ color: '#001432' }}
               />
             </StyledFlexWrapper>
-            <StyledFlexWrapper width="80%">
+            <StyledFlexWrapper width="100%">
               <StyledButton
                 width="100%"
-                bgColor="var(--mid-blue)"
+                bgColor="var(--dark-blue)"
                 color="var(--dark-beige)"
                 margin="1rem 0"
                 fontWeight="300"
@@ -103,6 +141,42 @@ export const StyledModal = styled.div`
   z-index: 20;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+  background-image: ${(props: IStylingProps) => props.backgroundImage || ''};
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
 
-  justify-content: space-between;
+  @media ${devices.desktop} {
+    justify-content: space-between;
+  }
+
+  .modal-footer-wrapper {
+    gap: 0.5rem;
+    margin: 0;
+
+    @media ${devices.tablet} {
+      gap: 2rem;
+      margin: 0 1rem 1rem;
+    }
+  }
+
+  .modal-card {
+    padding: 0.5rem;
+    width: 80%;
+    height: 12rem;
+    gap: 1rem;
+
+    @media ${devices.tablet} {
+      padding: 1rem 1.5rem;
+    }
+
+    @media ${devices.desktop} {
+      padding: 1rem 1.5rem;
+      width: 25rem;
+      height: 13rem;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+  }
 `
