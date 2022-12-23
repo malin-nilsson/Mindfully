@@ -6,22 +6,18 @@ import Navbar from './styledComponents/Navbar/StyledNavbar'
 import { StyledGridWrapper } from './styledComponents/Wrappers/StyledGridWrapper'
 
 export default function Layout() {
-  const [modal, setModal] = useState(true)
+  const [modal, setModal] = useState(false)
 
   return (
     <>
-      {modal ? (
-        <Modal></Modal>
-      ) : (
-        <StyledGridWrapper>
-          <Navbar />
-          <main className="desktop-main-content">
-            <StyledHeroBg>
-              <Outlet></Outlet>
-            </StyledHeroBg>
-          </main>
-        </StyledGridWrapper>
-      )}
+      <StyledGridWrapper>
+        <Navbar />
+        <main className="desktop-main-content">
+          <StyledHeroBg>
+            <Outlet></Outlet>
+          </StyledHeroBg>
+        </main>
+      </StyledGridWrapper>
     </>
   )
 }

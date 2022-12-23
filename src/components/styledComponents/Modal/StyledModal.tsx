@@ -12,8 +12,16 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { useEffect, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
+import { doc, getDoc, arrayUnion, updateDoc } from 'firebase/firestore'
+import { db } from '../../../firebase/config'
+import { getAuth } from 'firebase/auth'
 
-export default function Modal() {
+interface IModalProps {
+  closeModal: () => void
+}
+
+export default function Modal(props: IModalProps) {
+  const auth = getAuth()
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     id: 0,
     tag: '',
@@ -30,22 +38,78 @@ export default function Modal() {
     setSelectedMeditation(meditation)
   }, [])
 
+  const saveFavorite = async (favorite: IMeditation) => {
+    if (auth.currentUser) {
+      const userRef = doc(db, 'users', auth.currentUser.uid)
+
+      try {
+        // Get docs for user
+        const docSnap = await getDoc(userRef)
+        if (docSnap.exists()) {
+          // Get user favorites
+          const faves = docSnap.data().favorites
+          if (faves) {
+            for (let i = 0; i < faves.length; i++) {
+              // If favorite already exists in Firestore, return
+              if (faves[i].title === favorite.title) {
+                return
+              } // Else, add favorite to Firestore
+              else {
+                // Add new favorite to existing Firestore array
+                const favorites = arrayUnion(favorite)
+                // Update favorites doc in firestore
+                await updateDoc(userRef, {
+                  favorites,
+                })
+              }
+            }
+          } else {
+            const favorites = [favorite]
+            await updateDoc(userRef, {
+              favorites,
+            })
+          }
+        } else {
+          console.log('document does not exist')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   return (
     <StyledModal backgroundImage={`url(${selectedMeditation.img})`}>
       <StyledFlexWrapper
         align="flex-end"
+        justify="flex-end"
+        direction="row"
         padding="2rem 1rem"
         width="auto"
         margin="unset"
+        gap="1.5rem"
         className="modal-wrapper"
       >
+        <StyledImageWrapper
+          className="icon"
+          maxHeight="30px"
+          onClick={() => saveFavorite(selectedMeditation)}
+        >
+          <img src="/assets/icons/favorite-outlined.png" alt="Heart"></img>
+        </StyledImageWrapper>
+
         <StyledImageWrapper
           align="flex-end"
           borderRadius="50%"
           background="var(--dark-blue)"
-          padding="0.2rem"
+          padding="0.4rem"
+          className="icon"
         >
-          <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
+          <CloseIcon
+            style={{ color: '#f7dba8' }}
+            fontSize="medium"
+            onClick={() => props.closeModal()}
+          />
         </StyledImageWrapper>
       </StyledFlexWrapper>
       <StyledFlexWrapper
@@ -146,6 +210,10 @@ export const StyledModal = styled.div`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
 
   @media ${devices.desktop} {
     justify-content: space-between;
@@ -177,6 +245,15 @@ export const StyledModal = styled.div`
       height: 13rem;
       justify-content: center;
       gap: 1.5rem;
+    }
+  }
+
+  .icon {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      cursor: pointer;
+      transform: translate(-0.2rem, -0.5rem);
     }
   }
 `
