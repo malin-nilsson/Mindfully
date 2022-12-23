@@ -7,8 +7,8 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 export default function Home() {
@@ -17,6 +17,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [displayName, setDisplayName] = useState('')
   const auth = getAuth()
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -26,7 +27,7 @@ export default function Home() {
         console.log(user.displayName)
         setIsLoading(false)
       } else {
-        console.log('Not logged in')
+        navigate('/')
       }
     })
   }, [auth])

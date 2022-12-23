@@ -7,10 +7,12 @@ import {
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 // import { UserContext } from '../../context/UserContext'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 export default function Profile() {
   // let currentUser = useContext(UserContext)
   const auth = getAuth()
+  const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState({
     email: '',
     signedUp: '',
@@ -24,7 +26,7 @@ export default function Profile() {
           signedUp: user.metadata.creationTime as string,
         })
       } else {
-        console.log('Not logged in')
+        navigate('/')
       }
     })
   }, [auth])

@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
 import React, { useContext, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { MeditationContext } from '../../context/MeditationContext'
 import { db } from '../../firebase/config'
 import { IMeditation } from '../../models/IMeditation'
@@ -13,14 +13,24 @@ import Modal from '../styledComponents/Modal/StyledModal'
 
 export default function Favorites() {
   const auth = getAuth()
+  const navigate = useNavigate()
   const [favorites, setFavorites] = useState<IMeditation[]>()
   const [modal, setModal] = useState(false)
+  const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
+    title: '',
+    tag: '',
+    img: '',
+    icon: '',
+    audio: '',
+    id: 0,
+  })
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         getFavorites()
       } else {
-        console.log('Not logged in')
+        navigate('/')
       }
     })
   }, [auth])
@@ -49,7 +59,7 @@ export default function Favorites() {
   }
 
   const showMeditation = (m: IMeditation) => {
-    localStorage.setItem('selectedMeditation', JSON.stringify(m))
+    setSelectedMeditation(m)
     setModal(true)
   }
 
@@ -60,7 +70,7 @@ export default function Favorites() {
   return (
     <>
       {modal ? (
-        <Modal closeModal={hideModal}></Modal>
+        <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
       ) : (
         <StyledFlexWrapper
           justify="flex-start"

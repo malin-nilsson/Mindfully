@@ -17,11 +17,13 @@ import { db } from '../../../firebase/config'
 import { getAuth } from 'firebase/auth'
 
 interface IModalProps {
+  meditation: IMeditation
   closeModal: () => void
 }
 
 export default function Modal(props: IModalProps) {
   const auth = getAuth()
+  const [fillHeart, setFillHeart] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     id: 0,
     tag: '',
@@ -32,11 +34,36 @@ export default function Modal(props: IModalProps) {
   })
 
   useEffect(() => {
-    const meditation = JSON.parse(
-      localStorage.getItem('selectedMeditation') as string,
-    )
-    setSelectedMeditation(meditation)
+    getFavorites()
   }, [])
+
+  const getFavorites = async () => {
+    if (auth.currentUser) {
+      // Get user from "Users" collection
+      const userRef = doc(db, 'users', auth.currentUser.uid)
+
+      try {
+        // Get docs for user
+        const docSnap = await getDoc(userRef)
+        if (docSnap.exists()) {
+          // Get user favorites
+          const faves: IMeditation[] = docSnap.data().favorites
+          if (faves) {
+            faves.forEach((fave) => {
+              console.log(fave)
+              if (fave.id === props.meditation.id) {
+                setFillHeart(true)
+              }
+            })
+          }
+        } else {
+          console.log('Document does not exist')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   const saveFavorite = async (favorite: IMeditation) => {
     if (auth.currentUser) {
@@ -70,7 +97,7 @@ export default function Modal(props: IModalProps) {
             })
           }
         } else {
-          console.log('document does not exist')
+          console.log('Document does not exist')
         }
       } catch (error) {
         console.log(error)
@@ -79,7 +106,7 @@ export default function Modal(props: IModalProps) {
   }
 
   return (
-    <StyledModal backgroundImage={`url(${selectedMeditation.img})`}>
+    <StyledModal backgroundImage={`url(${props.meditation.img})`}>
       <StyledFlexWrapper
         align="flex-end"
         justify="flex-end"
@@ -92,10 +119,17 @@ export default function Modal(props: IModalProps) {
       >
         <StyledImageWrapper
           className="icon"
-          maxHeight="30px"
-          onClick={() => saveFavorite(selectedMeditation)}
+          maxHeight="35px"
+          onClick={() => saveFavorite(props.meditation)}
         >
-          <img src="/assets/icons/favorite-outlined.png" alt="Heart"></img>
+          <img
+            src={
+              fillHeart
+                ? '/assets/icons/favorite-filled.png'
+                : '/assets/icons/favorite-outlined.png'
+            }
+            alt="Heart"
+          ></img>
         </StyledImageWrapper>
 
         <StyledImageWrapper

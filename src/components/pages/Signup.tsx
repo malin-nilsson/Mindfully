@@ -67,13 +67,14 @@ export default function Signup() {
           email: email,
           createdAt: userCred.user.metadata.creationTime,
         }
-        updateProfile(userCred.user, { displayName })
-
-        await setDoc(doc(db, 'users', userCred.user.uid), {
-          userData,
+        await updateProfile(userCred.user, {
+          displayName: userData.firstName,
+        }).then(async () => {
+          await setDoc(doc(db, 'users', userCred.user.uid), {
+            userData,
+          })
+          navigate('/home')
         })
-
-        navigate('/home')
       })
       .catch((error) => {
         setErrorMessage(error.message)

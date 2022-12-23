@@ -16,7 +16,6 @@ export default function AuthRoute(props: IAuthRouteProps) {
       if (user) {
         setLoading(false)
       } else {
-        console.log('unauthorized')
         navigate('/')
       }
     })

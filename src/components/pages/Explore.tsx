@@ -20,7 +20,14 @@ export default function Explore() {
   >()
   const [showFilteredMeditations, setShowFilteredMeditations] = useState(false)
   const [modal, setModal] = useState(false)
-
+  const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
+    title: '',
+    tag: '',
+    img: '',
+    icon: '',
+    audio: '',
+    id: 0,
+  })
   const handleOnChange = (e: string) => {
     let filtered: IMeditation[] = []
 
@@ -42,14 +49,14 @@ export default function Explore() {
   }
 
   const showMeditation = (m: IMeditation) => {
-    localStorage.setItem('selectedMeditation', JSON.stringify(m))
+    setSelectedMeditation(m)
     setModal(true)
   }
 
   return (
     <>
       {modal ? (
-        <Modal closeModal={hideModal}></Modal>
+        <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
       ) : (
         <>
           <StyledFlexWrapper
