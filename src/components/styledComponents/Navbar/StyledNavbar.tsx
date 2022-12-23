@@ -107,6 +107,7 @@ export default function Navbar() {
               color="var(--mid-blue)"
               border="1px solid var(--mid-blue)"
               margin="0.5rem 0 0"
+              className="navbar-signout-btn"
               onClick={() => {
                 navigate('/')
                 signOut(auth)
@@ -128,6 +129,18 @@ const StyledNav = styled.div`
   @media ${devices.desktop} {
     position: fixed;
     width: 20%;
+  }
+
+  .navbar-signout-btn {
+    width: 90%;
+    @media ${devices.tablet} {
+      width: 30%;
+      margin-right: auto;
+    }
+    @media ${devices.desktop} {
+      width: 80%;
+      margin: 0 auto;
+    }
   }
 `
 const StyledNavLinks = styled.nav`

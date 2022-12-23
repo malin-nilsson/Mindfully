@@ -118,8 +118,11 @@ export default function Modal(props: IModalProps) {
         className="modal-wrapper"
       >
         <StyledImageWrapper
+          maxHeight="20px"
+          borderRadius="50%"
+          background="var(--dark-blue)"
+          padding="0.7rem"
           className="icon"
-          maxHeight="35px"
           onClick={() => saveFavorite(props.meditation)}
         >
           <img
@@ -136,14 +139,11 @@ export default function Modal(props: IModalProps) {
           align="flex-end"
           borderRadius="50%"
           background="var(--dark-blue)"
-          padding="0.4rem"
+          padding="0.55rem"
           className="icon"
+          onClick={() => props.closeModal()}
         >
-          <CloseIcon
-            style={{ color: '#f7dba8' }}
-            fontSize="medium"
-            onClick={() => props.closeModal()}
-          />
+          <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
       </StyledFlexWrapper>
       <StyledFlexWrapper
@@ -287,7 +287,7 @@ export const StyledModal = styled.div`
 
     &:hover {
       cursor: pointer;
-      transform: translate(-0.2rem, -0.5rem);
+      transform: translate(-0.1rem, -0.2rem);
     }
   }
 `

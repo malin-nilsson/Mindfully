@@ -128,8 +128,9 @@ export default function Signup() {
           type="button"
           margin="1rem 0 0.5rem"
           disabled={registering}
+          width="100%"
         >
-          Sign up
+          Create account
         </StyledButton>
         <StyledButton
           type="button"
@@ -138,11 +139,12 @@ export default function Signup() {
           bgColor="var(--mid-blue)"
           color="var(--dark-beige)"
           border="1px solid var(--dark-beige)"
+          width="100%"
         >
           <GoogleIcon></GoogleIcon>Sign up with Google
         </StyledButton>
         <p>
-          Already have an account? <Link to="/login">Log in here.</Link>
+          Already have an account? <Link to="/login">Log in.</Link>
         </p>
         <p>{errorMessage}</p>
       </StyledForm>

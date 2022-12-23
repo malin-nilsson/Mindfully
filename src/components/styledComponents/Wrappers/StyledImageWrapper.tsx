@@ -6,6 +6,7 @@ export const StyledImageWrapper = styled.span`
   border-radius: ${(props: IStylingProps) => props.borderRadius || ''};
   background: ${(props: IStylingProps) => props.background || ''};
   padding: ${(props: IStylingProps) => props.padding || ''};
+  border: ${(props: IStylingProps) => props.border || ''};
   display: flex;
   align-items: center;
   justify-content: center;

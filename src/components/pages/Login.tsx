@@ -98,6 +98,7 @@ export default function Login() {
           onClick={() => signInWithEmailPassword()}
           disabled={authenticating}
           margin="1rem 0 0.5rem"
+          width="100%"
         >
           Log in
         </StyledButton>
@@ -108,11 +109,12 @@ export default function Login() {
           bgColor="var(--mid-blue)"
           color="var(--dark-beige)"
           border="1px solid var(--dark-beige)"
+          width="100%"
         >
           <GoogleIcon></GoogleIcon>Sign in with Google
         </StyledButton>
         <p>
-          Don't have an account? <Link to="/signup">Create one here.</Link>
+          Don't have an account? <Link to="/signup">Create one.</Link>
         </p>
         <p>{errorMessage}</p>
       </StyledForm>
