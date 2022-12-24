@@ -1,12 +1,16 @@
 import { IMeditation } from '../models/IMeditation'
 import forestIcon from '../assets/meditations/forest.png'
 import forestImage from '../assets/meditations/forest.jpg'
+import forestSound from '../assets/meditations/forest.mp3'
 import rainIcon from '../assets/meditations/rain.png'
 import rainImage from '../assets/meditations/rain.jpg'
+import rainSound from '../assets/meditations/rain.mp3'
 import wavesIcon from '../assets/meditations/waves.png'
 import wavesImage from '../assets/meditations/waves.jpg'
+import wavesSound from '../assets/meditations/waves.mp3'
 import nightIcon from '../assets/meditations/night.png'
 import nightImage from '../assets/meditations/night.jpg'
+import nightSound from '../assets/meditations/night.mp3'
 import boxBreathingIcon from '../assets/meditations/box.png'
 import boxBreathingImage from '../assets/meditations/box.jpg'
 import fourSevenEightIcon from '../assets/meditations/478.png'
@@ -18,7 +22,7 @@ export const MeditationCatalog: IMeditation[] = [
     tag: 'Sound Meditation',
     icon: forestIcon,
     img: forestImage,
-    audio: '',
+    audio: forestSound,
     id: 23242,
   },
   {
@@ -34,7 +38,7 @@ export const MeditationCatalog: IMeditation[] = [
     tag: 'Sound Meditation',
     icon: wavesIcon,
     img: wavesImage,
-    audio: '',
+    audio: wavesSound,
     id: 23243,
   },
   {
@@ -42,7 +46,7 @@ export const MeditationCatalog: IMeditation[] = [
     tag: 'Sound Meditation',
     icon: rainIcon,
     img: rainImage,
-    audio: '',
+    audio: rainSound,
     id: 23244,
   },
   {
@@ -58,7 +62,7 @@ export const MeditationCatalog: IMeditation[] = [
     tag: 'Sound Meditation',
     icon: nightIcon,
     img: nightImage,
-    audio: '',
+    audio: nightSound,
     id: 23245,
   },
 ]

@@ -4,5 +4,6 @@ export interface IMeditation {
   icon: string
   img?: string
   audio?: string
+  video?: string
   id: number
 }

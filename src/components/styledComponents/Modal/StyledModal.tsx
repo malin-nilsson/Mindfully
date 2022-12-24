@@ -5,23 +5,18 @@ import CloseIcon from '@mui/icons-material/Close'
 import { StyledCard } from '../Card/Card'
 import { StyledHeadingM, StyledHeadingXS } from '../Headings/StyledHeadings'
 import UpdateIcon from '@mui/icons-material/Update'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { Slider } from '@mui/material'
 import { StyledButton } from '../Button/StyledButton'
 import { devices } from '../../breakpoints/Breakpoints'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { createRef, useEffect, useRef, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
-import {
-  doc,
-  getDoc,
-  arrayUnion,
-  updateDoc,
-  arrayRemove,
-} from 'firebase/firestore'
+import { doc, getDoc, arrayUnion, updateDoc } from 'firebase/firestore'
 import { db } from '../../../firebase/config'
 import { getAuth } from 'firebase/auth'
-import { FavoriteSharp } from '@mui/icons-material'
 
 interface IModalProps {
   meditation: IMeditation
@@ -39,11 +34,14 @@ export default function Modal(props: IModalProps) {
     img: '',
     audio: '',
   })
-  const [value, setValue] = useState('')
+  const [isMeditating, setIsMeditating] = useState(false)
   const [sliderValue, setSliderValue] = useState(5)
+
+  const ref = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
     getFavorites()
+    console.log(ref)
   }, [fillHeart, sliderValue])
 
   const getFavorites = async () => {
@@ -165,6 +163,10 @@ export default function Modal(props: IModalProps) {
     }
   }
 
+  const startMeditation = () => {
+    ref.current?.play()
+  }
+
   return (
     <StyledModal backgroundImage={`url(${props.meditation.img})`}>
       <StyledFlexWrapper
@@ -191,14 +193,14 @@ export default function Modal(props: IModalProps) {
             }
           }}
         >
-          <img
-            src={
-              fillHeart
-                ? '/assets/icons/favorite-filled.png'
-                : '/assets/icons/favorite-outlined.png'
-            }
-            alt="Heart"
-          ></img>
+          {fillHeart ? (
+            <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="medium" />
+          ) : (
+            <FavoriteBorderIcon
+              style={{ color: '#f7dba8' }}
+              fontSize="medium"
+            />
+          )}
         </StyledImageWrapper>
 
         <StyledImageWrapper
@@ -218,6 +220,10 @@ export default function Modal(props: IModalProps) {
         direction="row"
         className="modal-footer-wrapper"
       >
+        <audio ref={ref}>
+          <source src={props.meditation.audio} type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
         <StyledFlexWrapper margin="unset">
           <ArrowBackIosNewIcon
             fontSize="large"
@@ -290,8 +296,9 @@ export default function Modal(props: IModalProps) {
                 color="var(--dark-beige)"
                 margin="1rem 0"
                 fontWeight="300"
+                onClick={() => startMeditation()}
               >
-                Start meditation
+                {isMeditating ? 'Stop meditation' : 'Start meditation'}
               </StyledButton>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
