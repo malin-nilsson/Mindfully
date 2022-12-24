@@ -33,7 +33,7 @@ export default function Favorites() {
         navigate('/')
       }
     })
-  }, [auth])
+  }, [auth, favorites])
 
   const getFavorites = async () => {
     if (auth.currentUser) {

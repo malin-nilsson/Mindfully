@@ -12,9 +12,16 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
-import { doc, getDoc, arrayUnion, updateDoc } from 'firebase/firestore'
+import {
+  doc,
+  getDoc,
+  arrayUnion,
+  updateDoc,
+  arrayRemove,
+} from 'firebase/firestore'
 import { db } from '../../../firebase/config'
 import { getAuth } from 'firebase/auth'
+import { FavoriteSharp } from '@mui/icons-material'
 
 interface IModalProps {
   meditation: IMeditation
@@ -37,7 +44,6 @@ export default function Modal(props: IModalProps) {
 
   useEffect(() => {
     getFavorites()
-    console.log(sliderValue)
   }, [fillHeart, sliderValue])
 
   const getFavorites = async () => {
@@ -80,23 +86,35 @@ export default function Modal(props: IModalProps) {
           if (faves) {
             for (let i = 0; i < faves.length; i++) {
               // If favorite already exists in Firestore, return
-              if (faves[i].title === favorite.title) {
+              if (faves[i].id === favorite.id) {
                 return
               } // Else, add favorite to Firestore
               else {
                 // Add new favorite to existing Firestore array
+
                 const favorites = arrayUnion(favorite)
                 // Update favorites doc in firestore
                 await updateDoc(userRef, {
                   favorites,
                 })
+
                 setFillHeart(true)
               }
             }
+
+            if (faves.length === 0) {
+              const faves = [favorite]
+
+              await updateDoc(userRef, {
+                favorites: faves,
+              })
+              setFillHeart(true)
+            }
           } else {
-            const favorites = [favorite]
+            const faves = [favorite]
+
             await updateDoc(userRef, {
-              favorites,
+              favorites: faves,
             })
             setFillHeart(true)
           }
@@ -109,7 +127,43 @@ export default function Modal(props: IModalProps) {
     }
   }
 
-  const removeFavorite = () => {}
+  const removeFavorite = async (m: IMeditation) => {
+    if (auth.currentUser) {
+      const userRef = doc(db, 'users', auth.currentUser.uid)
+
+      try {
+        // Get docs for user
+        const docSnap = await getDoc(userRef)
+        if (docSnap.exists()) {
+          // Get user favorites
+          const faves: IMeditation[] = docSnap.data().favorites
+
+          if (faves) {
+            for (let i = 0; i < faves.length; i++) {
+              if (faves[i].id === m.id) {
+                faves.splice(i, 1)
+                await updateDoc(userRef, {
+                  favorites: faves,
+                })
+                setFillHeart(false)
+              } // Else, remove favorite to Firestore
+              else {
+                console.log('hej')
+              }
+            }
+
+            if (faves.length > 1) {
+              console.log('hoho')
+            }
+          }
+        } else {
+          console.log('Document does not exist')
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   return (
     <StyledModal backgroundImage={`url(${props.meditation.img})`}>
@@ -129,7 +183,13 @@ export default function Modal(props: IModalProps) {
           background="var(--dark-blue)"
           padding="0.7rem"
           className="icon"
-          onClick={() => saveFavorite(props.meditation)}
+          onClick={() => {
+            if (fillHeart) {
+              removeFavorite(props.meditation)
+            } else {
+              saveFavorite(props.meditation)
+            }
+          }}
         >
           <img
             src={
