@@ -9,7 +9,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { Slider } from '@mui/material'
 import { StyledButton } from '../Button/StyledButton'
 import { devices } from '../../breakpoints/Breakpoints'
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
 import { doc, getDoc, arrayUnion, updateDoc } from 'firebase/firestore'
@@ -32,10 +32,13 @@ export default function Modal(props: IModalProps) {
     img: '',
     audio: '',
   })
+  const [value, setValue] = useState('')
+  const [sliderValue, setSliderValue] = useState(5)
 
   useEffect(() => {
     getFavorites()
-  }, [])
+    console.log(sliderValue)
+  }, [fillHeart, sliderValue])
 
   const getFavorites = async () => {
     if (auth.currentUser) {
@@ -50,7 +53,6 @@ export default function Modal(props: IModalProps) {
           const faves: IMeditation[] = docSnap.data().favorites
           if (faves) {
             faves.forEach((fave) => {
-              console.log(fave)
               if (fave.id === props.meditation.id) {
                 setFillHeart(true)
               }
@@ -88,6 +90,7 @@ export default function Modal(props: IModalProps) {
                 await updateDoc(userRef, {
                   favorites,
                 })
+                setFillHeart(true)
               }
             }
           } else {
@@ -95,6 +98,7 @@ export default function Modal(props: IModalProps) {
             await updateDoc(userRef, {
               favorites,
             })
+            setFillHeart(true)
           }
         } else {
           console.log('Document does not exist')
@@ -104,6 +108,8 @@ export default function Modal(props: IModalProps) {
       }
     }
   }
+
+  const removeFavorite = () => {}
 
   return (
     <StyledModal backgroundImage={`url(${props.meditation.img})`}>
@@ -191,7 +197,7 @@ export default function Modal(props: IModalProps) {
           >
             <StyledFlexWrapper gap="unset" margin="unset" align="flex-start">
               <StyledHeadingM fontWeight="700" color="var(--dark-blue)">
-                15
+                {sliderValue}
               </StyledHeadingM>
               <StyledHeadingXS
                 textTransform="unset"
@@ -205,8 +211,11 @@ export default function Modal(props: IModalProps) {
             <StyledFlexWrapper width="60%">
               <Slider
                 aria-label="Minutes"
-                defaultValue={10}
+                defaultValue={5}
                 valueLabelDisplay="auto"
+                onChange={(event, value) => {
+                  setSliderValue(value as number)
+                }}
                 step={5}
                 marks
                 min={5}

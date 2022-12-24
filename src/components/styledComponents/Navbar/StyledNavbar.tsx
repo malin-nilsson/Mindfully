@@ -139,7 +139,7 @@ const StyledNav = styled.div`
     }
     @media ${devices.desktop} {
       width: 80%;
-      margin: 0 auto;
+      margin: 1rem auto;
     }
   }
 `

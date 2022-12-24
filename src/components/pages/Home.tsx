@@ -23,8 +23,9 @@ export default function Home() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
-        setDisplayName(user.displayName as string)
-        console.log(user.displayName)
+        const name = user.displayName as string
+        const firstName = name.split(' ')[0]
+        setDisplayName(firstName)
         setIsLoading(false)
       } else {
         navigate('/')
