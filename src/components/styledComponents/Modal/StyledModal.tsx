@@ -11,7 +11,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import { Slider } from '@mui/material'
 import { StyledButton } from '../Button/StyledButton'
 import { devices } from '../../breakpoints/Breakpoints'
-import { createRef, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
 import { doc, getDoc, arrayUnion, updateDoc } from 'firebase/firestore'
@@ -164,6 +164,7 @@ export default function Modal(props: IModalProps) {
 
   const startMeditation = () => {
     ref.current?.play()
+    setIsMeditating(true)
   }
 
   return (
@@ -297,7 +298,7 @@ export default function Modal(props: IModalProps) {
                 fontWeight="300"
                 onClick={() => startMeditation()}
               >
-                {isMeditating ? 'Stop meditation' : 'Start meditation'}
+                {isMeditating ? 'Finish' : 'Start meditation'}
               </StyledButton>
             </StyledFlexWrapper>
           </StyledFlexWrapper>

@@ -25,4 +25,8 @@ export const StyledSelect = styled.div`
     outline: none;
     box-shadow: none;
   }
+
+  select:hover {
+    cursor: pointer;
+  }
 `
