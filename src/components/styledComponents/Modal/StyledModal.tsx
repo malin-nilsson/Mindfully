@@ -14,9 +14,10 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { useEffect, useRef, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
-import { doc, getDoc, arrayUnion, updateDoc } from 'firebase/firestore'
-import { db } from '../../../firebase/config'
+import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
+import { getFavorites } from '../../../utils/getFavorites'
+import { getUser } from '../../../utils/getUser'
 
 interface IModalProps {
   meditation: IMeditation
@@ -36,87 +37,59 @@ export default function Modal(props: IModalProps) {
   })
   const [isMeditating, setIsMeditating] = useState(false)
   const [sliderValue, setSliderValue] = useState(5)
-
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
   const ref = useRef<HTMLAudioElement>(null)
 
   useEffect(() => {
-    getFavorites()
+    showFavorites()
   }, [fillHeart, sliderValue])
 
-  const getFavorites = async () => {
-    if (auth.currentUser) {
-      // Get user from "Users" collection
-      const userRef = doc(db, 'users', auth.currentUser.uid)
-
-      try {
-        // Get docs for user
-        const docSnap = await getDoc(userRef)
-        if (docSnap.exists()) {
-          // Get user favorites
-          const faves: IMeditation[] = docSnap.data().favorites
-          if (faves) {
-            faves.forEach((fave) => {
-              if (fave.id === props.meditation.id) {
-                setFillHeart(true)
-              }
-            })
-          }
-        } else {
-          console.log('Document does not exist')
+  const showFavorites = async () => {
+    const faves = await getFavorites()
+    if (faves) {
+      faves.forEach((fave) => {
+        if (fave.id === props.meditation.id) {
+          setFillHeart(true)
         }
-      } catch (error) {
-        console.log(error)
-      }
+      })
     }
   }
 
   const saveFavorite = async (favorite: IMeditation) => {
-    if (auth.currentUser) {
-      const userRef = doc(db, 'users', auth.currentUser.uid)
+    const userRef = await getUser()
+    const faves = await getFavorites()
 
+    if (userRef) {
       try {
-        // Get docs for user
-        const docSnap = await getDoc(userRef)
-        if (docSnap.exists()) {
-          // Get user favorites
-          const faves = docSnap.data().favorites
-          if (faves) {
-            for (let i = 0; i < faves.length; i++) {
-              // If favorite already exists in Firestore, return
-              if (faves[i].id === favorite.id) {
-                return
-              } // Else, add favorite to Firestore
-              else {
-                // Add new favorite to existing Firestore array
-
-                const favorites = arrayUnion(favorite)
-                // Update favorites doc in firestore
-                await updateDoc(userRef, {
-                  favorites,
-                })
-
-                setFillHeart(true)
-              }
-            }
-
-            if (faves.length === 0) {
-              const faves = [favorite]
-
+        if (faves) {
+          for (let i = 0; i < faves.length; i++) {
+            // If favorite already exists in Firestore, return
+            if (faves[i].id === favorite.id) {
+              return
+            } // Else, add favorite to Firestore
+            else {
+              const favorites = arrayUnion(favorite)
               await updateDoc(userRef, {
-                favorites: faves,
+                favorites,
               })
               setFillHeart(true)
             }
-          } else {
-            const faves = [favorite]
+          }
 
+          if (faves.length === 0) {
+            const faves = [favorite]
             await updateDoc(userRef, {
               favorites: faves,
             })
             setFillHeart(true)
           }
         } else {
-          console.log('Document does not exist')
+          const faves = [favorite]
+          await updateDoc(userRef, {
+            favorites: faves,
+          })
+          setFillHeart(true)
         }
       } catch (error) {
         console.log(error)
@@ -125,36 +98,21 @@ export default function Modal(props: IModalProps) {
   }
 
   const removeFavorite = async (m: IMeditation) => {
-    if (auth.currentUser) {
-      const userRef = doc(db, 'users', auth.currentUser.uid)
+    const userRef = await getUser()
+    const faves = await getFavorites()
 
+    if (userRef) {
       try {
-        // Get docs for user
-        const docSnap = await getDoc(userRef)
-        if (docSnap.exists()) {
-          // Get user favorites
-          const faves: IMeditation[] = docSnap.data().favorites
-
-          if (faves) {
-            for (let i = 0; i < faves.length; i++) {
-              if (faves[i].id === m.id) {
-                faves.splice(i, 1)
-                await updateDoc(userRef, {
-                  favorites: faves,
-                })
-                setFillHeart(false)
-              } // Else, remove favorite to Firestore
-              else {
-                console.log('hej')
-              }
-            }
-
-            if (faves.length > 1) {
-              console.log('hoho')
+        if (faves) {
+          for (let i = 0; i < faves.length; i++) {
+            if (faves[i].id === m.id) {
+              faves.splice(i, 1)
+              await updateDoc(userRef, {
+                favorites: faves,
+              })
+              setFillHeart(false)
             }
           }
-        } else {
-          console.log('Document does not exist')
         }
       } catch (error) {
         console.log(error)
@@ -165,6 +123,11 @@ export default function Modal(props: IModalProps) {
   const startMeditation = () => {
     ref.current?.play()
     setIsMeditating(true)
+  }
+
+  const stopMeditation = () => {
+    ref.current?.pause()
+    setIsMeditating(false)
   }
 
   return (
@@ -180,10 +143,9 @@ export default function Modal(props: IModalProps) {
         className="modal-wrapper"
       >
         <StyledImageWrapper
-          maxHeight="20px"
           borderRadius="50%"
           background="var(--dark-blue)"
-          padding="0.7rem"
+          padding="0.6rem"
           className="icon"
           onClick={() => {
             if (fillHeart) {
@@ -207,7 +169,7 @@ export default function Modal(props: IModalProps) {
           align="flex-end"
           borderRadius="50%"
           background="var(--dark-blue)"
-          padding="0.55rem"
+          padding="0.6rem"
           className="icon"
           onClick={() => props.closeModal()}
         >
@@ -296,7 +258,9 @@ export default function Modal(props: IModalProps) {
                 color="var(--dark-beige)"
                 margin="1rem 0"
                 fontWeight="300"
-                onClick={() => startMeditation()}
+                onClick={() => {
+                  isMeditating ? stopMeditation() : startMeditation()
+                }}
               >
                 {isMeditating ? 'Finish' : 'Start meditation'}
               </StyledButton>

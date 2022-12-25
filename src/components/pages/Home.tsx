@@ -82,7 +82,7 @@ export default function Home() {
                 <img src="/assets/icons/lightbulb.png"></img>
               </StyledImageWrapper>
               <p>
-                Take a quick assessment to see which meditation fits you the
+                Take a quick assessment and see which meditation fits you the
                 best at this moment.
               </p>
             </StyledCard>
