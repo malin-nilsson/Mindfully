@@ -14,6 +14,7 @@ import AuthRoute from './components/auth/AuthRoute'
 import RedirectRoute from './utils/redirectUser'
 import Favorites from './components/pages/Favorites'
 import MyJourney from './components/pages/MyJourney'
+import NotFound from './components/pages/NotFound'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
               </RedirectRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/" element={<Layout />}>
           <Route
@@ -86,6 +88,14 @@ function App() {
             element={
               <AuthRoute>
                 <Favorites />
+              </AuthRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <AuthRoute>
+                <NotFound />
               </AuthRoute>
             }
           />

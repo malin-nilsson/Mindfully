@@ -49,7 +49,8 @@ export const StyledHeadingS = styled.h4`
   font-size: 1.3rem;
   margin: 0;
   font-weight: 100;
-  border-bottom: 2px solid var(--mid-blue);
+  border-bottom: ${(props: IStylingProps) =>
+    props.borderBottom || '2px solid var(--mid-blue)'};
 
   @media ${devices.tablet} {
     font-size: 1.3rem;
