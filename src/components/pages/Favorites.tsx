@@ -1,8 +1,7 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore'
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
-import { MeditationContext } from '../../context/MeditationContext'
+import { doc, getDoc } from 'firebase/firestore'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase/config'
 import { IMeditation } from '../../models/IMeditation'
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
@@ -10,6 +9,7 @@ import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import Modal from '../styledComponents/Modal/StyledModal'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
 export default function Favorites() {
   const auth = getAuth()
@@ -83,10 +83,7 @@ export default function Favorites() {
             </StyledHeadingXL>
             <StyledFlexWrapper align="center" width="100%">
               <StyledImageWrapper maxHeight="40px">
-                <img
-                  src="/assets/icons/favorite-outlined.png"
-                  alt="Heart"
-                ></img>
+                <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="large" />
               </StyledImageWrapper>
             </StyledFlexWrapper>
 
@@ -124,10 +121,10 @@ export default function Favorites() {
                         </StyledImageWrapper>
                         <StyledFlexWrapper align="flex-end" width="100%">
                           <StyledImageWrapper maxHeight="22px">
-                            <img
-                              src="/assets/icons/favorite-filled.png"
-                              alt="Heart"
-                            ></img>
+                            <FavoriteIcon
+                              style={{ color: '#f7dba8' }}
+                              fontSize="medium"
+                            />
                           </StyledImageWrapper>
                         </StyledFlexWrapper>
                       </StyledMeditationCard>

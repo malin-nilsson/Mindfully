@@ -41,7 +41,6 @@ export default function Modal(props: IModalProps) {
 
   useEffect(() => {
     getFavorites()
-    console.log(ref)
   }, [fillHeart, sliderValue])
 
   const getFavorites = async () => {
