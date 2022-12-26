@@ -18,6 +18,7 @@ import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getAuth } from 'firebase/auth'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getUser } from '../../../utils/getUser'
+import differenceInMinutes from 'date-fns/differenceInMinutes'
 
 interface IModalProps {
   meditation: IMeditation
@@ -37,12 +38,11 @@ export default function Modal(props: IModalProps) {
   })
   const [isMeditating, setIsMeditating] = useState(false)
   const [sliderValue, setSliderValue] = useState(5)
-  const [startTime, setStartTime] = useState('')
-  const [endTime, setEndTime] = useState('')
+  const [startTime, setStartTime] = useState<Date | number>()
   const ref = useRef<HTMLAudioElement>(null)
   const Ref = useRef<ReturnType<typeof setInterval> | null>(null)
-
   const [timer, setTimer] = useState('00:00:00')
+  const [meditatedMinutes, setMeditatedMinutes] = useState(0)
 
   useEffect(() => {
     showFavorites()
@@ -183,6 +183,7 @@ export default function Modal(props: IModalProps) {
   }
 
   const startMeditation = () => {
+    setStartTime(new Date())
     onClickReset(sliderValue)
     ref.current?.play()
     setIsMeditating(true)
@@ -193,6 +194,9 @@ export default function Modal(props: IModalProps) {
 
     ref.current?.pause()
     setIsMeditating(false)
+
+    const result = differenceInMinutes(new Date(), startTime as number)
+    setMeditatedMinutes(result)
   }
 
   return (
