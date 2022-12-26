@@ -1,7 +1,7 @@
 import {
+  StyledHeadingL,
   StyledHeadingM,
   StyledHeadingS,
-  StyledHeadingXL,
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
@@ -19,8 +19,11 @@ export default function Home() {
   const auth = getAuth()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(true)
+  const [greeting, setGreeting] = useState('')
 
   useEffect(() => {
+    getGreeting()
+
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
         const name = user.displayName as string
@@ -32,6 +35,22 @@ export default function Home() {
       }
     })
   }, [auth])
+
+  const getGreeting = async () => {
+    let data = [
+        [18, 4, 'Good evening'],
+        [0, 4, 'Good evening'],
+        [5, 11, 'Good morning'], //Store messages in an array
+        [12, 17, 'Good afternoon'],
+      ],
+      hour = new Date().getHours()
+
+    for (let i = 0; i < data.length; i++) {
+      if (hour >= data[i][0] && hour <= data[i][1]) {
+        setGreeting(data[i][2].toString())
+      }
+    }
+  }
 
   return (
     <>
@@ -45,9 +64,9 @@ export default function Home() {
             width="100%"
           >
             <StyledFlexWrapper>
-              <StyledHeadingXL color="var(--dark-beige)">
-                Hi, {displayName}.
-              </StyledHeadingXL>
+              <StyledHeadingL color="var(--dark-beige)">
+                {greeting}, {displayName}.
+              </StyledHeadingL>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
 

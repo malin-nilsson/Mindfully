@@ -13,11 +13,12 @@ export const StyledHeadingXL = styled.h1`
 
   @media ${devices.tablet} {
     font-size: 2.9rem;
+    letter-spacing: 0.02rem;
   }
 `
 
 export const StyledHeadingL = styled.h2`
-  font-family: var(--heading-font);
+  font-family: var(--logo-font);
   font-size: 2.4rem;
   text-align: center;
   margin: 1rem 0;
@@ -25,7 +26,8 @@ export const StyledHeadingL = styled.h2`
   color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
 
   @media ${devices.tablet} {
-    font-size: 2.5rem;
+    font-size: 2.7rem;
+    letter-spacing: 0.02rem;
   }
 `
 
