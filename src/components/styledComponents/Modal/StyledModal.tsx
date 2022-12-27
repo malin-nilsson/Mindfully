@@ -19,6 +19,7 @@ import { getAuth } from 'firebase/auth'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getUser } from '../../../utils/getUser'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
+import { getProgress } from '../../../utils/getProgress'
 
 interface IModalProps {
   meditation: IMeditation
@@ -196,7 +197,38 @@ export default function Modal(props: IModalProps) {
     setIsMeditating(false)
 
     const result = differenceInMinutes(new Date(), startTime as number)
-    setMeditatedMinutes(result)
+
+    saveMeditatedMinutes(result)
+  }
+
+  const saveMeditatedMinutes = async (time: number) => {
+    const userRef = await getUser()
+    const progress = await getProgress()
+
+    const meditation = {
+      minutes: time,
+      meditation: props.meditation,
+    }
+
+    if (time === 0) return
+
+    if (userRef) {
+      try {
+        if (progress) {
+          const newProgress = arrayUnion(meditation)
+          await updateDoc(userRef, {
+            progress: newProgress,
+          })
+        } else {
+          const newProgress = [meditation]
+          await updateDoc(userRef, {
+            progress: newProgress,
+          })
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
   }
 
   return (
@@ -251,7 +283,7 @@ export default function Modal(props: IModalProps) {
         direction="row"
         className="modal-footer-wrapper"
       >
-        <audio ref={ref}>
+        <audio ref={ref} loop>
           <source src={props.meditation.audio} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>

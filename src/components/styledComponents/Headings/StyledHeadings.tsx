@@ -19,14 +19,14 @@ export const StyledHeadingXL = styled.h1`
 
 export const StyledHeadingL = styled.h2`
   font-family: var(--logo-font);
-  font-size: 2.4rem;
+  font-size: 2rem;
   text-align: center;
   margin: 1rem 0;
   padding: 0;
   color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
 
   @media ${devices.tablet} {
-    font-size: 2.7rem;
+    font-size: 2.2rem;
     letter-spacing: 0.02rem;
   }
 `
