@@ -26,6 +26,22 @@ export const StyledFlexWrapper = styled.div`
       width: 100%;
     }
   }
+
+  .link-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.4rem;
+    background-color: var(--dark-beige);
+    padding: 0.5rem 1.5rem;
+    color: var(--dark-blue);
+    border-radius: 12px;
+    transition: transform 0.2s ease-in-out;
+    &:hover {
+      transform: translateY(-0.15rem);
+      cursor: pointer;
+    }
+  }
 `
 export const StyledButtonWrapper = styled.div`
   width: 90%;
@@ -44,16 +60,15 @@ export const StyledButtonWrapper = styled.div`
 export const StyledProgressWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   gap: 1rem;
   padding: 1.5rem 0;
 
   @media ${devices.tablet} {
     flex-direction: row;
-    align-items: center;
-    justify-content: center;
     gap: 3rem;
+    padding: 2rem 0 2.5rem;
   }
 `

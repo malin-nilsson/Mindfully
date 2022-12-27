@@ -13,6 +13,9 @@ import {
 } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
+import { StyledLink } from '../styledComponents/Link/StyledLink'
+import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
@@ -49,7 +52,12 @@ export default function MyJourney() {
   }
 
   return (
-    <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
+    <StyledFlexWrapper
+      justify="flex-start"
+      padding="1.5rem 0 0"
+      width="100%"
+      gap="2rem"
+    >
       <StyledFlexWrapper>
         <StyledHeadingXL color="var(--dark-beige)">
           Your journey so far
@@ -58,7 +66,7 @@ export default function MyJourney() {
 
       <StyledProgressWrapper>
         <StyledFlexWrapper direction="row" align="center" margin="0 1.5rem">
-          <StyledFlexWrapper align="flex-start">
+          <StyledFlexWrapper>
             <AccessTimeFilledIcon
               style={{ color: '#f7dba8', fontSize: '3.5rem' }}
             />
@@ -99,6 +107,15 @@ export default function MyJourney() {
           </StyledFlexWrapper>
         </StyledFlexWrapper>
       </StyledProgressWrapper>
+      <StyledFlexWrapper direction="row" justify="flex-start" margin="unset">
+        <div className="link-wrapper">
+          <StyledLink color="var(--dark-blue)">History</StyledLink>
+          <StyledImageWrapper background="#f7dba8" borderRadius="50%">
+            {' '}
+            <ExpandMoreIcon style={{ color: '#02070f' }} fontSize="medium" />
+          </StyledImageWrapper>
+        </div>
+      </StyledFlexWrapper>
     </StyledFlexWrapper>
   )
 }

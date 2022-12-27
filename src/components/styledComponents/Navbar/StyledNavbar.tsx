@@ -169,7 +169,7 @@ const StyledNavLinks = styled.nav`
     width: 100%;
 
     @media ${devices.desktop} {
-      margin: 9rem 0 1rem;
+      margin: 7rem 0 1rem;
       display: flex;
       flex-direction: column;
       width: 100%;

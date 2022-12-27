@@ -76,7 +76,7 @@ export default function Explore() {
             <span>Filter: </span>
             <StyledSelect>
               <span className="select-icon">
-                <ExpandMoreIcon />
+                <ExpandMoreIcon style={{ color: '#000' }} fontSize="medium" />
               </span>
               <select onChange={(e) => handleOnChange(e.target.value)}>
                 <>
