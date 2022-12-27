@@ -4,8 +4,7 @@ import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledHeadingXL = styled.h1`
   font-family: var(--logo-font);
-  letter-spacing: 0.22rem;
-  font-size: 2.5rem;
+  font-size: 2.3rem;
   text-align: center;
   margin: 1rem 0;
   padding: 0;
@@ -50,7 +49,8 @@ export const StyledHeadingS = styled.h4`
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
   font-size: 1.3rem;
   margin: 0;
-  font-weight: 100;
+  font-weight: ${(props: IStylingProps) => props.fontWeight || '100'};
+
   border-bottom: ${(props: IStylingProps) =>
     props.borderBottom || '2px solid var(--mid-blue)'};
 
@@ -66,7 +66,8 @@ export const StyledHeadingXS = styled.h5`
   text-transform: ${(props: IStylingProps) =>
     props.textTransform || 'uppercase'};
   margin: 0;
-  font-weight: 500;
+  font-weight: ${(props: IStylingProps) => props.fontWeight || '500'};
+
   border-bottom: ${(props: IStylingProps) =>
     props.borderBottom || ' 2px solid var(--mid-blue)'};
 `

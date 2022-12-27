@@ -8,12 +8,15 @@ export const StyledSelect = styled.div`
   position: relative;
   background-color: var(--dark-beige);
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   select {
     font-size: 1rem;
     font-weight: normal;
     max-width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem;
     border: none;
     background-color: transparent;
     -webkit-appearance: none;
@@ -28,5 +31,14 @@ export const StyledSelect = styled.div`
 
   select:hover {
     cursor: pointer;
+  }
+
+  .select-icon {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    display: inline-block;
+    margin-left: 1rem;
+    display: flex;
   }
 `
