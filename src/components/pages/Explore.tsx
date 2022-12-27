@@ -9,9 +9,7 @@ import { IMeditation } from '../../models/IMeditation'
 import Modal from '../styledComponents/Modal/StyledModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../firebase/config'
-import { getAuth } from 'firebase/auth'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -31,41 +29,6 @@ export default function Explore() {
     id: 0,
   })
   const [fillHeart, setFillHeart] = useState(false)
-  const auth = getAuth()
-
-  // useEffect(() => {
-  //   getFavorites()
-  // }, [fillHeart])
-
-  // const getFavorites = async () => {
-  //   if (auth.currentUser) {
-  //     // Get user from "Users" collection
-  //     const userRef = doc(db, 'users', auth.currentUser.uid)
-
-  //     try {
-  //       // Get docs for user
-  //       const docSnap = await getDoc(userRef)
-  //       if (docSnap.exists()) {
-  //         // Get user favorites
-  //         const faves: IMeditation[] = docSnap.data().favorites
-  //         if (faves) {
-  //           for (let j = 0; j < faves.length; j++) {
-  //             for (let i = 0; i < allMeditations.length; i++) {
-  //               if (faves[j].id === allMeditations[i].id) {
-  //                 setFillHeart(true)
-  //                 console.log(faves[j], allMeditations[i])
-  //               }
-  //             }
-  //           }
-  //         }
-  //       } else {
-  //         console.log('Document does not exist')
-  //       }
-  //     } catch (error) {
-  //       console.log(error)
-  //     }
-  //   }
-  // }
 
   const handleOnChange = (e: string) => {
     let filtered: IMeditation[] = []
@@ -112,6 +75,9 @@ export default function Explore() {
           <StyledFlexWrapper direction="row" color="var(--dark-beige)">
             <span>Filter: </span>
             <StyledSelect>
+              <span className="select-icon">
+                <ExpandMoreIcon />
+              </span>
               <select onChange={(e) => handleOnChange(e.target.value)}>
                 <>
                   <option value="All">All meditations</option>;

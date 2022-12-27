@@ -34,13 +34,13 @@ export default function Home() {
         navigate('/')
       }
     })
-  }, [auth])
+  }, [auth, greeting])
 
   const getGreeting = async () => {
     let data = [
-        [18, 4, 'Good evening'],
+        [18, 24, 'Good evening'],
         [0, 4, 'Good evening'],
-        [5, 11, 'Good morning'], //Store messages in an array
+        [5, 11, 'Good morning'],
         [12, 17, 'Good afternoon'],
       ],
       hour = new Date().getHours()

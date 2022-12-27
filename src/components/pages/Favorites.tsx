@@ -93,9 +93,9 @@ export default function Favorites() {
             ) : (
               <StyledFlexWrapper
                 direction="row"
-                gap="3rem"
-                width="100%"
-                margin="1.5rem 0"
+                gap="2rem"
+                margin="1.5rem 1rem"
+                className="favorites-wrapper"
               >
                 {favorites &&
                   favorites.map((favorite) => {
