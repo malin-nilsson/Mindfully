@@ -10,6 +10,8 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import Modal from '../styledComponents/Modal/StyledModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import { getUser } from '../../utils/getUser'
+import { getFavorites } from '../../utils/getFavorites'
 
 export default function Favorites() {
   const auth = getAuth()
@@ -28,27 +30,21 @@ export default function Favorites() {
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        getFavorites()
+        showFavorites()
       } else {
         navigate('/')
       }
     })
   }, [auth, favorites])
 
-  const getFavorites = async () => {
-    if (auth.currentUser) {
-      // Get user from "Users" collection
-      const userRef = doc(db, 'users', auth.currentUser.uid)
+  const showFavorites = async () => {
+    const userRef = await getUser()
+    const faves = await getFavorites()
 
+    if (userRef) {
       try {
-        // Get docs for user
-        const docSnap = await getDoc(userRef)
-        if (docSnap.exists()) {
-          // Get user favorites
-          const faves = docSnap.data().favorites
-          if (faves) {
-            setFavorites(faves)
-          }
+        if (faves) {
+          setFavorites(faves)
         } else {
           console.log('Document does not exist')
         }
