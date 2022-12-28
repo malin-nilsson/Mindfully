@@ -12,6 +12,7 @@ import Modal from '../styledComponents/Modal/StyledModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { getUser } from '../../utils/getUser'
 import { getFavorites } from '../../utils/getFavorites'
+import Video from '../styledComponents/Video/StyledVideo'
 
 export default function Favorites() {
   const auth = getAuth()
@@ -66,7 +67,8 @@ export default function Favorites() {
   return (
     <>
       {modal ? (
-        <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
+        // <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
+        <Video meditation={selectedMeditation} closeModal={hideModal} />
       ) : (
         <StyledFlexWrapper
           justify="flex-start"
