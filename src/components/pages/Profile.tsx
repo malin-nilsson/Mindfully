@@ -8,6 +8,7 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 // import { UserContext } from '../../context/UserContext'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 export default function Profile() {
   // let currentUser = useContext(UserContext)
@@ -32,38 +33,45 @@ export default function Profile() {
   }, [auth])
 
   return (
-    <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
-      <StyledFlexWrapper>
-        <StyledHeadingXL color="var(--dark-beige)">Profile</StyledHeadingXL>
-      </StyledFlexWrapper>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
+        <StyledFlexWrapper>
+          <StyledHeadingXL color="var(--dark-beige)">Profile</StyledHeadingXL>
+        </StyledFlexWrapper>
 
-      <StyledFlexWrapper width="100%">
-        <StyledCard
-          align="flex-start"
-          width="50%"
-          height="10rem"
-          padding="3rem"
-          direction="row"
-        >
-          <StyledFlexWrapper>Bild här</StyledFlexWrapper>
+        <StyledFlexWrapper width="100%">
+          <StyledCard
+            align="flex-start"
+            width="50%"
+            height="10rem"
+            padding="3rem"
+            direction="row"
+          >
+            <StyledFlexWrapper>Bild här</StyledFlexWrapper>
 
-          <StyledFlexWrapper align="flex-start">
-            <StyledFlexWrapper direction="row" align="flex-start" margin="0">
-              <StyledHeadingXS color="var(--mid-blue)">
-                Email address:
-              </StyledHeadingXS>
-              <span>{userInfo.email}</span>
+            <StyledFlexWrapper align="flex-start">
+              <StyledFlexWrapper direction="row" align="flex-start" margin="0">
+                <StyledHeadingXS color="var(--mid-blue)">
+                  Email address:
+                </StyledHeadingXS>
+                <span>{userInfo.email}</span>
+              </StyledFlexWrapper>
+
+              <StyledFlexWrapper direction="row" align="flex-start" margin="0">
+                <StyledHeadingXS color="var(--mid-blue)">
+                  Registered:
+                </StyledHeadingXS>
+                <span>{userInfo.signedUp}</span>
+              </StyledFlexWrapper>
             </StyledFlexWrapper>
-
-            <StyledFlexWrapper direction="row" align="flex-start" margin="0">
-              <StyledHeadingXS color="var(--mid-blue)">
-                Registered:
-              </StyledHeadingXS>
-              <span>{userInfo.signedUp}</span>
-            </StyledFlexWrapper>
-          </StyledFlexWrapper>
-        </StyledCard>
+          </StyledCard>
+        </StyledFlexWrapper>
       </StyledFlexWrapper>
-    </StyledFlexWrapper>
+    </motion.div>
   )
 }

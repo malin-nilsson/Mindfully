@@ -10,6 +10,7 @@ import { StyledCard } from '../styledComponents/Card/Card'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { motion } from 'framer-motion'
 
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
@@ -57,7 +58,12 @@ export default function Home() {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <StyledFlexWrapper
             justify="flex-start"
             padding="1.5rem 0 0"
@@ -106,7 +112,7 @@ export default function Home() {
               </p>
             </StyledCard>
           </StyledFlexWrapper>
-        </>
+        </motion.div>
       )}
 
       {selfAssessment && (

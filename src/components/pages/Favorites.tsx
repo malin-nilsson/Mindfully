@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import { getUser } from '../../utils/getUser'
 import { getFavorites } from '../../utils/getFavorites'
 import Video from '../styledComponents/Modal/StyledVideoModal'
+import { motion } from 'framer-motion'
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<IMeditation[]>()
@@ -73,69 +74,77 @@ export default function Favorites() {
         <Modal meditation={selectedMeditation} closeModal={hideModal} />
       )}
       {favorites && (
-        <StyledFlexWrapper
-          justify="flex-start"
-          padding="1.5rem 0 0"
-          width="100%"
-          display={hideFavorites ? 'none' : 'flex'}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          <StyledFlexWrapper width="100%">
-            <StyledHeadingXL color="var(--dark-beige)">
-              Favorites
-            </StyledHeadingXL>
-            <StyledFlexWrapper align="center" width="100%">
-              <StyledImageWrapper maxHeight="40px">
-                <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="large" />
-              </StyledImageWrapper>
-            </StyledFlexWrapper>
+          <StyledFlexWrapper
+            justify="flex-start"
+            padding="1.5rem 0 0"
+            width="100%"
+            height="100%"
+            display={hideFavorites ? 'none' : 'flex'}
+          >
+            <StyledFlexWrapper width="100%">
+              <StyledHeadingXL color="var(--dark-beige)">
+                Favorites
+              </StyledHeadingXL>
+              <StyledFlexWrapper align="center" width="100%">
+                <StyledImageWrapper maxHeight="40px">
+                  <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="large" />
+                </StyledImageWrapper>
+              </StyledFlexWrapper>
 
-            {favorites === undefined ? (
-              <StyledFlexWrapper color="var(--dark-beige)">
-                <p>
-                  Tap the heart icon nex to any activity to add to your
-                  Favorites list.
-                </p>
-              </StyledFlexWrapper>
-            ) : (
-              <StyledFlexWrapper
-                direction="row"
-                gap="2rem"
-                margin="1.5rem 1rem"
-                className="favorites-wrapper"
-              >
-                {favorites &&
-                  favorites.map((favorite) => {
-                    return (
-                      <StyledMeditationCard
-                        borderRadius="15px"
-                        height="11rem"
-                        justify="center"
-                        key={favorite.id}
-                        padding="1.5rem 1rem"
-                        background="var(--dark-blue)"
-                        border="1px solid var(--light-blue)"
-                        color="var(--dark-beige)"
-                        onClick={() => showModal(favorite)}
-                      >
-                        <StyledImageWrapper maxHeight="50px">
-                          <img src={favorite.icon} alt="Emoji"></img>
-                          <span>{favorite.title} </span>
-                        </StyledImageWrapper>
-                        <StyledFlexWrapper align="flex-end" width="100%">
-                          <StyledImageWrapper maxHeight="22px">
-                            <FavoriteIcon
-                              style={{ color: '#f7dba8' }}
-                              fontSize="medium"
-                            />
+              {favorites === undefined ? (
+                <StyledFlexWrapper color="var(--dark-beige)">
+                  <p>
+                    Tap the heart icon nex to any activity to add to your
+                    Favorites list.
+                  </p>
+                </StyledFlexWrapper>
+              ) : (
+                <StyledFlexWrapper
+                  direction="row"
+                  gap="2rem"
+                  margin="1.5rem 1rem"
+                  className="favorites-wrapper"
+                >
+                  {favorites &&
+                    favorites.map((favorite) => {
+                      return (
+                        <StyledMeditationCard
+                          borderRadius="15px"
+                          height="11rem"
+                          justify="center"
+                          key={favorite.id}
+                          padding="1.5rem 1rem"
+                          background="var(--dark-blue)"
+                          border="1px solid var(--light-blue)"
+                          color="var(--dark-beige)"
+                          onClick={() => showModal(favorite)}
+                        >
+                          <StyledImageWrapper maxHeight="50px">
+                            <img src={favorite.icon} alt="Emoji"></img>
+                            <span>{favorite.title} </span>
                           </StyledImageWrapper>
-                        </StyledFlexWrapper>
-                      </StyledMeditationCard>
-                    )
-                  })}
-              </StyledFlexWrapper>
-            )}
+                          <StyledFlexWrapper align="flex-end" width="100%">
+                            <StyledImageWrapper maxHeight="22px">
+                              <FavoriteIcon
+                                style={{ color: '#f7dba8' }}
+                                fontSize="medium"
+                              />
+                            </StyledImageWrapper>
+                          </StyledFlexWrapper>
+                        </StyledMeditationCard>
+                      )
+                    })}
+                </StyledFlexWrapper>
+              )}
+            </StyledFlexWrapper>
           </StyledFlexWrapper>
-        </StyledFlexWrapper>
+        </motion.div>
       )}
     </>
   )

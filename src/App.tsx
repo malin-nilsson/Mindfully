@@ -15,93 +15,97 @@ import RedirectRoute from './utils/redirectUser'
 import Favorites from './components/pages/Favorites'
 import MyJourney from './components/pages/MyJourney'
 import NotFound from './components/pages/NotFound'
+import { AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<LayoutStartpage />}>
-          <Route
-            index
-            element={
-              <RedirectRoute>
-                <Welcome />
-              </RedirectRoute>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <RedirectRoute>
-                <Login />
-              </RedirectRoute>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <RedirectRoute>
-                <Signup />
-              </RedirectRoute>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-        <Route path="/" element={<Layout />}>
-          <Route
-            path="/home"
-            element={
-              <AuthRoute>
-                <Home />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <AuthRoute>
-                <Profile />
-              </AuthRoute>
-            }
-          />
+    <AnimatePresence>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LayoutStartpage />}>
+            <Route
+              index
+              element={
+                <RedirectRoute>
+                  <Welcome />
+                </RedirectRoute>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <RedirectRoute>
+                  <Login />
+                </RedirectRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <RedirectRoute>
+                  <Signup />
+                </RedirectRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+          </Route>
+          <Route path="/" element={<Layout />}>
+            <Route
+              path="/home"
+              element={
+                <AuthRoute>
+                  <Home />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <AuthRoute>
+                  <Profile />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/explore"
-            element={
-              <AuthRoute>
-                <Explore />
-              </AuthRoute>
-            }
-          />
+            <Route
+              path="/explore"
+              element={
+                <AuthRoute>
+                  <Explore />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/journey"
-            element={
-              <AuthRoute>
-                <MyJourney />
-              </AuthRoute>
-            }
-          />
+            <Route
+              path="/journey"
+              element={
+                <AuthRoute>
+                  <MyJourney />
+                </AuthRoute>
+              }
+            />
 
-          <Route
-            path="/favorites"
-            element={
-              <AuthRoute>
-                <Favorites />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <AuthRoute>
-                <NotFound />
-              </AuthRoute>
-            }
-          />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            <Route
+              path="/favorites"
+              element={
+                <AuthRoute>
+                  <Favorites />
+                </AuthRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <AuthRoute>
+                  <NotFound />
+                </AuthRoute>
+              }
+            />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AnimatePresence>
   )
 }
 

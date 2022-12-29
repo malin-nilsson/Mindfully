@@ -17,6 +17,7 @@ import { StyledLink } from '../styledComponents/Link/StyledLink'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import { motion } from 'framer-motion'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
@@ -53,109 +54,116 @@ export default function MyJourney() {
   }
 
   return (
-    <StyledFlexWrapper
-      justify="flex-start"
-      padding="1.5rem 0 0"
-      width="100%"
-      gap="2rem"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
     >
-      <StyledFlexWrapper>
-        <StyledHeadingXL color="var(--dark-beige)">
-          Your journey so far
-        </StyledHeadingXL>
+      <StyledFlexWrapper
+        justify="flex-start"
+        padding="1.5rem 0 0"
+        width="100%"
+        gap="2rem"
+      >
+        <StyledFlexWrapper>
+          <StyledHeadingXL color="var(--dark-beige)">
+            Your journey so far
+          </StyledHeadingXL>
+        </StyledFlexWrapper>
+
+        <StyledProgressWrapper>
+          <StyledFlexWrapper direction="row" align="center" margin="0 1.5rem">
+            <StyledFlexWrapper>
+              <StyledImageWrapper
+                background="#f7dba8"
+                borderRadius="50%"
+                padding="0.5rem"
+              >
+                <AccessTimeFilledIcon
+                  style={{ color: '#02070f', fontSize: '2.2rem' }}
+                />
+              </StyledImageWrapper>
+            </StyledFlexWrapper>
+            <StyledFlexWrapper align="flex-start" gap="unset">
+              <StyledHeadingXS
+                borderBottom="unset"
+                textTransform="uppercase"
+                fontWeight="100"
+              >
+                Total time
+              </StyledHeadingXS>
+              <StyledHeadingS fontWeight="700" borderBottom="unset">
+                {' '}
+                {minutesTotal} min
+              </StyledHeadingS>
+            </StyledFlexWrapper>
+          </StyledFlexWrapper>
+
+          <StyledFlexWrapper direction="row" margin="0 1.5rem">
+            <StyledFlexWrapper align="flex-start">
+              <StyledImageWrapper
+                background="#f7dba8"
+                borderRadius="50%"
+                padding="0.5rem"
+              >
+                <SelfImprovementIcon
+                  style={{ color: '#02070f', fontSize: '2.4rem' }}
+                />
+              </StyledImageWrapper>
+            </StyledFlexWrapper>
+            <StyledFlexWrapper align="flex-start" gap="unset">
+              <StyledHeadingXS
+                borderBottom="unset"
+                textTransform="uppercase"
+                fontWeight="100"
+              >
+                Sessions
+              </StyledHeadingXS>
+              <StyledHeadingS borderBottom="unset" fontWeight="700">
+                {' '}
+                {sessionsTotal}
+              </StyledHeadingS>
+            </StyledFlexWrapper>
+          </StyledFlexWrapper>
+
+          <StyledFlexWrapper direction="row" margin="0 1.5rem">
+            <StyledFlexWrapper align="flex-start">
+              <StyledImageWrapper
+                background="#f7dba8"
+                borderRadius="50%"
+                padding="0.5rem"
+              >
+                <EmojiEventsIcon
+                  style={{ color: '#02070f', fontSize: '2.2rem' }}
+                />
+              </StyledImageWrapper>
+            </StyledFlexWrapper>
+            <StyledFlexWrapper align="flex-start" gap="unset">
+              <StyledHeadingXS
+                borderBottom="unset"
+                textTransform="uppercase"
+                fontWeight="100"
+              >
+                Practice streak
+              </StyledHeadingXS>
+              <StyledHeadingS borderBottom="unset" fontWeight="700">
+                {' '}
+                days
+              </StyledHeadingS>
+            </StyledFlexWrapper>
+          </StyledFlexWrapper>
+        </StyledProgressWrapper>
+        <StyledFlexWrapper direction="row" justify="flex-start" margin="unset">
+          <div className="link-wrapper">
+            <StyledLink color="var(--dark-blue)">History</StyledLink>
+            <StyledImageWrapper background="#f7dba8" borderRadius="50%">
+              {' '}
+              <ExpandMoreIcon style={{ color: '#02070f' }} fontSize="medium" />
+            </StyledImageWrapper>
+          </div>
+        </StyledFlexWrapper>
       </StyledFlexWrapper>
-
-      <StyledProgressWrapper>
-        <StyledFlexWrapper direction="row" align="center" margin="0 1.5rem">
-          <StyledFlexWrapper>
-            <StyledImageWrapper
-              background="#f7dba8"
-              borderRadius="50%"
-              padding="0.5rem"
-            >
-              <AccessTimeFilledIcon
-                style={{ color: '#02070f', fontSize: '2.2rem' }}
-              />
-            </StyledImageWrapper>
-          </StyledFlexWrapper>
-          <StyledFlexWrapper align="flex-start" gap="unset">
-            <StyledHeadingXS
-              borderBottom="unset"
-              textTransform="uppercase"
-              fontWeight="100"
-            >
-              Total time
-            </StyledHeadingXS>
-            <StyledHeadingS fontWeight="700" borderBottom="unset">
-              {' '}
-              {minutesTotal} min
-            </StyledHeadingS>
-          </StyledFlexWrapper>
-        </StyledFlexWrapper>
-
-        <StyledFlexWrapper direction="row" margin="0 1.5rem">
-          <StyledFlexWrapper align="flex-start">
-            <StyledImageWrapper
-              background="#f7dba8"
-              borderRadius="50%"
-              padding="0.5rem"
-            >
-              <SelfImprovementIcon
-                style={{ color: '#02070f', fontSize: '2.4rem' }}
-              />
-            </StyledImageWrapper>
-          </StyledFlexWrapper>
-          <StyledFlexWrapper align="flex-start" gap="unset">
-            <StyledHeadingXS
-              borderBottom="unset"
-              textTransform="uppercase"
-              fontWeight="100"
-            >
-              Sessions
-            </StyledHeadingXS>
-            <StyledHeadingS borderBottom="unset" fontWeight="700">
-              {' '}
-              {sessionsTotal}
-            </StyledHeadingS>
-          </StyledFlexWrapper>
-        </StyledFlexWrapper>
-
-        <StyledFlexWrapper direction="row" margin="0 1.5rem">
-          <StyledFlexWrapper align="flex-start">
-            <StyledImageWrapper
-              background="#f7dba8"
-              borderRadius="50%"
-              padding="0.5rem"
-            >
-              <EmojiEventsIcon
-                style={{ color: '#02070f', fontSize: '2.2rem' }}
-              />
-            </StyledImageWrapper>
-          </StyledFlexWrapper>
-          <StyledFlexWrapper align="flex-start" gap="unset">
-            <StyledHeadingXS
-              borderBottom="unset"
-              textTransform="uppercase"
-              fontWeight="100"
-            >
-              Practice streak
-            </StyledHeadingXS>
-            <StyledHeadingS borderBottom="unset" fontWeight="700">
-              {' '}
-              days
-            </StyledHeadingS>
-          </StyledFlexWrapper>
-        </StyledFlexWrapper>
-      </StyledProgressWrapper>
-      <StyledFlexWrapper direction="row" justify="flex-start" margin="unset">
-        <div className="link-wrapper">
-          <StyledLink color="var(--dark-blue)">History</StyledLink>
-          <StyledImageWrapper background="#f7dba8" borderRadius="50%">
-            {' '}
-            <ExpandMoreIcon style={{ color: '#02070f' }} fontSize="medium" />
-          </StyledImageWrapper>
-        </div>
-      </StyledFlexWrapper>
-    </StyledFlexWrapper>
+    </motion.div>
   )
 }

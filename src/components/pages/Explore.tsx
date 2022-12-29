@@ -11,6 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import Video from '../styledComponents/Modal/StyledVideoModal'
+import { motion } from 'framer-motion'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -75,7 +76,12 @@ export default function Explore() {
         <Modal meditation={selectedMeditation} closeModal={hideModal} />
       )}
       {allMeditations && (
-        <>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <StyledFlexWrapper
             justify="flex-start"
             padding="1.5rem 0 0"
@@ -186,7 +192,7 @@ export default function Explore() {
                   )
                 })}
           </StyledFlexWrapper>
-        </>
+        </motion.div>
       )}
     </>
   )

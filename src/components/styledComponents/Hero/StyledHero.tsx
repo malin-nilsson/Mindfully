@@ -28,4 +28,8 @@ export const StyledHeroBg = styled.div`
   background-attachment: fixed;
   padding-bottom: 13rem;
   height: 100%;
+
+  @media ${devices.desktop} {
+    height: 100vh;
+  }
 `
