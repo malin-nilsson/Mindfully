@@ -21,7 +21,7 @@ export const StyledNavStartpage = styled.nav`
   max-width: 13rem;
 
   .logo {
-    padding: 20px;
+    padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
   }

@@ -23,7 +23,7 @@ body {
   cursor: default;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1000px) {
   .desktop-main-content {
     width: 80%;
     margin-left: auto;

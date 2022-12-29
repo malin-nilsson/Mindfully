@@ -14,7 +14,7 @@ export const StyledHero = styled.div`
   }
 
   @media ${devices.desktop} {
-    padding: 0 0 6rem;
+    padding: 0 0 15rem;
     background-size: contain;
     background-attachment: fixed;
   }

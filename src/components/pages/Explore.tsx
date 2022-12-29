@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
@@ -6,12 +6,13 @@ import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrap
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import { IMeditation } from '../../models/IMeditation'
-import Modal from '../styledComponents/Modal/StyledImageModal'
+import ImageModal from '../styledComponents/Modal/StyledImageModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import Video from '../styledComponents/Modal/StyledVideoModal'
+import VideoModal from '../styledComponents/Modal/StyledVideoModal'
 import { motion } from 'framer-motion'
+import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -23,6 +24,7 @@ export default function Explore() {
   const [showFilteredMeditations, setShowFilteredMeditations] = useState(false)
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
+  const [loader, setLoader] = useState(false)
   const [hideMeditations, setHideMeditations] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
@@ -33,6 +35,10 @@ export default function Explore() {
     id: 0,
   })
   const [fillHeart, setFillHeart] = useState(false)
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
 
   const handleOnChange = (e: string) => {
     let filtered: IMeditation[] = []
@@ -51,29 +57,52 @@ export default function Explore() {
   }
 
   const hideModal = () => {
+    setLoader(false)
     setVideoModal(false)
     setImageModal(false)
     setHideMeditations(false)
   }
 
   const showModal = (m: IMeditation) => {
+    setHideMeditations(true)
+    setLoader(true)
     setSelectedMeditation(m)
+
     if (m.tag === 'Guided Breathing Meditation') {
       setImageModal(true)
-      setHideMeditations(true)
+      setTimeout(stopLoader, 2000)
     } else if (m.tag === 'Sound Meditation') {
       setVideoModal(true)
-      setHideMeditations(true)
+      setTimeout(stopLoader, 2500)
     }
+  }
+
+  const stopLoader = () => {
+    setLoader(false)
   }
 
   return (
     <>
+      {loader && <Loader message="Time to relax..."></Loader>}
       {videoModal && (
-        <Video meditation={selectedMeditation} closeModal={hideModal} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <VideoModal meditation={selectedMeditation} closeModal={hideModal} />
+        </motion.div>
       )}
       {imageModal && (
-        <Modal meditation={selectedMeditation} closeModal={hideModal} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <ImageModal meditation={selectedMeditation} closeModal={hideModal} />
+        </motion.div>
       )}
       {allMeditations && (
         <motion.div
@@ -94,7 +123,11 @@ export default function Explore() {
               </StyledHeadingXL>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
-          <StyledFlexWrapper direction="row" color="var(--dark-beige)">
+          <StyledFlexWrapper
+            display={hideMeditations ? 'none' : 'flex'}
+            direction="row"
+            color="var(--dark-beige)"
+          >
             <span>Filter: </span>
             <StyledSelect>
               <span className="select-icon">
@@ -116,6 +149,7 @@ export default function Explore() {
             padding="4rem 1rem 1.5rem"
             direction="row"
             gap="3rem"
+            display={hideMeditations ? 'none' : 'flex'}
           >
             {showFilteredMeditations && filteredMeditations
               ? filteredMeditations.map((meditation) => {

@@ -24,7 +24,7 @@ interface IModalProps {
   closeModal: () => void
 }
 
-export default function Video(props: IModalProps) {
+export default function VideoModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
 
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
@@ -400,7 +400,7 @@ const StyledVideo = styled.div`
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 15;
+  z-index: 25;
 
   .video-container {
     width: 100vw;

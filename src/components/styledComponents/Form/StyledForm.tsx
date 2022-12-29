@@ -5,10 +5,10 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 400px;
-  margin-top: 1rem;
-  background-color: var(--mid-blue);
-  border-radius: 0.9rem;
+  max-width: 430px;
+  margin-top: 0.8rem;
+  background-color: rgba(9, 12, 40, 0.9);
+  border-radius: 5rem;
   padding: 1rem;
   width: 90%;
   color: var(--dark-beige);
@@ -18,7 +18,7 @@ export const StyledForm = styled.form`
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
   @media ${devices.tablet} {
-    padding: 2rem 2.5rem;
+    padding: 2.5rem 3.5rem 0.5rem;
     width: 100%;
   }
 
@@ -57,5 +57,10 @@ export const StyledForm = styled.form`
   a {
     color: var(--dark-beige);
     text-decoration: underline;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 100;
   }
 `

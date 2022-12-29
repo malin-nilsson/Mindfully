@@ -109,7 +109,6 @@ export default function Navbar() {
               margin="0.5rem 0 0"
               className="navbar-signout-btn"
               onClick={() => {
-                navigate('/')
                 signOut(auth)
               }}
             >

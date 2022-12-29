@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyledCard } from '../styledComponents/Card/Card'
 import {
   StyledHeadingXS,
@@ -20,6 +20,7 @@ export default function Profile() {
   })
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
         setUserInfo({

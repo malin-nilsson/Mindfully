@@ -5,18 +5,20 @@ import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import Modal from '../styledComponents/Modal/StyledImageModal'
+import ImageModal from '../styledComponents/Modal/StyledImageModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { getUser } from '../../utils/getUser'
 import { getFavorites } from '../../utils/getFavorites'
-import Video from '../styledComponents/Modal/StyledVideoModal'
 import { motion } from 'framer-motion'
+import Loader from '../styledComponents/Loader/StyledLoader'
+import VideoModal from '../styledComponents/Modal/StyledVideoModal'
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<IMeditation[]>()
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
   const [hideFavorites, setHideFavorites] = useState(false)
+  const [loader, setLoader] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
@@ -27,6 +29,7 @@ export default function Favorites() {
   })
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     showFavorites()
   }, [favorites])
 
@@ -40,6 +43,7 @@ export default function Favorites() {
           setFavorites(faves)
         } else {
           console.log('Document does not exist')
+          setFavorites([])
         }
       } catch (error) {
         console.log(error)
@@ -49,29 +53,51 @@ export default function Favorites() {
 
   const showModal = (m: IMeditation) => {
     setSelectedMeditation(m)
+    setLoader(true)
+    setHideFavorites(true)
+
     if (m.tag === 'Guided Breathing Meditation') {
       setImageModal(true)
-      setHideFavorites(true)
+      setTimeout(stopLoader, 2000)
     } else if (m.tag === 'Sound Meditation') {
       setVideoModal(true)
-      setHideFavorites(true)
+      setTimeout(stopLoader, 2500)
     }
   }
 
   const hideModal = () => {
+    setLoader(false)
     setVideoModal(false)
     setImageModal(false)
     setHideFavorites(false)
   }
 
+  const stopLoader = () => {
+    setLoader(false)
+  }
+
   return (
     <>
+      {loader && <Loader message="Time to relax..."></Loader>}
       {videoModal && (
-        // <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
-        <Video meditation={selectedMeditation} closeModal={hideModal} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <VideoModal meditation={selectedMeditation} closeModal={hideModal} />
+        </motion.div>
       )}
       {imageModal && (
-        <Modal meditation={selectedMeditation} closeModal={hideModal} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <ImageModal meditation={selectedMeditation} closeModal={hideModal} />
+        </motion.div>
       )}
       {favorites && (
         <motion.div
@@ -97,7 +123,7 @@ export default function Favorites() {
                 </StyledImageWrapper>
               </StyledFlexWrapper>
 
-              {favorites === undefined ? (
+              {favorites.length < 1 ? (
                 <StyledFlexWrapper color="var(--dark-beige)">
                   <p>
                     Tap the heart icon nex to any activity to add to your
@@ -110,6 +136,7 @@ export default function Favorites() {
                   gap="2rem"
                   margin="1.5rem 1rem"
                   className="favorites-wrapper"
+                  display={hideFavorites ? 'none' : 'flex'}
                 >
                   {favorites &&
                     favorites.map((favorite) => {

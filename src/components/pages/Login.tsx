@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
@@ -13,17 +13,22 @@ import {
 } from 'firebase/auth'
 import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
+import { motion } from 'framer-motion'
+import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function Login() {
   const auth = getAuth()
   const navigate = useNavigate()
   const [authing, setAuthing] = useState(false)
-
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [authenticating, setAuthenticating] = useState(false)
+  const [loader, setLoader] = useState(false)
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
   const signInWithGoogle = async () => {
     setAuthing(true)
 
@@ -41,7 +46,6 @@ export default function Login() {
         navigate('/home')
       })
       .catch((error) => {
-        console.log(error)
         setErrorMessage(error.message)
         setAuthing(false)
       })
@@ -49,15 +53,16 @@ export default function Login() {
 
   const signInWithEmailPassword = () => {
     if (errorMessage !== '') setErrorMessage('')
-
+    setLoader(true)
     setAuthenticating(true)
 
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        navigate('/home')
+        setTimeout(navigateUser, 3000)
       })
       .catch((error) => {
         console.log(error)
+        setLoader(false)
         setAuthenticating(false)
 
         if (error.code.includes('auth/user-not-found')) {
@@ -73,51 +78,68 @@ export default function Login() {
         }
       })
   }
+  const navigateUser = () => {
+    setLoader(false)
+    navigate('/home')
+  }
 
   return (
-    <StyledFlexWrapper>
-      <StyledForm onSubmit={(e) => e.preventDefault()}>
-        <StyledHeadingM>Welcome back</StyledHeadingM>
-        <div className="input-group">
-          <label>Email</label>
-          <input
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            placeholder="Email address"
-          />
-        </div>
-        <div className="input-group">
-          <label>Password</label>
-          <input
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-          />
-        </div>
-        <StyledButton
-          onClick={() => signInWithEmailPassword()}
-          disabled={authenticating}
-          margin="1rem 0 0.5rem"
-          width="100%"
+    <>
+      {loader ? (
+        <Loader></Loader>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          Log in
-        </StyledButton>
-        <StyledButton
-          type="button"
-          onClick={() => signInWithGoogle()}
-          disabled={authing}
-          bgColor="var(--mid-blue)"
-          color="var(--dark-beige)"
-          border="1px solid var(--dark-beige)"
-          width="100%"
-        >
-          <GoogleIcon></GoogleIcon>Sign in with Google
-        </StyledButton>
-        <p>
-          Don't have an account? <Link to="/signup">Create one.</Link>
-        </p>
-        <p>{errorMessage}</p>
-      </StyledForm>
-    </StyledFlexWrapper>
+          <StyledFlexWrapper>
+            <StyledForm onSubmit={(e) => e.preventDefault()}>
+              <StyledHeadingM>Welcome back</StyledHeadingM>
+              <div className="input-group">
+                <label>Email</label>
+                <input
+                  onChange={(e) => setEmail(e.target.value)}
+                  type="email"
+                  placeholder="Email address"
+                />
+              </div>
+              <div className="input-group">
+                <label>Password</label>
+                <input
+                  onChange={(e) => setPassword(e.target.value)}
+                  type="password"
+                  placeholder="Password"
+                />
+              </div>
+              <StyledButton
+                onClick={() => signInWithEmailPassword()}
+                disabled={authenticating}
+                margin="1rem 0 0.5rem"
+                width="100%"
+              >
+                Log in
+              </StyledButton>
+              <StyledButton
+                type="button"
+                onClick={() => signInWithGoogle()}
+                disabled={authing}
+                bgColor="var(--mid-blue)"
+                color="var(--dark-beige)"
+                border="1px solid var(--dark-beige)"
+                width="100%"
+              >
+                <GoogleIcon></GoogleIcon>Sign in with Google
+              </StyledButton>
+              <p>
+                Don't have an account? <Link to="/signup">Create one.</Link>
+              </p>
+              <p>{errorMessage}</p>
+            </StyledForm>
+          </StyledFlexWrapper>
+        </motion.div>
+      )}
+    </>
   )
 }

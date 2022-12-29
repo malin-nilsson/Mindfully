@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
@@ -14,18 +14,25 @@ import {
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
+import { motion } from 'framer-motion'
+import Loader from '../styledComponents/Loader/StyledLoader'
+import { WindowTwoTone } from '@mui/icons-material'
 
 export default function Signup() {
   const auth = getAuth()
   const navigate = useNavigate()
   const [authing, setAuthing] = useState(false)
-  const [displayName, setDisplayName] = useState('')
+  const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [registering, setRegistering] = useState(false)
   const [confirm, setConfirm] = useState('')
+  const [loader, setLoader] = useState(false)
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  })
   // Sign up with Google
   const signInWithGoogle = async () => {
     setAuthing(true)
@@ -59,26 +66,25 @@ export default function Signup() {
     if (errorMessage !== '') setErrorMessage('')
 
     setRegistering(true)
-
+    setLoader(true)
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCred) => {
         const userData = {
-          firstName: displayName,
+          firstName: firstName,
           email: email,
           createdAt: userCred.user.metadata.creationTime,
         }
+
         await updateProfile(userCred.user, {
           displayName: userData.firstName,
         }).then(async () => {
           await setDoc(doc(db, 'users', userCred.user.uid), {
             userData,
           })
-          navigate('/home')
         })
       })
       .catch((error) => {
         setErrorMessage(error.message)
-        console.log(error)
 
         if (error.code.includes('auth/weak-password')) {
           setErrorMessage('Please enter a stronger password.')
@@ -94,60 +100,76 @@ export default function Signup() {
   }
 
   return (
-    <StyledFlexWrapper>
-      <StyledForm onSubmit={(e) => e.preventDefault()}>
-        <StyledHeadingM>Create an account</StyledHeadingM>
-        <div className="input-group">
-          <label>What's your first name?</label>
-          <input
-            type="text"
-            placeholder="First name"
-            onChange={(e) => setDisplayName(e.target.value)}
-          />
-        </div>
-        <div className="input-group">
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Email"
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="input-group">
-          <label>Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <StyledButton
-          onClick={() =>
-            signUpWithEmailAndPassword(email, password, displayName)
-          }
-          type="button"
-          margin="1rem 0 0.5rem"
-          disabled={registering}
-          width="100%"
+    <>
+      {loader ? (
+        <Loader></Loader>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
         >
-          Create account
-        </StyledButton>
-        <StyledButton
-          type="button"
-          onClick={() => signInWithGoogle()}
-          disabled={authing}
-          bgColor="var(--mid-blue)"
-          color="var(--dark-beige)"
-          border="1px solid var(--dark-beige)"
-          width="100%"
-        >
-          <GoogleIcon></GoogleIcon>Sign up with Google
-        </StyledButton>
-        <p>
-          Already have an account? <Link to="/login">Log in.</Link>
-        </p>
-        <p>{errorMessage}</p>
-      </StyledForm>
-    </StyledFlexWrapper>
+          <StyledFlexWrapper>
+            <StyledForm onSubmit={(e) => e.preventDefault()}>
+              <StyledHeadingM>Sign up</StyledHeadingM>
+              <p>
+                Creating an account enables you to save your progress &#128522;
+              </p>
+              <div className="input-group">
+                <label>First name</label>
+                <input
+                  type="text"
+                  placeholder="First name"
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div className="input-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="input-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <StyledButton
+                onClick={() =>
+                  signUpWithEmailAndPassword(email, password, firstName)
+                }
+                type="button"
+                margin="1rem 0 0.5rem"
+                disabled={registering}
+                width="100%"
+              >
+                Create account
+              </StyledButton>
+              <StyledButton
+                type="button"
+                onClick={() => signInWithGoogle()}
+                disabled={authing}
+                bgColor="var(--mid-blue)"
+                color="var(--dark-beige)"
+                border="1px solid var(--dark-beige)"
+                width="100%"
+              >
+                <GoogleIcon></GoogleIcon>Sign up with Google
+              </StyledButton>
+              <p>
+                Already have an account? <Link to="/login">Log in.</Link>
+              </p>
+              <p>{errorMessage}</p>
+            </StyledForm>
+          </StyledFlexWrapper>
+        </motion.div>
+      )}
+    </>
   )
 }

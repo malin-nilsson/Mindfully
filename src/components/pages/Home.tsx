@@ -9,17 +9,15 @@ import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth'
 import { motion } from 'framer-motion'
 
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)
   const [cards, setCards] = useState(true)
-  const [loading, setLoading] = useState(true)
   const [displayName, setDisplayName] = useState('')
   const auth = getAuth()
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(true)
   const [greeting, setGreeting] = useState('')
 
   useEffect(() => {
@@ -30,12 +28,11 @@ export default function Home() {
         const name = user.displayName as string
         const firstName = name.split(' ')[0]
         setDisplayName(firstName)
-        setIsLoading(false)
       } else {
         navigate('/')
       }
     })
-  }, [auth, greeting])
+  }, [auth])
 
   const getGreeting = async () => {
     let data = [
@@ -54,66 +51,62 @@ export default function Home() {
   }
 
   return (
-    <>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
+    >
+      <>
+        <StyledFlexWrapper
+          justify="flex-start"
+          padding="1.5rem 0 0"
+          width="100%"
         >
-          <StyledFlexWrapper
-            justify="flex-start"
-            padding="1.5rem 0 0"
-            width="100%"
-          >
-            <StyledFlexWrapper>
-              <StyledHeadingL color="var(--dark-beige)">
-                {greeting}, {displayName}.
-              </StyledHeadingL>
-            </StyledFlexWrapper>
+          <StyledFlexWrapper>
+            <StyledHeadingL color="var(--dark-beige)">
+              {greeting}, {displayName}.
+            </StyledHeadingL>
           </StyledFlexWrapper>
+        </StyledFlexWrapper>
 
-          <StyledFlexWrapper padding="2rem 0 1.5rem" direction="row" gap="3rem">
-            <Link to="/explore">
-              <StyledCard>
-                <StyledHeadingS color="var(--mid-blue)">
-                  Find a Meditation
-                </StyledHeadingS>
-
-                <StyledImageWrapper maxHeight="40px">
-                  <img src="/assets/icons/zen.png"></img>
-                </StyledImageWrapper>
-
-                <p>
-                  Explore the library and come back every time you need a
-                  mindful break.
-                </p>
-              </StyledCard>
-            </Link>
-
-            <StyledCard
-              onClick={() => {
-                setSelfAssessment(true)
-                setCards(false)
-              }}
-            >
+        <StyledFlexWrapper padding="2rem 0 1.5rem" direction="row" gap="3rem">
+          <Link to="/explore">
+            <StyledCard>
               <StyledHeadingS color="var(--mid-blue)">
-                Self assessment
+                Find a Meditation
               </StyledHeadingS>
+
               <StyledImageWrapper maxHeight="40px">
-                <img src="/assets/icons/lightbulb.png"></img>
+                <img src="/assets/icons/zen.png"></img>
               </StyledImageWrapper>
+
               <p>
-                Take a quick assessment and see which meditation fits you the
-                best at this moment.
+                Explore the library and come back every time you need a mindful
+                break.
               </p>
             </StyledCard>
-          </StyledFlexWrapper>
-        </motion.div>
-      )}
+          </Link>
+
+          <StyledCard
+            onClick={() => {
+              setSelfAssessment(true)
+              setCards(false)
+            }}
+          >
+            <StyledHeadingS color="var(--mid-blue)">
+              Self assessment
+            </StyledHeadingS>
+            <StyledImageWrapper maxHeight="40px">
+              <img src="/assets/icons/lightbulb.png"></img>
+            </StyledImageWrapper>
+            <p>
+              Take a quick assessment and see which meditation fits you the best
+              at this moment.
+            </p>
+          </StyledCard>
+        </StyledFlexWrapper>
+      </>
 
       {selfAssessment && (
         <>
@@ -145,6 +138,6 @@ export default function Home() {
           </StyledFlexWrapper>
         </>
       )}
-    </>
+    </motion.div>
   )
 }
