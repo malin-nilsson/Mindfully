@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
@@ -6,10 +6,11 @@ import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrap
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import { IMeditation } from '../../models/IMeditation'
-import Modal from '../styledComponents/Modal/StyledModal'
+import Modal from '../styledComponents/Modal/StyledImageModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import Video from '../styledComponents/Modal/StyledVideoModal'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -19,7 +20,9 @@ export default function Explore() {
     IMeditation[]
   >()
   const [showFilteredMeditations, setShowFilteredMeditations] = useState(false)
-  const [modal, setModal] = useState(false)
+  const [videoModal, setVideoModal] = useState(false)
+  const [imageModal, setImageModal] = useState(false)
+  const [hideMeditations, setHideMeditations] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
@@ -47,24 +50,37 @@ export default function Explore() {
   }
 
   const hideModal = () => {
-    setModal(false)
+    setVideoModal(false)
+    setImageModal(false)
+    setHideMeditations(false)
   }
 
-  const showMeditation = (m: IMeditation) => {
+  const showModal = (m: IMeditation) => {
     setSelectedMeditation(m)
-    setModal(true)
+    if (m.tag === 'Guided Breathing Meditation') {
+      setImageModal(true)
+      setHideMeditations(true)
+    } else if (m.tag === 'Sound Meditation') {
+      setVideoModal(true)
+      setHideMeditations(true)
+    }
   }
 
   return (
     <>
-      {modal ? (
-        <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
-      ) : (
+      {videoModal && (
+        <Video meditation={selectedMeditation} closeModal={hideModal} />
+      )}
+      {imageModal && (
+        <Modal meditation={selectedMeditation} closeModal={hideModal} />
+      )}
+      {allMeditations && (
         <>
           <StyledFlexWrapper
             justify="flex-start"
             padding="1.5rem 0 0"
             width="100%"
+            display={hideMeditations ? 'none' : 'flex'}
           >
             <StyledFlexWrapper>
               <StyledHeadingXL color="var(--dark-beige)">
@@ -99,6 +115,7 @@ export default function Explore() {
               ? filteredMeditations.map((meditation) => {
                   return (
                     <StyledMeditationCard
+                      display={hideMeditations ? 'none' : 'flex'}
                       borderRadius="15px"
                       height="11rem"
                       justify="center"
@@ -107,7 +124,7 @@ export default function Explore() {
                       background="var(--dark-blue)"
                       border="1px solid var(--light-blue)"
                       color="var(--dark-beige)"
-                      onClick={() => showMeditation(meditation)}
+                      onClick={() => showModal(meditation)}
                     >
                       <StyledImageWrapper maxHeight="50px">
                         <img src={meditation.icon} alt="Emoji"></img>
@@ -135,6 +152,7 @@ export default function Explore() {
                 allMeditations.map((meditation) => {
                   return (
                     <StyledMeditationCard
+                      display={hideMeditations ? 'none' : 'flex'}
                       borderRadius="15px"
                       height="11rem"
                       justify="center"
@@ -143,7 +161,7 @@ export default function Explore() {
                       background="var(--dark-blue)"
                       border="1px solid var(--light-blue)"
                       color="var(--dark-beige)"
-                      onClick={() => showMeditation(meditation)}
+                      onClick={() => showModal(meditation)}
                     >
                       <StyledImageWrapper maxHeight="50px">
                         <img src={meditation.icon} alt="Emoji"></img>

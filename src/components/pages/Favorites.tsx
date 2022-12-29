@@ -1,24 +1,21 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { doc, getDoc } from 'firebase/firestore'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { db } from '../../firebase/config'
 import { IMeditation } from '../../models/IMeditation'
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import Modal from '../styledComponents/Modal/StyledModal'
+import Modal from '../styledComponents/Modal/StyledImageModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { getUser } from '../../utils/getUser'
 import { getFavorites } from '../../utils/getFavorites'
-import Video from '../styledComponents/Video/StyledVideo'
+import Video from '../styledComponents/Modal/StyledVideoModal'
 
 export default function Favorites() {
-  const auth = getAuth()
-  const navigate = useNavigate()
   const [favorites, setFavorites] = useState<IMeditation[]>()
-  const [modal, setModal] = useState(false)
+  const [videoModal, setVideoModal] = useState(false)
+  const [imageModal, setImageModal] = useState(false)
+  const [hideFavorites, setHideFavorites] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
@@ -29,14 +26,8 @@ export default function Favorites() {
   })
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        showFavorites()
-      } else {
-        navigate('/')
-      }
-    })
-  }, [auth, favorites])
+    showFavorites()
+  }, [favorites])
 
   const showFavorites = async () => {
     const userRef = await getUser()
@@ -55,25 +46,38 @@ export default function Favorites() {
     }
   }
 
-  const showMeditation = (m: IMeditation) => {
+  const showModal = (m: IMeditation) => {
     setSelectedMeditation(m)
-    setModal(true)
+    if (m.tag === 'Guided Breathing Meditation') {
+      setImageModal(true)
+      setHideFavorites(true)
+    } else if (m.tag === 'Sound Meditation') {
+      setVideoModal(true)
+      setHideFavorites(true)
+    }
   }
 
   const hideModal = () => {
-    setModal(false)
+    setVideoModal(false)
+    setImageModal(false)
+    setHideFavorites(false)
   }
 
   return (
     <>
-      {modal ? (
+      {videoModal && (
         // <Modal meditation={selectedMeditation} closeModal={hideModal}></Modal>
         <Video meditation={selectedMeditation} closeModal={hideModal} />
-      ) : (
+      )}
+      {imageModal && (
+        <Modal meditation={selectedMeditation} closeModal={hideModal} />
+      )}
+      {favorites && (
         <StyledFlexWrapper
           justify="flex-start"
           padding="1.5rem 0 0"
           width="100%"
+          display={hideFavorites ? 'none' : 'flex'}
         >
           <StyledFlexWrapper width="100%">
             <StyledHeadingXL color="var(--dark-beige)">
@@ -111,7 +115,7 @@ export default function Favorites() {
                         background="var(--dark-blue)"
                         border="1px solid var(--light-blue)"
                         color="var(--dark-beige)"
-                        onClick={() => showMeditation(favorite)}
+                        onClick={() => showModal(favorite)}
                       >
                         <StyledImageWrapper maxHeight="50px">
                           <img src={favorite.icon} alt="Emoji"></img>

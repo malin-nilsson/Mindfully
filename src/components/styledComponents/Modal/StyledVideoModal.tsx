@@ -1,34 +1,32 @@
 import styled from 'styled-components'
+import { devices } from '../../breakpoints/Breakpoints'
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
-import CloseIcon from '@mui/icons-material/Close'
-import { StyledCard } from '../Card/Card'
-import { StyledHeadingM, StyledHeadingXS } from '../Headings/StyledHeadings'
 import UpdateIcon from '@mui/icons-material/Update'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import CloseIcon from '@mui/icons-material/Close'
+import { IMeditation } from '../../../models/IMeditation'
+import { useEffect, useRef, useState } from 'react'
+import { differenceInMinutes } from 'date-fns'
+import { arrayUnion, updateDoc } from 'firebase/firestore'
+import { getFavorites } from '../../../utils/getFavorites'
+import { getProgress } from '../../../utils/getProgress'
+import { getUser } from '../../../utils/getUser'
 import { Slider } from '@mui/material'
 import { StyledButton } from '../Button/StyledButton'
-import { devices } from '../../breakpoints/Breakpoints'
-import { useEffect, useRef, useState } from 'react'
-import { IMeditation } from '../../../models/IMeditation'
-import { IStylingProps } from '../models/IStylingProps'
-import { arrayUnion, updateDoc } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
-import { getFavorites } from '../../../utils/getFavorites'
-import { getUser } from '../../../utils/getUser'
-import differenceInMinutes from 'date-fns/differenceInMinutes'
-import { getProgress } from '../../../utils/getProgress'
+import { StyledCard } from '../Card/Card'
+import { StyledHeadingXS, StyledHeadingM } from '../Headings/StyledHeadings'
 
 interface IModalProps {
   meditation: IMeditation
   closeModal: () => void
 }
 
-export default function Modal(props: IModalProps) {
-  const auth = getAuth()
+export default function Video(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
+
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     id: 0,
     tag: '',
@@ -41,6 +39,7 @@ export default function Modal(props: IModalProps) {
   const [sliderValue, setSliderValue] = useState(5)
   const [startTime, setStartTime] = useState<Date | number>()
   const ref = useRef<HTMLAudioElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const Ref = useRef<ReturnType<typeof setInterval> | null>(null)
   const [timer, setTimer] = useState('00:00:00')
   const [meditatedMinutes, setMeditatedMinutes] = useState(0)
@@ -187,12 +186,13 @@ export default function Modal(props: IModalProps) {
     setStartTime(new Date())
     onClickReset(sliderValue)
     ref.current?.play()
+    videoRef.current?.play()
     setIsMeditating(true)
   }
 
   const stopMeditation = () => {
     if (Ref.current) clearInterval(Ref.current)
-
+    videoRef.current?.pause()
     ref.current?.pause()
     setIsMeditating(false)
 
@@ -232,171 +232,202 @@ export default function Modal(props: IModalProps) {
   }
 
   return (
-    <StyledModal backgroundImage={`url(${props.meditation.img})`}>
-      <StyledFlexWrapper
-        align="flex-end"
-        justify="flex-end"
-        direction="row"
-        padding="2rem 1rem"
-        width="auto"
-        margin="unset"
-        gap="1.5rem"
-        className="modal-wrapper"
-      >
-        <StyledImageWrapper
-          borderRadius="50%"
-          background="var(--dark-blue)"
-          padding="0.6rem"
-          className="icon"
-          onClick={() => {
-            if (fillHeart) {
-              removeFavorite(props.meditation)
-            } else {
-              saveFavorite(props.meditation)
-            }
-          }}
-        >
-          {fillHeart ? (
-            <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="medium" />
-          ) : (
-            <FavoriteBorderIcon
-              style={{ color: '#f7dba8' }}
-              fontSize="medium"
-            />
-          )}
-        </StyledImageWrapper>
+    <StyledVideo>
+      <div className="video-container">
+        <div className="video">
+          <video ref={videoRef} loop muted>
+            <source src={props.meditation.video} />
+          </video>
+        </div>
 
-        <StyledImageWrapper
+        <StyledFlexWrapper
           align="flex-end"
-          borderRadius="50%"
-          background="var(--dark-blue)"
-          padding="0.6rem"
-          className="icon"
-          onClick={() => props.closeModal()}
+          justify="flex-end"
+          direction="row"
+          padding="2rem 1rem"
+          width="auto"
+          margin="unset"
+          gap="1.5rem"
+          className="modal-wrapper"
         >
-          <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
-        </StyledImageWrapper>
-      </StyledFlexWrapper>
-      <StyledFlexWrapper
-        justify="flex-start"
-        align="center"
-        direction="row"
-        className="modal-footer-wrapper"
-      >
-        <audio ref={ref} loop>
-          <source src={props.meditation.audio} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-        <StyledFlexWrapper margin="unset">
-          <ArrowBackIosNewIcon
-            fontSize="large"
-            style={{ color: 'var(--dark-beige)' }}
-          />
+          <StyledImageWrapper
+            borderRadius="50%"
+            background="var(--dark-blue)"
+            padding="0.6rem"
+            className="icon"
+            onClick={() => {
+              if (fillHeart) {
+                removeFavorite(props.meditation)
+              } else {
+                saveFavorite(props.meditation)
+              }
+            }}
+          >
+            {fillHeart ? (
+              <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="medium" />
+            ) : (
+              <FavoriteBorderIcon
+                style={{ color: '#f7dba8' }}
+                fontSize="medium"
+              />
+            )}
+          </StyledImageWrapper>
+
+          <StyledImageWrapper
+            align="flex-end"
+            borderRadius="50%"
+            background="var(--dark-blue)"
+            padding="0.6rem"
+            className="icon"
+            onClick={() => props.closeModal()}
+          >
+            <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
+          </StyledImageWrapper>
         </StyledFlexWrapper>
-        <StyledCard
-          align="flex-start"
-          width="unset"
-          className="modal-card"
-          justify="center"
+
+        <StyledFlexWrapper
+          justify="flex-start"
+          align="center"
+          direction="row"
+          className="modal-footer-wrapper"
         >
-          <StyledFlexWrapper
-            direction="row"
-            align="center"
-            justify="flex-start"
-            margin="unset"
-          >
-            <UpdateIcon />
-            <StyledHeadingXS
-              textTransform="unset"
-              color="var(--dark-blue)"
-              borderBottom="none"
-              fontSize="1rem"
-            >
-              Meditation length
-            </StyledHeadingXS>
-            {timer}
-          </StyledFlexWrapper>
+          <audio ref={ref} loop>
+            <source src={props.meditation.audio} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
 
-          <StyledFlexWrapper
-            direction="row"
-            align="center"
-            justify="flex-start"
-            margin="unset"
-            width="100%"
-            gap="unset"
-          >
-            <StyledFlexWrapper gap="unset" margin="unset" align="flex-start">
-              <StyledHeadingM fontWeight="700" color="var(--dark-blue)">
-                {sliderValue}
-              </StyledHeadingM>
-              <StyledHeadingXS
-                textTransform="unset"
-                color="var(--dark-blue)"
-                borderBottom="none"
-              >
-                minutes
-              </StyledHeadingXS>
-            </StyledFlexWrapper>
-
-            <StyledFlexWrapper width="60%">
-              <Slider
-                aria-label="Minutes"
-                defaultValue={5}
-                valueLabelDisplay="auto"
-                onChange={(event, value) => {
-                  setSliderValue(value as number)
-                }}
-                step={5}
-                marks
-                min={5}
-                max={60}
-                style={{ color: '#001432' }}
+          <StyledFlexWrapper margin="unset" direction="row">
+            <StyledFlexWrapper margin="unset">
+              <ArrowBackIosNewIcon
+                fontSize="large"
+                style={{ color: 'var(--dark-beige)' }}
               />
             </StyledFlexWrapper>
-            <StyledFlexWrapper width="100%">
-              <StyledButton
-                width="100%"
-                bgColor="var(--dark-blue)"
-                color="var(--dark-beige)"
-                margin="1rem 0"
-                fontWeight="300"
-                onClick={() => {
-                  isMeditating ? stopMeditation() : startMeditation()
-                }}
+            <StyledCard
+              align="flex-start"
+              className="modal-card"
+              justify="center"
+            >
+              <StyledFlexWrapper
+                direction="row"
+                align="center"
+                justify="flex-start"
+                margin="unset"
               >
-                {isMeditating ? 'Finish' : 'Start meditation'}
-              </StyledButton>
-            </StyledFlexWrapper>
+                <UpdateIcon />
+                <StyledHeadingXS
+                  textTransform="unset"
+                  color="var(--dark-blue)"
+                  borderBottom="none"
+                  fontSize="1rem"
+                >
+                  Meditation length
+                </StyledHeadingXS>
+                {timer}
+              </StyledFlexWrapper>
+
+              <StyledFlexWrapper
+                direction="row"
+                align="center"
+                justify="flex-start"
+                margin="unset"
+                width="100%"
+                gap="unset"
+              >
+                <StyledFlexWrapper
+                  gap="unset"
+                  margin="unset"
+                  align="flex-start"
+                >
+                  <StyledHeadingM fontWeight="700" color="var(--dark-blue)">
+                    {sliderValue}
+                  </StyledHeadingM>
+                  <StyledHeadingXS
+                    textTransform="unset"
+                    color="var(--dark-blue)"
+                    borderBottom="none"
+                  >
+                    minutes
+                  </StyledHeadingXS>
+                </StyledFlexWrapper>
+
+                <StyledFlexWrapper width="60%">
+                  <Slider
+                    aria-label="Minutes"
+                    defaultValue={5}
+                    valueLabelDisplay="auto"
+                    onChange={(event, value) => {
+                      setSliderValue(value as number)
+                    }}
+                    step={5}
+                    marks
+                    min={5}
+                    max={60}
+                    style={{ color: '#001432' }}
+                  />
+                </StyledFlexWrapper>
+                <StyledFlexWrapper width="100%">
+                  <StyledButton
+                    width="100%"
+                    bgColor="var(--dark-blue)"
+                    color="var(--dark-beige)"
+                    margin="1rem 0"
+                    fontWeight="300"
+                    onClick={() => {
+                      isMeditating ? stopMeditation() : startMeditation()
+                    }}
+                  >
+                    {isMeditating ? 'Finish' : 'Start meditation'}
+                  </StyledButton>
+                </StyledFlexWrapper>
+              </StyledFlexWrapper>
+            </StyledCard>
           </StyledFlexWrapper>
-        </StyledCard>
-      </StyledFlexWrapper>
-    </StyledModal>
+        </StyledFlexWrapper>
+      </div>
+    </StyledVideo>
   )
 }
 
-export const StyledModal = styled.div`
+const StyledVideo = styled.div`
   height: 100vh;
   width: 100vw;
-  background: black;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  background-image: ${(props: IStylingProps) => props.backgroundImage || ''};
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
   position: absolute;
   top: 0;
-  left: 0;
-  z-index: 10;
+  right: 0;
+  z-index: 15;
 
-  @media ${devices.desktop} {
-    justify-content: space-between;
+  .video-container {
+    width: 100vw;
+  }
+
+  video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    object-position: top center;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }
+
+  .modal-wrapper {
+    position: relative;
+    margin-left: auto;
   }
 
   .modal-footer-wrapper {
     gap: 0.5rem;
     margin: 0;
+    position: fixed;
+    bottom: 0;
 
     @media ${devices.tablet} {
       gap: 2rem;

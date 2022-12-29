@@ -1,13 +1,9 @@
-import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { StyledHeroBg } from './styledComponents/Hero/StyledHero'
-import Modal from './styledComponents/Modal/StyledModal'
 import Navbar from './styledComponents/Navbar/StyledNavbar'
 import { StyledGridWrapper } from './styledComponents/Wrappers/StyledGridWrapper'
 
 export default function Layout() {
-  const [modal, setModal] = useState(false)
-
   return (
     <>
       <StyledGridWrapper>

@@ -3,7 +3,7 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledFlexWrapper = styled.div`
-  display: flex;
+  display: ${(props: IStylingProps) => props.display || 'flex'};
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   flex-wrap: wrap;
   justify-content: ${(props: IStylingProps) => props.justify || 'center'};

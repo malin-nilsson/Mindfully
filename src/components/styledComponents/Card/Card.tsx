@@ -3,7 +3,7 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledCard = styled.div`
-  display: flex;
+  display: ${(props: IStylingProps) => props.display || 'flex'};
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: ${(props: IStylingProps) => props.gap || '2rem'};
   justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
