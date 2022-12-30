@@ -5,7 +5,7 @@ import { IStylingProps } from '../models/IStylingProps'
 export const StyledLogoIcon = styled.div`
   position: ${(props: IStylingProps) => props.position || 'absolute'};
   padding: 1rem;
-  z-index: 7;
+
   cursor: pointer;
 
   @media ${devices.desktop} {

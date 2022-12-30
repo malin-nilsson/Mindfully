@@ -23,6 +23,7 @@ export const StyledButton = styled.button`
   @media ${devices.tablet} {
     font-size: ${(props: IStylingProps) => props.fontSize || '1rem'};
     width: ${(props: IStylingProps) => props.width || '100%'};
+    padding: 1.3rem 2rem;
   }
 
   @media ${devices.desktop} {

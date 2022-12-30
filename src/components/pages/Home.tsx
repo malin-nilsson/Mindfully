@@ -21,6 +21,7 @@ export default function Home() {
   const [greeting, setGreeting] = useState('')
 
   useEffect(() => {
+    window.scrollTo(0, 0)
     getGreeting()
 
     onAuthStateChanged(auth, (user) => {

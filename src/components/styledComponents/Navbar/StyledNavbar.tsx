@@ -149,7 +149,6 @@ const StyledNavLinks = styled.nav`
   align-items: center;
   font-family: var(--text-font);
   position: relative;
-  z-index: 5;
   border-bottom: 1px solid var(--dark-beige);
 
   @media ${devices.desktop} {

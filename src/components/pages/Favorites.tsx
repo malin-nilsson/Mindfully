@@ -31,7 +31,7 @@ export default function Favorites() {
   useEffect(() => {
     window.scrollTo(0, 0)
     showFavorites()
-  }, [favorites])
+  }, [])
 
   const showFavorites = async () => {
     const userRef = await getUser()
@@ -78,7 +78,7 @@ export default function Favorites() {
 
   return (
     <>
-      {loader && <Loader message="Time to relax..."></Loader>}
+      {loader && <Loader message="Take a deep breath..."></Loader>}
       {videoModal && (
         <motion.div
           initial={{ opacity: 0 }}

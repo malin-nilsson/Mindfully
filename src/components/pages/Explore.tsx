@@ -83,7 +83,7 @@ export default function Explore() {
 
   return (
     <>
-      {loader && <Loader message="Time to relax..."></Loader>}
+      {loader && <Loader message="Take a deep breath..."></Loader>}
       {videoModal && (
         <motion.div
           initial={{ opacity: 0 }}

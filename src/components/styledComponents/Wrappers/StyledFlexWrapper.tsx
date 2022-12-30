@@ -27,6 +27,36 @@ export const StyledFlexWrapper = styled.div`
     }
   }
 
+  .landing-wrapper {
+    display: flex;
+
+    @media ${devices.tablet} {
+      gap: 3rem;
+    }
+    @media ${devices.desktop} {
+      gap: 6rem;
+    }
+  }
+  .landing-heading-wrapper {
+    padding: 1.5rem 0 0;
+
+    @media ${devices.desktop} {
+      width: 50%;
+      padding: 2rem 0;
+    }
+  }
+
+  .timer {
+    font-size: 2rem;
+    color: var(--dark-beige);
+    -webkit-text-stroke: 1px var(--mid-blue);
+    font-weight: 500;
+
+    @media ${devices.desktop} {
+      font-size: 2.7rem;
+    }
+  }
+
   .link-wrapper {
     display: flex;
     flex-direction: row;

@@ -2,6 +2,25 @@ import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
+export const StyledHeadingXXL = styled.h1`
+  font-family: var(--text-font);
+  font-size: 3rem;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
+  text-align: center;
+
+  @media ${devices.tablet} {
+    font-size: 3.5rem;
+  }
+
+  @media ${devices.desktop} {
+    font-size: 4rem;
+    text-align: left;
+  }
+`
+
 export const StyledHeadingXL = styled.h1`
   font-family: var(--logo-font);
   font-size: 2.3rem;
@@ -33,14 +52,14 @@ export const StyledHeadingL = styled.h2`
 export const StyledHeadingM = styled.h3`
   font-family: var(--text-font);
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
-  font-size: 1.7rem;
+  font-size: ${(props: IStylingProps) => props.fontSize || '1.7rem'};
   margin: 0;
-  padding: 0;
+  padding: ${(props: IStylingProps) => props.padding || '0'};
   text-align: left;
   font-weight: ${(props: IStylingProps) => props.fontWeight || '300'};
 
   @media ${devices.tablet} {
-    font-size: 2rem;
+    font-size: ${(props: IStylingProps) => props.fontSize || '2rem'};
   }
 `
 

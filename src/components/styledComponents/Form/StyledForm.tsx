@@ -9,7 +9,7 @@ export const StyledForm = styled.form`
   margin-top: 0.8rem;
   background-color: rgba(9, 12, 40, 0.9);
   border-radius: 5rem;
-  padding: 1rem;
+  padding: 2.5rem 1rem;
   width: 90%;
   color: var(--dark-beige);
 

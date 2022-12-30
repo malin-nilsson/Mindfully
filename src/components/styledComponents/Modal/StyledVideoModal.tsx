@@ -18,6 +18,8 @@ import { Slider } from '@mui/material'
 import { StyledButton } from '../Button/StyledButton'
 import { StyledCard } from '../Card/Card'
 import { StyledHeadingXS, StyledHeadingM } from '../Headings/StyledHeadings'
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled'
+import StopCircleIcon from '@mui/icons-material/StopCircle'
 
 interface IModalProps {
   meditation: IMeditation
@@ -296,7 +298,7 @@ export default function VideoModal(props: IModalProps) {
             Your browser does not support the audio element.
           </audio>
 
-          <StyledFlexWrapper margin="unset" direction="row">
+          <StyledFlexWrapper margin="unset" direction="row" width="100%">
             <StyledFlexWrapper margin="unset">
               <ArrowBackIosNewIcon
                 fontSize="large"
@@ -321,9 +323,8 @@ export default function VideoModal(props: IModalProps) {
                   borderBottom="none"
                   fontSize="1rem"
                 >
-                  Meditation length
+                  Sound meditation timer
                 </StyledHeadingXS>
-                {timer}
               </StyledFlexWrapper>
 
               <StyledFlexWrapper
@@ -376,12 +377,23 @@ export default function VideoModal(props: IModalProps) {
                     onClick={() => {
                       isMeditating ? stopMeditation() : startMeditation()
                     }}
+                    className="modal-button"
                   >
-                    {isMeditating ? 'Finish' : 'Start meditation'}
+                    <StyledImageWrapper>
+                      {isMeditating ? (
+                        <StopCircleIcon />
+                      ) : (
+                        <PlayCircleFilledIcon />
+                      )}
+                    </StyledImageWrapper>
+                    {isMeditating ? 'Finish' : 'Play'}
                   </StyledButton>
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
             </StyledCard>
+            <StyledFlexWrapper margin="unset">
+              <span className="timer">{timer}</span>
+            </StyledFlexWrapper>
           </StyledFlexWrapper>
         </StyledFlexWrapper>
       </div>
@@ -401,6 +413,11 @@ const StyledVideo = styled.div`
   top: 0;
   right: 0;
   z-index: 25;
+
+  @media ${devices.desktop} {
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
   .video-container {
     width: 100vw;
@@ -427,11 +444,26 @@ const StyledVideo = styled.div`
     gap: 0.5rem;
     margin: 0;
     position: fixed;
-    bottom: 0;
+    top: 50;
+    width: 100%;
 
     @media ${devices.tablet} {
       gap: 2rem;
       margin: 0 1rem 1rem;
+    }
+
+    @media ${devices.desktop} {
+      position: fixed;
+      bottom: 0;
+      width: unset;
+    }
+  }
+
+  .modal-button {
+    padding: 1rem;
+
+    @media ${devices.desktop} {
+      padding: 1.3rem 2rem;
     }
   }
 
@@ -442,13 +474,13 @@ const StyledVideo = styled.div`
     gap: 1rem;
 
     @media ${devices.tablet} {
-      padding: 1rem 1.5rem;
+      width: 60%;
     }
 
     @media ${devices.desktop} {
       padding: 1rem 1.5rem;
       width: 25rem;
-      height: 13rem;
+      height: 15rem;
       justify-content: center;
       gap: 1.5rem;
     }
