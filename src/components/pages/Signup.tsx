@@ -11,6 +11,7 @@ import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   updateProfile,
+  getAdditionalUserInfo,
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
@@ -39,16 +40,24 @@ export default function Signup() {
 
     signInWithPopup(auth, new GoogleAuthProvider())
       .then(async (response) => {
-        const userData = {
-          firstName: response.user.displayName,
-          email: response.user.email,
-          createdAt: response.user.metadata.creationTime,
-        }
+        const additionalUserInfo = getAdditionalUserInfo(response)
 
-        await setDoc(doc(db, 'users', response.user.uid), {
-          userData,
-        })
-        navigate('/home')
+        // Check if user already exists
+        const isNewUser = additionalUserInfo && additionalUserInfo.isNewUser
+        if (!isNewUser) {
+          navigate('/home')
+        } else {
+          const userData = {
+            firstName: response.user.displayName,
+            email: response.user.email,
+            createdAt: response.user.metadata.creationTime,
+          }
+
+          await setDoc(doc(db, 'users', response.user.uid), {
+            userData,
+          })
+          navigate('/home')
+        }
       })
       .catch((error) => {
         console.log(error)

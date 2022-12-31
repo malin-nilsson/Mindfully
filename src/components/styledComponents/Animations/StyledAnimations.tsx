@@ -6,17 +6,30 @@ import { StyledHeadingM } from '../Headings/StyledHeadings'
 
 interface IAnimationProps {
   meditation: IMeditation
+  handleTime: (time: Date | number) => void
 }
 
 export default function Animation(props: IAnimationProps) {
+  const [isMeditating, setIsMeditating] = useState(false)
+
+  const interval = useRef<ReturnType<typeof setInterval> | null>(null)
+  // Refs for animation
   const outerContainer = useRef<HTMLDivElement | null>(null)
   const circle = useRef<HTMLDivElement | null>(null)
   const text = useRef<HTMLParagraphElement | null>(null)
   const ball = useRef<HTMLDivElement | null>(null)
   const button = useRef<HTMLButtonElement | null>(null)
-  const [isMeditating, setIsMeditating] = useState(false)
-  const interval = useRef<ReturnType<typeof setInterval> | null>(null)
+  //
 
+  const handleFourBreathing = () => {
+    props.handleTime(new Date())
+    fourBreathing()
+  }
+
+  const handleBoxBreathing = () => {
+    props.handleTime(new Date())
+    boxBreathing()
+  }
   /// Box Breathing animation //
   const boxBreathing = () => {
     setIsMeditating(true)
@@ -136,8 +149,8 @@ export default function Animation(props: IAnimationProps) {
         width="10%"
         onClick={() => {
           props.meditation.title === '4-7-8 Breathing Technique'
-            ? fourBreathing()
-            : boxBreathing()
+            ? handleFourBreathing()
+            : handleBoxBreathing()
         }}
         ref={button}
       >

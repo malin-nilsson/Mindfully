@@ -178,15 +178,11 @@ export default function ImageModal(props: IModalProps) {
     }
   }
 
-  const startMeditation = () => {
-    setStartTime(new Date())
-    onClickReset(sliderValue)
-    setIsMeditating(true)
+  const handleTime = (time: number | Date) => {
+    setStartTime(time)
   }
 
   const stopMeditation = () => {
-    if (Ref.current) clearInterval(Ref.current)
-
     setIsMeditating(false)
 
     const result = differenceInMinutes(new Date(), startTime as number)
@@ -272,7 +268,10 @@ export default function ImageModal(props: IModalProps) {
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
       </StyledFlexWrapper>
-      <Animation meditation={props.meditation}></Animation>
+      <Animation
+        meditation={props.meditation}
+        handleTime={handleTime}
+      ></Animation>
     </StyledModal>
   )
 }
