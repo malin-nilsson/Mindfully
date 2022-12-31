@@ -36,6 +36,9 @@ export const MeditationCatalog: IMeditation[] = [
     icon: boxBreathingIcon,
     img: boxBreathingImage,
     audio: '',
+    totalTime: 12000,
+    holdTime: 4000,
+    breatheTime: 4000,
     id: 43202,
   },
   {
@@ -62,6 +65,9 @@ export const MeditationCatalog: IMeditation[] = [
     icon: fourSevenEightIcon,
     img: fourSevenEightImage,
     audio: '',
+    totalTime: 19000,
+    holdTime: 7000,
+    breatheTime: 4000,
     id: 43241,
   },
   {

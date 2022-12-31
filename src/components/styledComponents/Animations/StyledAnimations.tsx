@@ -1,10 +1,11 @@
 import React, { useRef, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
+import { IMeditation } from '../../../models/IMeditation'
 import { StyledButton } from '../Button/StyledButton'
 import { StyledHeadingM } from '../Headings/StyledHeadings'
 
 interface IAnimationProps {
-  title: string
+  meditation: IMeditation
 }
 
 export default function Animation(props: IAnimationProps) {
@@ -18,17 +19,13 @@ export default function Animation(props: IAnimationProps) {
 
   /// Box Breathing animation //
   const boxBreathing = () => {
-    const totalTime = 7500
-    const breatheTime = (totalTime / 5) * 2
-    const holdTime = totalTime / 5
-
     setIsMeditating(true)
 
     if (interval.current) clearInterval(interval.current)
 
     const id = setInterval(() => {
       boxBreathing()
-    }, totalTime)
+    }, props.meditation.totalTime)
 
     interval.current = id
     console.log(interval.current)
@@ -56,24 +53,20 @@ export default function Animation(props: IAnimationProps) {
             outerContainer.current.className =
               'animation-outer-container shrink-box'
           }
-        }, holdTime)
-      }, breatheTime)
+        }, props.meditation.holdTime)
+      }, props.meditation.breatheTime)
     }
   }
 
   /// 4-7-8 Breathing animation //
   const fourBreathing = () => {
-    const totalTime = 19000
-    const breatheTime = 4000
-    const holdTime = 7000
-
     setIsMeditating(true)
 
     if (interval.current) clearInterval(interval.current)
 
     const id = setInterval(() => {
       fourBreathing()
-    }, totalTime)
+    }, props.meditation.totalTime)
 
     interval.current = id
     console.log(interval.current)
@@ -103,14 +96,16 @@ export default function Animation(props: IAnimationProps) {
               'animation-outer-container shrink-478'
             circle.current.className = 'animate-circle animate-circle-exhale'
           }
-        }, holdTime)
-      }, breatheTime)
+        }, props.meditation.holdTime)
+      }, props.meditation.breatheTime)
     }
   }
 
   return (
     <StyledAnimation>
-      <StyledHeadingM color="var(--dark-blue)">{props.title}</StyledHeadingM>
+      <StyledHeadingM color="var(--dark-blue)">
+        {props.meditation.title}
+      </StyledHeadingM>
 
       <div
         ref={outerContainer}
@@ -127,7 +122,7 @@ export default function Animation(props: IAnimationProps) {
         <div
           ref={ball}
           className={
-            props.title === '4-7-8 Breathing Technique'
+            props.meditation.title === '4-7-8 Breathing Technique'
               ? 'animation-ball-container-478'
               : 'animation-ball-container-box'
           }
@@ -140,7 +135,7 @@ export default function Animation(props: IAnimationProps) {
         className="animation-button"
         width="10%"
         onClick={() => {
-          props.title === '4-7-8 Breathing Technique'
+          props.meditation.title === '4-7-8 Breathing Technique'
             ? fourBreathing()
             : boxBreathing()
         }}
@@ -224,7 +219,7 @@ export const StyledAnimation = styled.div`
 }
 
 .animation-outer-container.grow-box {
-  animation: ${grow} 3s linear forwards;
+  animation: ${grow} 4s linear forwards;
 }
 
 .animation-outer-container.shrink-478 {
@@ -232,7 +227,7 @@ export const StyledAnimation = styled.div`
 }
 
 .animation-outer-container.shrink-box {
-  animation: ${shrink} 3s linear forwards;
+  animation: ${shrink} 4s linear forwards;
 }
 
 .animate-circle.animate-circle-inhale {
@@ -284,7 +279,7 @@ export const StyledAnimation = styled.div`
   left: 140px;
   width: 20px;
   height: 190px;
-  animation: ${rotate} 7.5s linear forwards infinite;
+  animation: ${rotate} 12s linear forwards infinite;
   animation-play-state: paused;
   transform-origin: bottom center;
 }
