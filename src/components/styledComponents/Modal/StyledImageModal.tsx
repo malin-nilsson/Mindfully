@@ -14,6 +14,7 @@ import { getFavorites } from '../../../utils/getFavorites'
 import { getUser } from '../../../utils/getUser'
 import differenceInMinutes from 'date-fns/differenceInMinutes'
 import { getProgress } from '../../../utils/getProgress'
+import Animation from '../Animations/StyledAnimations'
 
 interface IModalProps {
   meditation: IMeditation
@@ -180,14 +181,12 @@ export default function ImageModal(props: IModalProps) {
   const startMeditation = () => {
     setStartTime(new Date())
     onClickReset(sliderValue)
-    ref.current?.play()
     setIsMeditating(true)
   }
 
   const stopMeditation = () => {
     if (Ref.current) clearInterval(Ref.current)
 
-    ref.current?.pause()
     setIsMeditating(false)
 
     const result = differenceInMinutes(new Date(), startTime as number)
@@ -231,11 +230,10 @@ export default function ImageModal(props: IModalProps) {
         align="flex-end"
         justify="flex-end"
         direction="row"
-        padding="2rem 1rem"
+        padding="2rem 1rem 0rem"
         width="auto"
         margin="unset"
         gap="1.5rem"
-        className="modal-wrapper"
       >
         <StyledImageWrapper
           borderRadius="50%"
@@ -266,11 +264,15 @@ export default function ImageModal(props: IModalProps) {
           background="var(--dark-blue)"
           padding="0.6rem"
           className="icon"
-          onClick={() => props.closeModal()}
+          onClick={() => {
+            props.closeModal()
+            stopMeditation()
+          }}
         >
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
       </StyledFlexWrapper>
+      <Animation title={props.meditation.title}></Animation>
     </StyledModal>
   )
 }
@@ -292,7 +294,7 @@ export const StyledModal = styled.div`
   z-index: 20;
 
   @media ${devices.desktop} {
-    justify-content: space-between;
+    justify-content: flex-start;
   }
 
   .modal-card {

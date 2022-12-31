@@ -40,9 +40,9 @@ export default function VideoModal(props: IModalProps) {
   const [isMeditating, setIsMeditating] = useState(false)
   const [sliderValue, setSliderValue] = useState(5)
   const [startTime, setStartTime] = useState<Date | number>()
-  const ref = useRef<HTMLAudioElement>(null)
+  const audioRef = useRef<HTMLAudioElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const Ref = useRef<ReturnType<typeof setInterval> | null>(null)
+  const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   const [timer, setTimer] = useState('00:00:00')
   const [meditatedMinutes, setMeditatedMinutes] = useState(0)
 
@@ -88,13 +88,13 @@ export default function VideoModal(props: IModalProps) {
     }
 
     setTimer(`00:${minutes()}:00`)
-    if (Ref.current) clearInterval(Ref.current)
+    if (interval.current) clearInterval(interval.current)
 
     const id = setInterval(() => {
       startTimer(e)
     }, 1000)
 
-    Ref.current = id
+    interval.current = id
   }
 
   const getDeadTime = (time: number) => {
@@ -187,15 +187,15 @@ export default function VideoModal(props: IModalProps) {
   const startMeditation = () => {
     setStartTime(new Date())
     onClickReset(sliderValue)
-    ref.current?.play()
+    audioRef.current?.play()
     videoRef.current?.play()
     setIsMeditating(true)
   }
 
   const stopMeditation = () => {
-    if (Ref.current) clearInterval(Ref.current)
+    if (interval.current) clearInterval(interval.current)
     videoRef.current?.pause()
-    ref.current?.pause()
+    audioRef.current?.pause()
     setIsMeditating(false)
 
     const result = differenceInMinutes(new Date(), startTime as number)
@@ -281,7 +281,10 @@ export default function VideoModal(props: IModalProps) {
             background="var(--dark-blue)"
             padding="0.6rem"
             className="icon"
-            onClick={() => props.closeModal()}
+            onClick={() => {
+              props.closeModal()
+              stopMeditation()
+            }}
           >
             <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
           </StyledImageWrapper>
@@ -293,7 +296,7 @@ export default function VideoModal(props: IModalProps) {
           direction="row"
           className="modal-footer-wrapper"
         >
-          <audio ref={ref} loop>
+          <audio ref={audioRef} loop>
             <source src={props.meditation.audio} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>

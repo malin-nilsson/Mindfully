@@ -31,7 +31,7 @@ export const MeditationCatalog: IMeditation[] = [
     id: 23242,
   },
   {
-    title: 'Box breathing',
+    title: 'Box Breathing Technique',
     tag: 'Guided Breathing Meditation',
     icon: boxBreathingIcon,
     img: boxBreathingImage,

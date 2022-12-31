@@ -10,11 +10,13 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
+  getAdditionalUserInfo,
 } from 'firebase/auth'
 import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { motion } from 'framer-motion'
 import Loader from '../styledComponents/Loader/StyledLoader'
+import { resourceLimits } from 'worker_threads'
 
 export default function Login() {
   const auth = getAuth()
@@ -34,16 +36,24 @@ export default function Login() {
 
     signInWithPopup(auth, new GoogleAuthProvider())
       .then(async (response) => {
-        const userData = {
-          firstName: response.user.displayName,
-          email: response.user.email,
-          createdAt: response.user.metadata.creationTime,
-        }
+        const additionalUserInfo = getAdditionalUserInfo(response)
 
-        await setDoc(doc(db, 'users', response.user.uid), {
-          userData,
-        })
-        navigate('/home')
+        // Check if user already exists
+        const isNewUser = additionalUserInfo && additionalUserInfo.isNewUser
+        if (!isNewUser) {
+          navigate('/home')
+        } else {
+          // If user doesn't exist, create new user
+          const userData = {
+            firstName: response.user.displayName,
+            email: response.user.email,
+            createdAt: response.user.metadata.creationTime,
+          }
+
+          await setDoc(doc(db, 'users', response.user.uid), {
+            userData,
+          })
+        }
       })
       .catch((error) => {
         setErrorMessage(error.message)
@@ -130,7 +140,7 @@ export default function Login() {
                 border="1px solid var(--dark-beige)"
                 width="100%"
               >
-                <GoogleIcon></GoogleIcon>Sign in with Google
+                <GoogleIcon></GoogleIcon>Log in with Google
               </StyledButton>
               <p>
                 Don't have an account? <Link to="/signup">Create one.</Link>
