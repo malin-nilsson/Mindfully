@@ -199,7 +199,7 @@ export default function ImageModal(props: IModalProps) {
       meditation: props.meditation,
     }
 
-    if (time === 0) return
+    if (time === 0 || Number.isNaN(time)) return
 
     if (userRef) {
       try {
@@ -229,7 +229,7 @@ export default function ImageModal(props: IModalProps) {
         padding="2rem 1rem 0rem"
         width="auto"
         margin="unset"
-        gap="1.5rem"
+        gap="1rem"
       >
         <StyledImageWrapper
           borderRadius="50%"

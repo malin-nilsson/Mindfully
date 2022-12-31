@@ -16,7 +16,6 @@ import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 import { motion } from 'framer-motion'
 import Loader from '../styledComponents/Loader/StyledLoader'
-import { resourceLimits } from 'worker_threads'
 
 export default function Login() {
   const auth = getAuth()

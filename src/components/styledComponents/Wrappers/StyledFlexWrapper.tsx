@@ -48,7 +48,7 @@ export const StyledFlexWrapper = styled.div`
 
   .timer {
     font-size: 2rem;
-    color: var(--dark-beige);
+    color: var(--light-beige);
     -webkit-text-stroke: 1px var(--mid-blue);
     font-weight: 500;
 

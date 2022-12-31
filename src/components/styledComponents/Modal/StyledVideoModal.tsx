@@ -212,7 +212,7 @@ export default function VideoModal(props: IModalProps) {
       meditation: props.meditation,
     }
 
-    if (time === 0) return
+    if (time === 0 || Number.isNaN(time)) return
 
     if (userRef) {
       try {
@@ -430,7 +430,7 @@ const StyledVideo = styled.div`
     object-fit: cover;
     width: 100vw;
     height: 100vh;
-    object-position: top center;
+    object-position: top;
     position: fixed;
     right: 0;
     bottom: 0;

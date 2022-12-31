@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
-import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
+import {
+  StyledHeadingXL,
+  StyledHeadingXS,
+} from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { MeditationCatalog as meditations } from '../../data/Meditations'
@@ -13,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import VideoModal from '../styledComponents/Modal/StyledVideoModal'
 import { motion } from 'framer-motion'
 import Loader from '../styledComponents/Loader/StyledLoader'
+import TipsAndUpdatesIcon from '@mui/icons-material/TipsAndUpdates'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -143,6 +147,23 @@ export default function Explore() {
                 </>
               </select>
             </StyledSelect>
+          </StyledFlexWrapper>
+          <StyledFlexWrapper
+            display={hideMeditations ? 'none' : 'flex'}
+            padding="2rem 0 0"
+            align="center"
+            gap="0.5rem"
+            direction="row"
+          >
+            <TipsAndUpdatesIcon style={{ color: '#f7dba8' }} />
+            <StyledHeadingXS
+              fontSize="0.9rem"
+              fontWeight="300"
+              borderBottom="unset"
+              textTransform="unset"
+            >
+              Meditate for at least 1 minute to save your progress
+            </StyledHeadingXS>
           </StyledFlexWrapper>
 
           <StyledFlexWrapper
