@@ -128,7 +128,7 @@ export const StyledProgressWrapper = styled.div`
 
   @media ${devices.tablet} {
     flex-direction: row;
-    gap: 3rem;
+    gap: 2rem;
     padding: 2rem 0 2.5rem;
     margin: 2rem 0;
   }

@@ -22,7 +22,7 @@ import { motion } from 'framer-motion'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
-  const [minutesTotal, setMinutesTotal] = useState(0)
+  const [timeTotal, setTimeTotal] = useState('')
   const [sessionsTotal, setSessionsTotal] = useState(0)
   const [showJourney, setShowJourney] = useState(false)
 
@@ -41,11 +41,14 @@ export default function MyJourney() {
           setProgress(sessions as IProgress[])
 
           const initialValue = 0
-          const total = sessions.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.minutes,
+          const totalSeconds = sessions.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.seconds,
             initialValue,
           )
-          setMinutesTotal(total)
+
+          const time = toDaysMinutesSeconds(totalSeconds)
+          setTimeTotal(time)
+
           setSessionsTotal(sessions.length)
         } else {
           console.log('Document does not exist')
@@ -54,6 +57,30 @@ export default function MyJourney() {
         console.log(error)
       }
     }
+  }
+
+  // https://bobbyhadz.com/blog/javascript-convert-seconds-to-days-hours-minutes-seconds //
+  const toDaysMinutesSeconds = (totalSeconds: number) => {
+    const seconds = Math.floor(totalSeconds % 60)
+    const minutes = Math.floor((totalSeconds % 3600) / 60)
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600)
+    const days = Math.floor(totalSeconds / (3600 * 24))
+
+    const secondsStr = makeHumanReadable(seconds, 'second')
+    const minutesStr = makeHumanReadable(minutes, 'minute')
+    const hoursStr = makeHumanReadable(hours, 'hour')
+    const daysStr = makeHumanReadable(days, 'day')
+
+    return `${daysStr}${hoursStr}${minutesStr}${secondsStr}`.replace(
+      /,\s*$/,
+      '',
+    )
+  }
+
+  const makeHumanReadable = (num: number, singular: string) => {
+    return num > 0
+      ? num + (num === 1 ? ` ${singular}, ` : ` ${singular}s, `)
+      : ''
   }
 
   return (
@@ -91,9 +118,13 @@ export default function MyJourney() {
               >
                 Total time
               </StyledHeadingXS>
-              <StyledHeadingS fontWeight="700" borderBottom="unset">
+              <StyledHeadingS
+                fontSize="1rem"
+                fontWeight="700"
+                borderBottom="unset"
+              >
                 {' '}
-                {minutesTotal} min
+                {timeTotal}
               </StyledHeadingS>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
@@ -118,7 +149,11 @@ export default function MyJourney() {
               >
                 Sessions
               </StyledHeadingXS>
-              <StyledHeadingS borderBottom="unset" fontWeight="700">
+              <StyledHeadingS
+                fontSize="1rem"
+                borderBottom="unset"
+                fontWeight="700"
+              >
                 {' '}
                 {sessionsTotal}
               </StyledHeadingS>
@@ -145,7 +180,11 @@ export default function MyJourney() {
               >
                 Practice streak
               </StyledHeadingXS>
-              <StyledHeadingS borderBottom="unset" fontWeight="700">
+              <StyledHeadingS
+                fontSize="1rem"
+                borderBottom="unset"
+                fontWeight="700"
+              >
                 {' '}
                 days
               </StyledHeadingS>

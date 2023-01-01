@@ -66,16 +66,12 @@ export const StyledHeadingM = styled.h3`
 export const StyledHeadingS = styled.h4`
   font-family: var(--text-font);
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
-  font-size: 1.3rem;
+  font-size: ${(props: IStylingProps) => props.fontSize || '1.3rem'};
   margin: 0;
   font-weight: ${(props: IStylingProps) => props.fontWeight || '100'};
 
   border-bottom: ${(props: IStylingProps) =>
     props.borderBottom || '2px solid var(--mid-blue)'};
-
-  @media ${devices.tablet} {
-    font-size: 1.3rem;
-  }
 `
 
 export const StyledHeadingXS = styled.h5`
