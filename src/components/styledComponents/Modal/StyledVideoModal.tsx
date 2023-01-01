@@ -1,25 +1,30 @@
-import styled from 'styled-components'
+import { useEffect, useRef, useState } from 'react'
+// STYLED COMPONENTS/
 import { devices } from '../../breakpoints/Breakpoints'
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
+import { StyledButton } from '../Button/StyledButton'
+import { StyledCard } from '../Card/Card'
+import { StyledHeadingXS, StyledHeadingM } from '../Headings/StyledHeadings'
+import styled from 'styled-components'
+// MUI //
 import UpdateIcon from '@mui/icons-material/Update'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import CloseIcon from '@mui/icons-material/Close'
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled'
+import StopCircleIcon from '@mui/icons-material/StopCircle'
+import { Slider } from '@mui/material'
+// MODELS //
 import { IMeditation } from '../../../models/IMeditation'
-import { useEffect, useRef, useState } from 'react'
-import { differenceInMinutes } from 'date-fns'
+// DATE DNS //
+import { differenceInMinutes, differenceInSeconds } from 'date-fns'
+// FIREBASE //
 import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getProgress } from '../../../utils/getProgress'
 import { getUser } from '../../../utils/getUser'
-import { Slider } from '@mui/material'
-import { StyledButton } from '../Button/StyledButton'
-import { StyledCard } from '../Card/Card'
-import { StyledHeadingXS, StyledHeadingM } from '../Headings/StyledHeadings'
-import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled'
-import StopCircleIcon from '@mui/icons-material/StopCircle'
 
 interface IModalProps {
   meditation: IMeditation
@@ -28,15 +33,6 @@ interface IModalProps {
 
 export default function VideoModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
-
-  const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
-    id: 0,
-    tag: '',
-    title: '',
-    icon: '',
-    img: '',
-    audio: '',
-  })
   const [isMeditating, setIsMeditating] = useState(false)
   const [sliderValue, setSliderValue] = useState(5)
   const [startTime, setStartTime] = useState<Date | number>()
@@ -44,12 +40,14 @@ export default function VideoModal(props: IModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   const [timer, setTimer] = useState('00:00:00')
-  const [meditatedMinutes, setMeditatedMinutes] = useState(0)
 
   useEffect(() => {
-    showFavorites()
+    fillFavorite()
   }, [fillHeart, sliderValue])
 
+  /////////////////////
+  // TIMER FUNCTIONS //
+  ////////////////////
   const getTimeRemaining = (e: string) => {
     const total = Date.parse(e) - Date.parse(new Date().toString())
     const seconds = Math.floor((total / 1000) % 60)
@@ -98,7 +96,7 @@ export default function VideoModal(props: IModalProps) {
   }
 
   const getDeadTime = (time: number) => {
-    let deadline = new Date() // This is where you need to adjust if // you entend to add more time
+    let deadline = new Date()
 
     deadline.setMinutes(deadline.getMinutes() + time)
 
@@ -109,7 +107,10 @@ export default function VideoModal(props: IModalProps) {
     clearTimer(getDeadTime(value), value)
   }
 
-  const showFavorites = async () => {
+  ////////////////////////////
+  // FILL HEART IF FAVORITE //
+  ////////////////////////////
+  const fillFavorite = async () => {
     const faves = await getFavorites()
     if (faves) {
       faves.forEach((fave) => {
@@ -120,6 +121,9 @@ export default function VideoModal(props: IModalProps) {
     }
   }
 
+  ///////////////////////////////
+  // SAVE FAVORITE IN FIRESTORE //
+  ///////////////////////////////
   const saveFavorite = async (favorite: IMeditation) => {
     const userRef = await getUser()
     const faves = await getFavorites()
@@ -141,6 +145,7 @@ export default function VideoModal(props: IModalProps) {
             }
           }
 
+          // If favorites array is empty, create new one and update doc
           if (faves.length === 0) {
             const faves = [favorite]
             await updateDoc(userRef, {
@@ -149,6 +154,7 @@ export default function VideoModal(props: IModalProps) {
             setFillHeart(true)
           }
         } else {
+          // If there isn't a favorites array, create one
           const faves = [favorite]
           await updateDoc(userRef, {
             favorites: faves,
@@ -161,6 +167,9 @@ export default function VideoModal(props: IModalProps) {
     }
   }
 
+  ////////////////////////////////////
+  // REMOVE FAVORITE FROM FIRESTORE //
+  ////////////////////////////////////
   const removeFavorite = async (m: IMeditation) => {
     const userRef = await getUser()
     const faves = await getFavorites()
@@ -184,35 +193,54 @@ export default function VideoModal(props: IModalProps) {
     }
   }
 
+  ////////////////////////////
+  // START MEDITATION / TIMER //
+  ////////////////////////////
   const startMeditation = () => {
-    setStartTime(new Date())
-    onClickReset(sliderValue)
+    // start video & audio
     audioRef.current?.play()
     videoRef.current?.play()
+    // start timer
+    setStartTime(new Date())
+    onClickReset(sliderValue)
+    // toggle meditating state
     setIsMeditating(true)
   }
 
+  ////////////////////////////
+  // STOP MEDITATION / TIMER //
+  ////////////////////////////
   const stopMeditation = () => {
+    // stop timer / interval
     if (interval.current) clearInterval(interval.current)
+    // pause video & audio
     videoRef.current?.pause()
     audioRef.current?.pause()
+    // toggle meditating state
     setIsMeditating(false)
 
-    const result = differenceInMinutes(new Date(), startTime as number)
-
+    // get time / results & save
+    const result = differenceInSeconds(new Date(), startTime as number)
+    console.log(result)
     saveMeditatedMinutes(result)
   }
 
+  ////////////////////////////////
+  // SAVE PROGRESS IN FIRESTORE //
+  ////////////////////////////////
   const saveMeditatedMinutes = async (time: number) => {
     const userRef = await getUser()
     const progress = await getProgress()
 
     const meditation = {
-      minutes: time,
+      seconds: time,
       meditation: props.meditation,
+      id: Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toDateString(),
     }
 
     if (time === 0 || Number.isNaN(time)) return
+    setIsMeditating(false)
 
     if (userRef) {
       try {
@@ -282,8 +310,8 @@ export default function VideoModal(props: IModalProps) {
             padding="0.6rem"
             className="icon"
             onClick={() => {
+              // stopMeditation()
               props.closeModal()
-              stopMeditation()
             }}
           >
             <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />

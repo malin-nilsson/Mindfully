@@ -22,86 +22,13 @@ interface IModalProps {
 }
 
 export default function ImageModal(props: IModalProps) {
-  const auth = getAuth()
   const [fillHeart, setFillHeart] = useState(false)
-  const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
-    id: 0,
-    tag: '',
-    title: '',
-    icon: '',
-    img: '',
-    audio: '',
-  })
   const [isMeditating, setIsMeditating] = useState(false)
-  const [sliderValue, setSliderValue] = useState(5)
   const [startTime, setStartTime] = useState<Date | number>()
-  const ref = useRef<HTMLAudioElement>(null)
-  const Ref = useRef<ReturnType<typeof setInterval> | null>(null)
-  const [timer, setTimer] = useState('00:00:00')
-  const [meditatedMinutes, setMeditatedMinutes] = useState(0)
 
   useEffect(() => {
     showFavorites()
-  }, [fillHeart, sliderValue])
-
-  const getTimeRemaining = (e: string) => {
-    const total = Date.parse(e) - Date.parse(new Date().toString())
-    const seconds = Math.floor((total / 1000) % 60)
-    const minutes = Math.floor((total / 1000 / 60) % 60)
-    const hours = Math.floor((total / 1000 / 60 / 60) % 24)
-
-    return {
-      total,
-      hours,
-      minutes,
-      seconds,
-    }
-  }
-
-  const startTimer = (e: any) => {
-    let { total, hours, minutes, seconds } = getTimeRemaining(e)
-
-    if (total >= 0) {
-      setTimer(
-        (hours > 9 ? hours : '0' + hours) +
-          ':' +
-          (minutes > 9 ? minutes : '0' + minutes) +
-          ':' +
-          (seconds > 9 ? seconds : '0' + seconds),
-      )
-    }
-  }
-
-  const clearTimer = (e?: Date, time?: number) => {
-    const minutes = () => {
-      if (time && time < 9) {
-        return `0${time}`
-      } else {
-        return time
-      }
-    }
-
-    setTimer(`00:${minutes()}:00`)
-    if (Ref.current) clearInterval(Ref.current)
-
-    const id = setInterval(() => {
-      startTimer(e)
-    }, 1000)
-
-    Ref.current = id
-  }
-
-  const getDeadTime = (time: number) => {
-    let deadline = new Date() // This is where you need to adjust if // you entend to add more time
-
-    deadline.setMinutes(deadline.getMinutes() + time)
-
-    return deadline
-  }
-
-  const onClickReset = (value: number) => {
-    clearTimer(getDeadTime(value), value)
-  }
+  }, [fillHeart])
 
   const showFavorites = async () => {
     const faves = await getFavorites()
@@ -197,6 +124,8 @@ export default function ImageModal(props: IModalProps) {
     const meditation = {
       minutes: time,
       meditation: props.meditation,
+      id: Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toDateString(),
     }
 
     if (time === 0 || Number.isNaN(time)) return
@@ -262,7 +191,7 @@ export default function ImageModal(props: IModalProps) {
           className="icon"
           onClick={() => {
             props.closeModal()
-            stopMeditation()
+            // stopMeditation()
           }}
         >
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />

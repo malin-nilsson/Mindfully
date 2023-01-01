@@ -15,6 +15,7 @@ export const StyledFlexWrapper = styled.div`
   width: ${(props: IStylingProps) => props.width || ''};
   padding: ${(props: IStylingProps) => props.padding || ''};
   color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
+  border-radius: ${(props: IStylingProps) => props.borderRadius || ''};
 
   .favorites-wrapper {
     @media ${devices.tablet} {
@@ -43,6 +44,34 @@ export const StyledFlexWrapper = styled.div`
     @media ${devices.desktop} {
       width: 50%;
       padding: 2rem 0;
+    }
+  }
+
+  .history-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1rem;
+    background-color: var(--dark-blue);
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 1rem;
+
+    @media ${devices.desktop} {
+      width: 40%;
+      padding: 1.5rem 2rem;
+    }
+
+    span {
+      display: inline-block;
+      color: var(--dark-beige);
+      font-size: 0.85rem;
+    }
+
+    .history-single {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
     }
   }
 
@@ -95,10 +124,12 @@ export const StyledProgressWrapper = styled.div`
   width: 100%;
   gap: 1rem;
   padding: 1.5rem 0;
+  margin: 1rem 0;
 
   @media ${devices.tablet} {
     flex-direction: row;
     gap: 3rem;
     padding: 2rem 0 2.5rem;
+    margin: 2rem 0;
   }
 `
