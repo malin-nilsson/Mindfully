@@ -1,17 +1,19 @@
 import { useEffect, useState } from 'react'
+// STYLED COMPONENTS //
 import { StyledCard } from '../styledComponents/Card/Card'
 import {
   StyledHeadingXS,
   StyledHeadingXL,
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
-// import { UserContext } from '../../context/UserContext'
+// FIREBASE //
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+// REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
+// FRAMER MOTION //
 import { motion } from 'framer-motion'
 
 export default function Profile() {
-  // let currentUser = useContext(UserContext)
   const auth = getAuth()
   const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState({

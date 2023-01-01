@@ -221,7 +221,6 @@ export default function VideoModal(props: IModalProps) {
 
     // get time / results & save
     const result = differenceInSeconds(new Date(), startTime as number)
-    console.log(result)
     saveMeditatedMinutes(result)
   }
 

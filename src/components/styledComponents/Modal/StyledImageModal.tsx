@@ -5,16 +5,15 @@ import CloseIcon from '@mui/icons-material/Close'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { devices } from '../../breakpoints/Breakpoints'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
 import { IStylingProps } from '../models/IStylingProps'
 import { arrayUnion, updateDoc } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getUser } from '../../../utils/getUser'
-import differenceInMinutes from 'date-fns/differenceInMinutes'
 import { getProgress } from '../../../utils/getProgress'
 import Animation from '../Animations/StyledAnimations'
+import { differenceInSeconds } from 'date-fns'
 
 interface IModalProps {
   meditation: IMeditation
@@ -27,10 +26,13 @@ export default function ImageModal(props: IModalProps) {
   const [startTime, setStartTime] = useState<Date | number>()
 
   useEffect(() => {
-    showFavorites()
+    fillFavorite()
   }, [fillHeart])
 
-  const showFavorites = async () => {
+  ////////////////////////////
+  // FILL HEART IF FAVORITE //
+  ////////////////////////////
+  const fillFavorite = async () => {
     const faves = await getFavorites()
     if (faves) {
       faves.forEach((fave) => {
@@ -41,6 +43,9 @@ export default function ImageModal(props: IModalProps) {
     }
   }
 
+  ///////////////////////////////
+  // SAVE FAVORITE IN FIRESTORE //
+  ///////////////////////////////
   const saveFavorite = async (favorite: IMeditation) => {
     const userRef = await getUser()
     const faves = await getFavorites()
@@ -82,6 +87,9 @@ export default function ImageModal(props: IModalProps) {
     }
   }
 
+  ////////////////////////////////////
+  // REMOVE FAVORITE FROM FIRESTORE //
+  ////////////////////////////////////
   const removeFavorite = async (m: IMeditation) => {
     const userRef = await getUser()
     const faves = await getFavorites()
@@ -109,20 +117,26 @@ export default function ImageModal(props: IModalProps) {
     setStartTime(time)
   }
 
+  ////////////////////////////
+  // STOP MEDITATION / TIMER //
+  ////////////////////////////
   const stopMeditation = () => {
     setIsMeditating(false)
 
-    const result = differenceInMinutes(new Date(), startTime as number)
-
+    // get time / results & save
+    const result = differenceInSeconds(new Date(), startTime as number)
     saveMeditatedMinutes(result)
   }
 
+  ////////////////////////////////
+  // SAVE PROGRESS IN FIRESTORE //
+  ////////////////////////////////
   const saveMeditatedMinutes = async (time: number) => {
     const userRef = await getUser()
     const progress = await getProgress()
 
     const meditation = {
-      minutes: time,
+      seconds: time,
       meditation: props.meditation,
       id: Math.floor(100000 + Math.random() * 900000),
       date: new Date().toDateString(),
@@ -191,7 +205,7 @@ export default function ImageModal(props: IModalProps) {
           className="icon"
           onClick={() => {
             props.closeModal()
-            // stopMeditation()
+            stopMeditation()
           }}
         >
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />

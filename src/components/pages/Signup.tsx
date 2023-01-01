@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
+// STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
+import Loader from '../styledComponents/Loader/StyledLoader'
+// MUI //
 import GoogleIcon from '@mui/icons-material/Google'
+// REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
+// FIREBASE //
 import {
   getAuth,
   signInWithPopup,
@@ -15,9 +20,8 @@ import {
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
+// FRAMER MOTION //
 import { motion } from 'framer-motion'
-import Loader from '../styledComponents/Loader/StyledLoader'
-import { WindowTwoTone } from '@mui/icons-material'
 
 export default function Signup() {
   const auth = getAuth()
@@ -34,7 +38,10 @@ export default function Signup() {
   useEffect(() => {
     window.scrollTo(0, 0)
   })
-  // Sign up with Google
+
+  /////////////////////////
+  // SIGN UP WITH GOOGLE //
+  /////////////////////////
   const signInWithGoogle = async () => {
     setAuthing(true)
 
@@ -66,7 +73,9 @@ export default function Signup() {
       })
   }
 
-  // Sign up with email and password
+  /////////////////////////////////////
+  // SIGN UP WITH EMAIL AND PASSWORD //
+  /////////////////////////////////////
   const signUpWithEmailAndPassword = (
     email: string,
     password: string,

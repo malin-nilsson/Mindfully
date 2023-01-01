@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react'
+// STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
+import Loader from '../styledComponents/Loader/StyledLoader'
+// MUI //
 import GoogleIcon from '@mui/icons-material/Google'
+// REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
+// FIREBASE //
 import {
   getAuth,
   GoogleAuthProvider,
@@ -14,8 +19,8 @@ import {
 } from 'firebase/auth'
 import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
+// FRAMER MOTION //
 import { motion } from 'framer-motion'
-import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function Login() {
   const auth = getAuth()
@@ -30,6 +35,10 @@ export default function Login() {
   useEffect(() => {
     window.scrollTo(0, 0)
   })
+
+  /////////////////////////
+  // SIGN IN WITH GOOGLE //
+  /////////////////////////
   const signInWithGoogle = async () => {
     setAuthing(true)
 
@@ -60,6 +69,9 @@ export default function Login() {
       })
   }
 
+  ///////////////////////////////////
+  // SIGN IN WITH EMAIL & PASSWORD //
+  ///////////////////////////////////
   const signInWithEmailPassword = () => {
     if (errorMessage !== '') setErrorMessage('')
     setLoader(true)

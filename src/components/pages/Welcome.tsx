@@ -1,9 +1,8 @@
+// REACT ROUTER //
 import { Link } from 'react-router-dom'
+// STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
-import {
-  StyledHeadingM,
-  StyledHeadingXXL,
-} from '../styledComponents/Headings/StyledHeadings'
+import { StyledHeadingXXL } from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,

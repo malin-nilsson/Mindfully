@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+// STYLED COMPONENTS //
 import {
   StyledHeadingL,
   StyledHeadingM,
@@ -7,9 +9,11 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
-import { useEffect, useState } from 'react'
+// REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
-import { getAuth, onAuthStateChanged, updateProfile } from 'firebase/auth'
+// FIREBASE //
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+// FRAMER MOTION //
 import { motion } from 'framer-motion'
 
 export default function Home() {

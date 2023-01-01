@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// MODELS //
 import { IMeditation } from '../../models/IMeditation'
+// STYLED COMPONENTS //
 import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import ImageModal from '../styledComponents/Modal/StyledImageModal'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import { getUser } from '../../utils/getUser'
-import { getFavorites } from '../../utils/getFavorites'
-import { motion } from 'framer-motion'
 import Loader from '../styledComponents/Loader/StyledLoader'
 import VideoModal from '../styledComponents/Modal/StyledVideoModal'
+// MUI //
+import FavoriteIcon from '@mui/icons-material/Favorite'
+// FIRESTORE //
+import { getUser } from '../../utils/getUser'
+import { getFavorites } from '../../utils/getFavorites'
+// FRAMER MOTION //
+import { motion } from 'framer-motion'
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<IMeditation[]>()

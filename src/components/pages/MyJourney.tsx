@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
+// MODELS //
 import { IProgress } from '../../models/IProgress'
+// FIRESTORE //
 import { getProgress } from '../../utils/getProgress'
 import { getUser } from '../../utils/getUser'
+// STYLED COMPONENTS //
 import {
   StyledHeadingS,
   StyledHeadingXL,
@@ -11,13 +14,15 @@ import {
   StyledFlexWrapper,
   StyledProgressWrapper,
 } from '../styledComponents/Wrappers/StyledFlexWrapper'
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
-import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
 import { StyledLink } from '../styledComponents/Link/StyledLink'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
+// MUI //
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
+import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+// FRAMER MOTION //
 import { motion } from 'framer-motion'
 
 export default function MyJourney() {
