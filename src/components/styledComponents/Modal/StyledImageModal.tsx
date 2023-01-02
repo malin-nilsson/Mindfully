@@ -14,6 +14,7 @@ import { getUser } from '../../../utils/getUser'
 import { getProgress } from '../../../utils/getProgress'
 import Animation from '../Animations/StyledAnimations'
 import { differenceInSeconds } from 'date-fns'
+import { StyledHeadingM } from '../Headings/StyledHeadings'
 
 interface IModalProps {
   meditation: IMeditation
@@ -210,6 +211,11 @@ export default function ImageModal(props: IModalProps) {
         >
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
+      </StyledFlexWrapper>
+      <StyledFlexWrapper>
+        <StyledHeadingM color="var(--dark-blue)">
+          {props.meditation.title}
+        </StyledHeadingM>
       </StyledFlexWrapper>
       <Animation
         meditation={props.meditation}

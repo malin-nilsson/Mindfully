@@ -239,7 +239,6 @@ export default function VideoModal(props: IModalProps) {
     }
 
     if (time === 0 || Number.isNaN(time)) return
-    setIsMeditating(false)
 
     if (userRef) {
       try {
@@ -309,8 +308,12 @@ export default function VideoModal(props: IModalProps) {
             padding="0.6rem"
             className="icon"
             onClick={() => {
-              // stopMeditation()
-              props.closeModal()
+              if (isMeditating) {
+                stopMeditation()
+                props.closeModal()
+              } else {
+                props.closeModal()
+              }
             }}
           >
             <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />

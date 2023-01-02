@@ -113,6 +113,7 @@ export const StyledFlexWrapper = styled.div`
   }
 
   .show {
+    display: flex;
     visibility: visible;
     animation: ${fadeIn} 0.5s forwards;
     animation-fill-mode: forwards;
