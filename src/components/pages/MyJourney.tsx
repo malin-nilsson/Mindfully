@@ -88,6 +88,11 @@ export default function MyJourney() {
       : ''
   }
 
+  const rotateIcon = {
+    transform: showJourney ? 'rotate(180deg)' : '',
+    transition: 'transform .3s ease-in-out',
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -204,72 +209,55 @@ export default function MyJourney() {
         >
           <div className="link-wrapper">
             <StyledLink color="var(--dark-blue)">History</StyledLink>
-            <motion.span
-              initial={{ rotate: 0 }}
-              animate={{ rotate: 180 }}
-              transition={{ duration: 0.4 }}
-            >
+            <span style={rotateIcon}>
               <StyledImageWrapper background="#f7dba8" borderRadius="50%">
                 {' '}
-                {showJourney ? (
-                  <KeyboardArrowUpIcon
-                    style={{ color: '#02070f' }}
-                    fontSize="medium"
-                  />
-                ) : (
-                  <ExpandMoreIcon
-                    style={{ color: '#02070f' }}
-                    fontSize="medium"
-                  />
-                )}
+                <ExpandMoreIcon
+                  style={{ color: '#02070f' }}
+                  fontSize="medium"
+                />
               </StyledImageWrapper>
-            </motion.span>
+            </span>
           </div>
         </StyledFlexWrapper>
-        {showJourney && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.4 }}
-            style={{ width: '100%' }}
-          >
-            <StyledFlexWrapper width="100%">
-              <div className="history-wrapper">
-                <>
-                  {progress &&
-                    progress.map((session) => {
-                      return (
-                        <div className="history-single" key={session.id}>
-                          <StyledFlexWrapper
-                            justify="flex-start"
-                            align="center"
-                            width="100%"
-                            direction="row"
-                          >
-                            <StyledImageWrapper
-                              maxHeight="20px"
-                              margin="0 0.5rem 0 0"
-                            >
-                              <img
-                                src={session.meditation.icon}
-                                alt="Meditation icon"
-                              />
-                            </StyledImageWrapper>
 
-                            <span>{session.meditation.title}</span>
-                          </StyledFlexWrapper>
-                          <StyledFlexWrapper width="100%">
-                            <span>{session.date}</span>
-                          </StyledFlexWrapper>
-                        </div>
-                      )
-                    })}
-                </>
-              </div>
-            </StyledFlexWrapper>
-          </motion.div>
-        )}
+        <StyledFlexWrapper
+          className={showJourney ? 'show' : 'hide'}
+          width="100%"
+        >
+          <div className="history-wrapper">
+            <>
+              {progress &&
+                progress.map((session) => {
+                  return (
+                    <div className="history-single" key={session.id}>
+                      <StyledFlexWrapper
+                        justify="flex-start"
+                        align="center"
+                        width="100%"
+                        direction="row"
+                      >
+                        <StyledImageWrapper
+                          maxHeight="20px"
+                          margin="0 0.5rem 0 0"
+                        >
+                          <img
+                            src={session.meditation.icon}
+                            alt="Meditation icon"
+                          />
+                        </StyledImageWrapper>
+
+                        <span>{session.meditation.title}</span>
+                      </StyledFlexWrapper>
+                      <StyledFlexWrapper width="100%">
+                        <span>{session.date}</span>
+                      </StyledFlexWrapper>
+                    </div>
+                  )
+                })}
+            </>
+          </div>
+        </StyledFlexWrapper>
       </StyledFlexWrapper>
     </motion.div>
   )

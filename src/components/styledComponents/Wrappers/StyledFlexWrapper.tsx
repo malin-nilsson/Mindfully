@@ -1,6 +1,16 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
+
+const fadeOut = keyframes`
+    0% {opacity: 1;}
+            100% {opacity: 0;}
+`
+
+const fadeIn = keyframes`
+    0% {opacity: 0;}
+            100% {opacity: 1;}
+`
 
 export const StyledFlexWrapper = styled.div`
   display: ${(props: IStylingProps) => props.display || 'flex'};
@@ -101,7 +111,20 @@ export const StyledFlexWrapper = styled.div`
       cursor: pointer;
     }
   }
+
+  .show {
+    visibility: visible;
+    animation: ${fadeIn} 0.5s forwards;
+    animation-fill-mode: forwards;
+  }
+
+  .hide {
+    visibility: none;
+    animation: ${fadeOut} 0.5s forwards;
+    animation-fill-mode: forwards;
+  }
 `
+
 export const StyledButtonWrapper = styled.div`
   width: 90%;
   display: flex;
