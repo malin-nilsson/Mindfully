@@ -9,9 +9,24 @@ const fadeOut = keyframes`
 
 const fadeIn = keyframes`
     0% {opacity: 0;}
-            100% {opacity: 1;}
+    100% {opacity: 1;}
 `
 
+const shake = keyframes` 
+10%, 90% { transform: translate3d(-1px, 0, 0); }
+
+20%, 80% {
+  transform: translate3d(2px, 0, 0);
+}
+
+30%, 50%, 70% {
+  transform: translate3d(-4px, 0, 0);
+}
+
+40%, 60% {
+  transform: translate3d(4px, 0, 0);
+}
+`
 export const StyledFlexWrapper = styled.div`
   display: ${(props: IStylingProps) => props.display || 'flex'};
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
@@ -85,6 +100,9 @@ export const StyledFlexWrapper = styled.div`
     }
   }
 
+  .shake {
+    animation: ${shake} 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  }
   .timer {
     font-size: 2rem;
     color: var(--light-beige);

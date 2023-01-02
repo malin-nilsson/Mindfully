@@ -30,14 +30,12 @@ export default function Signup() {
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [registering, setRegistering] = useState(false)
   const [confirm, setConfirm] = useState('')
   const [loader, setLoader] = useState(false)
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  })
+  const [missingFields, setMissingFields] = useState(false)
 
   /////////////////////////
   // SIGN UP WITH GOOGLE //
@@ -69,6 +67,7 @@ export default function Signup() {
       .catch((error) => {
         console.log(error)
         setErrorMessage(error.message)
+        setError(true)
         setAuthing(false)
       })
   }
@@ -79,42 +78,50 @@ export default function Signup() {
   const signUpWithEmailAndPassword = (
     email: string,
     password: string,
-    displayName: string,
+    firstName: string,
   ) => {
-    if (errorMessage !== '') setErrorMessage('')
+    if (errorMessage !== '') {
+      setErrorMessage('')
+    }
+    if (firstName && email && password) {
+      setRegistering(true)
+      setLoader(true)
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(async (userCred) => {
+          const userData = {
+            firstName: firstName,
+            email: email,
+            createdAt: userCred.user.metadata.creationTime,
+          }
 
-    setRegistering(true)
-    setLoader(true)
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async (userCred) => {
-        const userData = {
-          firstName: firstName,
-          email: email,
-          createdAt: userCred.user.metadata.creationTime,
-        }
-
-        await updateProfile(userCred.user, {
-          displayName: userData.firstName,
-        }).then(async () => {
-          await setDoc(doc(db, 'users', userCred.user.uid), {
-            userData,
+          await updateProfile(userCred.user, {
+            displayName: userData.firstName,
+          }).then(async () => {
+            await setDoc(doc(db, 'users', userCred.user.uid), {
+              userData,
+            })
           })
         })
-      })
-      .catch((error) => {
-        setErrorMessage(error.message)
+        .catch((error) => {
+          setError(true)
+          setErrorMessage(error.message)
 
-        if (error.code.includes('auth/weak-password')) {
-          setErrorMessage('Please enter a stronger password.')
-        } else if (error.code.includes('auth/email-already-in-use')) {
-          setErrorMessage('Email is already in use.')
-        } else if (error.code.includes('auth/invalid-email')) {
-          setErrorMessage('Email is invalid.')
-        } else {
-          setErrorMessage('Unable to sign up. Please try again later.')
-        }
-        setRegistering(false)
-      })
+          if (error.code.includes('auth/weak-password')) {
+            setErrorMessage('Please enter a stronger password.')
+          } else if (error.code.includes('auth/email-already-in-use')) {
+            setErrorMessage('Email is already in use.')
+          } else if (error.code.includes('auth/invalid-email')) {
+            setErrorMessage('Email is invalid. Please try again.')
+          } else {
+            setErrorMessage('Unable to sign up. Please try again later.')
+          }
+          setRegistering(false)
+        })
+      setLoader(false)
+    } else if (firstName === '' || email === '' || password === '') {
+      setError(true)
+      setMissingFields(true)
+    }
   }
 
   return (
@@ -129,17 +136,25 @@ export default function Signup() {
           transition={{ duration: 0.4 }}
         >
           <StyledFlexWrapper>
-            <StyledForm onSubmit={(e) => e.preventDefault()}>
+            <StyledForm
+              onSubmit={(e) => e.preventDefault()}
+              className={errorMessage || missingFields ? 'shake' : ''}
+            >
               <StyledHeadingM>Sign up</StyledHeadingM>
               <p>
                 Creating an account enables you to save your progress &#128522;
               </p>
+              {missingFields && (
+                <p className="error">Please fill out missing fields.</p>
+              )}
+              {errorMessage && <p className="error">{errorMessage}</p>}
               <div className="input-group">
                 <label>First name</label>
                 <input
                   type="text"
                   placeholder="First name"
                   onChange={(e) => setFirstName(e.target.value)}
+                  className={error && !firstName ? 'error-input' : ''}
                 />
               </div>
               <div className="input-group">
@@ -148,6 +163,7 @@ export default function Signup() {
                   type="email"
                   placeholder="Email"
                   onChange={(e) => setEmail(e.target.value)}
+                  className={error && !email ? 'error-input' : ''}
                 />
               </div>
               <div className="input-group">
@@ -155,6 +171,7 @@ export default function Signup() {
                 <input
                   type="password"
                   placeholder="Password"
+                  className={error && !password ? 'error-input' : ''}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
@@ -183,7 +200,6 @@ export default function Signup() {
               <p>
                 Already have an account? <Link to="/login">Log in.</Link>
               </p>
-              <p>{errorMessage}</p>
             </StyledForm>
           </StyledFlexWrapper>
         </motion.div>

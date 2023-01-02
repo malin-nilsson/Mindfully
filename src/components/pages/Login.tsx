@@ -28,13 +28,11 @@ export default function Login() {
   const [authing, setAuthing] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [authenticating, setAuthenticating] = useState(false)
   const [loader, setLoader] = useState(false)
-
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  })
+  const [missingFields, setMissingFields] = useState(false)
 
   /////////////////////////
   // SIGN IN WITH GOOGLE //
@@ -64,6 +62,7 @@ export default function Login() {
         }
       })
       .catch((error) => {
+        setError(true)
         setErrorMessage(error.message)
         setAuthing(false)
       })
@@ -85,17 +84,19 @@ export default function Login() {
         console.log(error)
         setLoader(false)
         setAuthenticating(false)
-
+        setError(true)
         if (error.code.includes('auth/user-not-found')) {
           setErrorMessage(
-            'User not found. Did you enter the correct e-mail address?',
+            "Sorry, we couldn't find that user. Did you enter the correct e-mail address?",
           )
         } else if (error.code.includes('auth/wrong-password')) {
           setErrorMessage(
-            'The password you entered is incorrect, please try again.',
+            'The password you entered is incorrect. Please double-check and try again.',
           )
+        } else if (email === '' || password === '') {
+          setErrorMessage('Please fill out missing fields.')
         } else {
-          setErrorMessage('Unable to sign up. Please try again later.')
+          setErrorMessage('Unable to sign in. Please try again later.')
         }
       })
   }
@@ -116,14 +117,20 @@ export default function Login() {
           transition={{ duration: 0.4 }}
         >
           <StyledFlexWrapper>
-            <StyledForm onSubmit={(e) => e.preventDefault()}>
+            <StyledForm
+              onSubmit={(e) => e.preventDefault()}
+              className={errorMessage || missingFields ? 'shake' : ''}
+            >
               <StyledHeadingM>Welcome back</StyledHeadingM>
+              {error && <p className="error">{errorMessage}</p>}
+
               <div className="input-group">
                 <label>Email</label>
                 <input
                   onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   placeholder="Email address"
+                  className={error && !email ? 'error-input' : ''}
                 />
               </div>
               <div className="input-group">
@@ -132,6 +139,7 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   placeholder="Password"
+                  className={error && !password ? 'error-input' : ''}
                 />
               </div>
               <StyledButton
@@ -156,7 +164,6 @@ export default function Login() {
               <p>
                 Don't have an account? <Link to="/signup">Create one.</Link>
               </p>
-              <p>{errorMessage}</p>
             </StyledForm>
           </StyledFlexWrapper>
         </motion.div>

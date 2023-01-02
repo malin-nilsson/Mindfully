@@ -63,4 +63,18 @@ export const StyledForm = styled.form`
     font-size: 1rem;
     font-weight: 100;
   }
+
+  .error {
+    color: #a90000;
+    margin: 0;
+    padding: 0.7rem 0.5rem;
+    background-color: var(--dark-beige);
+    border: 1px solid #a90000;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .error-input {
+    border: 1px solid #a90000;
+  }
 `

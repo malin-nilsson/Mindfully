@@ -15,17 +15,12 @@ export default function Welcome() {
       <StyledFlexWrapper gap="unset">
         <StyledFlexWrapper
           padding="0 2rem"
-          direction="row"
+          direction="column"
           align="center"
           justify="center"
-          className="landing-wrapper"
+          width="100%"
+          margin="4rem 0"
         >
-          <div className="landing-heading-wrapper">
-            <StyledHeadingXXL>
-              Mindfulness for any mind, any mood, and any goal.
-            </StyledHeadingXXL>
-          </div>
-
           <StyledButtonWrapper>
             <Link to="/login">
               <StyledButton
