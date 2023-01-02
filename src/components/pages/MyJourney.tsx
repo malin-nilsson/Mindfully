@@ -20,14 +20,15 @@ import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrap
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
+import { summary } from 'date-streaks'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
   const [timeTotal, setTimeTotal] = useState('')
+  const [currentStreak, setCurrentStreak] = useState(0)
   const [sessionsTotal, setSessionsTotal] = useState(0)
   const [showJourney, setShowJourney] = useState(false)
 
@@ -44,6 +45,14 @@ export default function MyJourney() {
       try {
         if (sessions) {
           setProgress(sessions as IProgress[])
+
+          const dates = sessions.map((item) => {
+            return item.date
+          })
+          const streak = summary({ dates })
+          console.log(summary({ dates }))
+
+          setCurrentStreak(streak.currentStreak)
 
           const initialValue = 0
           const totalSeconds = sessions.reduce(
@@ -126,7 +135,7 @@ export default function MyJourney() {
                 textTransform="uppercase"
                 fontWeight="100"
               >
-                Total time
+                Total Time
               </StyledHeadingXS>
               <StyledHeadingS
                 fontSize="1rem"
@@ -157,7 +166,7 @@ export default function MyJourney() {
                 textTransform="uppercase"
                 fontWeight="100"
               >
-                Sessions
+                Total Sessions
               </StyledHeadingXS>
               <StyledHeadingS
                 fontSize="1rem"
@@ -196,7 +205,7 @@ export default function MyJourney() {
                 fontWeight="700"
               >
                 {' '}
-                days
+                {currentStreak} days
               </StyledHeadingS>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
