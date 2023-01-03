@@ -65,7 +65,7 @@ export default function MyJourney() {
 
           setSessionsTotal(sessions.length)
         } else {
-          console.log('Document does not exist')
+          setTimeTotal('0')
         }
       } catch (error) {
         console.log(error)

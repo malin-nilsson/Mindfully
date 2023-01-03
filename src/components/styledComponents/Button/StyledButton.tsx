@@ -8,7 +8,7 @@ export const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border-radius: 0.9rem;
+  border-radius: ${(props: IStylingProps) => props.borderRadius || '0.9rem'};
   border: ${(props: IStylingProps) => props.border || 'none'};
   font-weight: ${(props: IStylingProps) => props.fontWeight || '600'};
   font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};
@@ -28,6 +28,7 @@ export const StyledButton = styled.button`
 
   @media ${devices.desktop} {
     width: ${(props: IStylingProps) => props.width || '100%'};
+    padding: ${(props: IStylingProps) => props.padding || '1.3rem 2rem'};
   }
 
   &:hover {

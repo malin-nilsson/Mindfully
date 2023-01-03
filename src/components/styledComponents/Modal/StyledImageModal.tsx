@@ -212,7 +212,7 @@ export default function ImageModal(props: IModalProps) {
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
       </StyledFlexWrapper>
-      <StyledFlexWrapper>
+      <StyledFlexWrapper padding="0.5rem 0">
         <StyledHeadingM color="var(--dark-blue)">
           {props.meditation.title}
         </StyledHeadingM>

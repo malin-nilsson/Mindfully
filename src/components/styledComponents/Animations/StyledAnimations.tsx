@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 import { IMeditation } from '../../../models/IMeditation'
+import { devices } from '../../breakpoints/Breakpoints'
 import { StyledButton } from '../Button/StyledButton'
 
 interface IAnimationProps {
@@ -141,7 +142,6 @@ export default function Animation(props: IAnimationProps) {
       </div>
       <StyledButton
         className="animation-button"
-        width="10%"
         onClick={() => {
           props.meditation.title === '4-7-8 Breathing Technique'
             ? handleFourBreathing()
@@ -312,5 +312,13 @@ export const StyledAnimation = styled.div`
   .animation-button {
     padding: 1rem;
     margin: 0.5rem 0;
+    width: 50%;
+
+    @media ${devices.tablet} {
+      width: 30%;
+    }
+    @media ${devices.desktop} {
+      width: 10%;
+    }
   }
 `

@@ -9,10 +9,11 @@ export const StyledCard = styled.div`
   justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
   align-items: ${(props: IStylingProps) => props.align || 'center'};
   flex-wrap: wrap;
-  color: var(--mid-blue);
+  color: ${(props: IStylingProps) => props.color || ' var(--mid-blue)'};
   padding: ${(props: IStylingProps) =>
     props.padding || ' 1.7rem 1.6rem 1.3rem'};
-  background: var(--dark-beige);
+  background-color: ${(props: IStylingProps) =>
+    props.bgColor || 'var(--dark-beige)'};
   border-radius: ${(props: IStylingProps) => props.borderRadius || '15px'};
   width: ${(props: IStylingProps) => props.width || '15.5rem'};
   height: ${(props: IStylingProps) => props.height || '14rem'};
@@ -40,6 +41,7 @@ export const StyledMeditationCard = styled(StyledCard)`
   transition: all 0.3s ease-in-out;
   border: 1px solid var(--light-blue);
   width: 100%;
+  height: ${(props: IStylingProps) => props.height || '14rem'};
 
   &:hover {
     cursor: pointer;
@@ -48,7 +50,21 @@ export const StyledMeditationCard = styled(StyledCard)`
   }
 
   @media ${devices.tablet} {
-    width: 20%;
+    width: ${(props: IStylingProps) => props.width || '20%'};
     margin: unset;
+    padding: ${(props: IStylingProps) => props.padding || ''};
+  }
+`
+export const StyledProfileCard = styled(StyledMeditationCard)`
+  height: unset;
+  padding: 2rem 3rem;
+  width: unset;
+
+  @media ${devices.tablet} {
+    width: 40%;
+  }
+
+  @media ${devices.desktop} {
+    width: 30%;
   }
 `

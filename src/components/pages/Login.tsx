@@ -78,7 +78,7 @@ export default function Login() {
 
     signInWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        setTimeout(navigateUser, 3000)
+        navigate('/home')
       })
       .catch((error) => {
         console.log(error)
@@ -99,10 +99,6 @@ export default function Login() {
           setErrorMessage('Unable to sign in. Please try again later.')
         }
       })
-  }
-  const navigateUser = () => {
-    setLoader(false)
-    navigate('/home')
   }
 
   return (

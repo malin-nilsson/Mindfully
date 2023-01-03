@@ -67,7 +67,7 @@ export const StyledForm = styled.form`
   .error {
     color: #a90000;
     margin: 0;
-    padding: 0.7rem 0.5rem;
+    padding: 0.5rem;
     background-color: var(--dark-beige);
     border: 1px solid #a90000;
     font-weight: 500;

@@ -114,6 +114,54 @@ export const StyledFlexWrapper = styled.div`
     }
   }
 
+  .profile-wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+
+    label {
+      color: var(--dark-beige);
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    input {
+      box-sizing: border-box;
+      padding: 0.5rem;
+      width: 100%;
+      border: 1px solid var(--dark-beige);
+
+      &:focus {
+        outline: none;
+        border: 1px solid var(--dark-beige);
+      }
+      &:disabled {
+        background-color: #908b8b;
+        color: var(--light-beige);
+      }
+    }
+
+    .confirmation {
+      color: var(--dark-beige);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .error {
+      color: #a90000;
+      margin: 0;
+      padding: 0.5rem;
+      background-color: var(--dark-beige);
+      border: 1px solid #a90000;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+  }
   .link-wrapper {
     display: flex;
     flex-direction: row;
@@ -147,31 +195,33 @@ export const StyledFlexWrapper = styled.div`
 export const StyledButtonWrapper = styled.div`
   width: 90%;
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
+  gap: ${(props: IStylingProps) => props.gap || ''};
 
   @media ${devices.tablet} {
-    width: 50%;
+    width: ${(props: IStylingProps) => props.width || '50%'};
   }
 
   @media ${devices.desktop} {
-    width: 30%;
+    width: ${(props: IStylingProps) => props.width || '30%'};
   }
 `
 
 export const StyledProgressWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
   width: 100%;
   gap: 1rem;
-  padding: 1.5rem 0;
-  margin: 1rem 0;
 
   @media ${devices.tablet} {
+    padding: 1.5rem 0;
+    margin: 1rem 0;
     flex-direction: row;
     gap: 2rem;
     padding: 2rem 0 2.5rem;
     margin: 2rem 0;
+    align-items: center;
+    justify-content: center;
   }
 `

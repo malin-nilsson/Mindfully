@@ -26,10 +26,6 @@ export const StyledHeroBg = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  height: 100%;
-
-  @media ${devices.desktop} {
-    height: 100vh;
-    overflow: scroll;
-  }
+  height: 100vh;
+  overflow: scroll;
 `

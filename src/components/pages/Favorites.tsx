@@ -130,7 +130,7 @@ export default function Favorites() {
               {favorites.length < 1 ? (
                 <StyledFlexWrapper color="var(--dark-beige)">
                   <p>
-                    Tap the heart icon nex to any activity to add to your
+                    Tap the heart icon on any meditation to add to your
                     Favorites list.
                   </p>
                 </StyledFlexWrapper>

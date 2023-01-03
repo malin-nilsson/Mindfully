@@ -52,8 +52,9 @@ export default function Signup() {
         if (!isNewUser) {
           navigate('/home')
         } else {
+          const splitName = response.user.displayName?.split(' ')[0]
           const userData = {
-            firstName: response.user.displayName,
+            firstName: splitName,
             email: response.user.email,
             createdAt: response.user.metadata.creationTime,
           }
@@ -84,12 +85,13 @@ export default function Signup() {
       setErrorMessage('')
     }
     if (firstName && email && password) {
+      const splitName = firstName.split(' ')[0]
       setRegistering(true)
       setLoader(true)
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCred) => {
           const userData = {
-            firstName: firstName,
+            firstName: splitName,
             email: email,
             createdAt: userCred.user.metadata.creationTime,
           }
@@ -104,7 +106,6 @@ export default function Signup() {
         })
         .catch((error) => {
           setError(true)
-          setErrorMessage(error.message)
 
           if (error.code.includes('auth/weak-password')) {
             setErrorMessage('Please enter a stronger password.')
