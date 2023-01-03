@@ -131,9 +131,10 @@ export const StyledFlexWrapper = styled.div`
 
     input {
       box-sizing: border-box;
-      padding: 0.5rem;
+      padding: 0.7rem;
       width: 100%;
       border: 1px solid var(--dark-beige);
+      font-size: 1rem;
 
       &:focus {
         outline: none;
@@ -145,6 +146,13 @@ export const StyledFlexWrapper = styled.div`
       }
     }
 
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      width: 100%;
+    }
     .confirmation {
       color: var(--dark-beige);
       display: flex;
@@ -160,6 +168,14 @@ export const StyledFlexWrapper = styled.div`
       border: 1px solid #a90000;
       font-weight: 500;
       font-size: 0.9rem;
+    }
+
+    .error-input {
+      border: 1px solid #a90000;
+    }
+
+    span {
+      font-size: 0.85rem;
     }
   }
   .link-wrapper {

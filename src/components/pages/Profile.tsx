@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // STYLED COMPONENTS //
 import {
   StyledMeditationCard,
@@ -17,6 +17,7 @@ import {
   getAuth,
   onAuthStateChanged,
   updateEmail,
+  updatePassword,
   updateProfile,
 } from 'firebase/auth'
 // REACT ROUTER //
@@ -32,27 +33,27 @@ export default function Profile() {
   const navigate = useNavigate()
   const [disabledName, setDisabledName] = useState(true)
   const [disabledEmail, setDisabledEmail] = useState(true)
+  const [disabledPassword, setDisabledPassword] = useState(true)
   const [userInfo, setUserInfo] = useState({
     firstName: '',
     email: '',
   })
   const [newFirstName, setNewFirstName] = useState(userInfo.firstName)
   const [newEmail, setNewEmail] = useState(userInfo.email)
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [confirmationName, setConfirmationName] = useState('')
   const [confirmationEmail, setConfirmationEmail] = useState('')
+  const [confirmationPassword, setConfirmationPassword] = useState('')
   const [missingFields, setMissingFields] = useState('')
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
 
   useEffect(() => {
     window.scrollTo(0, 0)
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
-        setUserInfo({
-          firstName: user.displayName as string,
-          email: user.email as string,
-        })
-
         setNewEmail(user.email as string)
         setNewFirstName(user.displayName as string)
       } else {
@@ -72,15 +73,20 @@ export default function Profile() {
           setDisabledName(true)
         })
         .catch((error) => {
+          setError(true)
           console.log(error)
         })
     } else {
+      setError(true)
       setMissingFields('Please fill out missing fields.')
     }
   }
 
   const saveEmail = () => {
     setMissingFields('')
+    setError(false)
+    setErrorMessage('')
+    setPasswordErrorMessage('')
     if (auth.currentUser && newEmail) {
       updateEmail(auth.currentUser, newEmail)
         .then(() => {
@@ -88,6 +94,8 @@ export default function Profile() {
           setDisabledEmail(true)
         })
         .catch((error) => {
+          setError(true)
+
           if (error.code.includes('auth/weak-password')) {
             setErrorMessage('Please enter a stronger password.')
           } else if (error.code.includes('auth/email-already-in-use')) {
@@ -96,9 +104,44 @@ export default function Profile() {
             setErrorMessage('Email is invalid. Please try again.')
           } else {
             console.log(error)
-            setErrorMessage('Unable to sign up. Please try again later.')
+            setErrorMessage(
+              'Unable to make changes right now. Please try again later.',
+            )
           }
         })
+    } else {
+      setError(true)
+
+      setMissingFields('Please fill out missing fields.')
+    }
+  }
+
+  const savePassword = async () => {
+    setMissingFields('')
+
+    if (auth.currentUser && newPassword && confirmPassword) {
+      if (newPassword !== confirmPassword) {
+        setError(true)
+        setErrorMessage("Passwords don't match. Please try again.")
+      } else {
+        updatePassword(auth.currentUser, newPassword)
+          .then(() => {
+            setConfirmationPassword('Your new password has been saved.')
+            setDisabledPassword(true)
+          })
+          .catch((error) => {
+            setError(true)
+            if (error.code.includes('auth/weak-password')) {
+              setErrorMessage('Please enter a stronger password.')
+            } else if (error.code.includes('auth/requires-recent-login')) {
+              setPasswordErrorMessage(
+                "It's been a while since you logged in. For security reasons, sign out and sign in again to change your password.",
+              )
+            } else {
+              console.log(error.message)
+            }
+          })
+      }
     } else {
       setMissingFields('Please fill out missing fields.')
     }
@@ -131,87 +174,170 @@ export default function Profile() {
               >
                 {missingFields && <p className="error"> {missingFields}</p>}
                 {errorMessage && <p className="error"> {errorMessage}</p>}
-                <label>First name</label>
-                <input
-                  type="text"
-                  disabled={disabledName}
-                  onChange={(e) => setNewFirstName(e.target.value)}
-                  value={newFirstName}
-                ></input>
-                {confirmationName && (
-                  <>
-                    <p className="confirmation">
-                      <CheckIcon /> {confirmationName}
-                    </p>
-                  </>
-                )}
-                <StyledButtonWrapper direction="row" width="100%" gap="1rem">
-                  <StyledButton
-                    onClick={() => {
-                      setDisabledName(!disabledName)
-                      setConfirmationName('')
-                    }}
-                    padding="0.5rem"
-                    fontSize="0.8rem"
-                    borderRadius="0.5rem"
-                  >
-                    {disabledName ? 'Edit' : 'Cancel'}
-                  </StyledButton>
-                  <StyledButton
-                    onClick={() => {
-                      saveFirstName()
-                    }}
-                    padding="0.5rem"
-                    fontSize="0.8rem"
-                    borderRadius="0.5rem"
-                    bgColor="var(--dark-blue)"
-                    color="var(--dark-beige)"
-                    border="2px solid var(--dark-beige)"
-                  >
-                    Save
-                  </StyledButton>
-                </StyledButtonWrapper>
 
-                <label>Email address</label>
-                <input
-                  type="email"
-                  disabled={disabledEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  value={newEmail}
-                ></input>
-                {confirmationEmail && (
-                  <>
-                    <p className="confirmation">
-                      <CheckIcon /> {confirmationEmail}
-                    </p>
-                  </>
-                )}
-                <StyledButtonWrapper direction="row" width="100%" gap="1rem">
-                  <StyledButton
-                    onClick={() => {
-                      setDisabledEmail(!disabledEmail)
-                      setConfirmationEmail('')
-                    }}
-                    padding="0.5rem"
-                    fontSize="0.8rem"
-                    borderRadius="0.5rem"
-                  >
-                    {disabledEmail ? 'Edit' : 'Cancel'}
-                  </StyledButton>
-                  <StyledButton
-                    onClick={() => {
-                      saveEmail()
-                    }}
-                    padding="0.5rem"
-                    fontSize="0.8rem"
-                    borderRadius="0.5rem"
-                    bgColor="var(--dark-blue)"
-                    color="var(--dark-beige)"
-                    border="2px solid var(--dark-beige)"
-                  >
-                    Save
-                  </StyledButton>
-                </StyledButtonWrapper>
+                <div className="input-group">
+                  <label>First name</label>
+                  <input
+                    type="text"
+                    disabled={disabledName}
+                    onChange={(e) => setNewFirstName(e.target.value)}
+                    value={newFirstName}
+                  ></input>
+                  {confirmationName && (
+                    <>
+                      <p className="confirmation">
+                        <CheckIcon /> {confirmationName}
+                      </p>
+                    </>
+                  )}
+                  <StyledButtonWrapper direction="row" width="100%" gap="1rem">
+                    <StyledButton
+                      onClick={() => {
+                        setDisabledName(!disabledName)
+                        setConfirmationName('')
+                        setErrorMessage('')
+                        setPasswordErrorMessage('')
+                      }}
+                      padding="0.8rem"
+                      fontSize="0.8rem"
+                      borderRadius="0.5rem"
+                    >
+                      {disabledName ? 'Edit' : 'Cancel'}
+                    </StyledButton>
+                    {disabledName ? (
+                      ''
+                    ) : (
+                      <StyledButton
+                        onClick={() => {
+                          saveFirstName()
+                        }}
+                        padding="0.8rem"
+                        fontSize="0.8rem"
+                        borderRadius="0.5rem"
+                        bgColor="var(--dark-blue)"
+                        color="var(--dark-beige)"
+                        border="2px solid var(--dark-beige)"
+                      >
+                        Save
+                      </StyledButton>
+                    )}
+                  </StyledButtonWrapper>
+                </div>
+
+                <div className="input-group">
+                  <label>Email address</label>
+                  <input
+                    type="email"
+                    disabled={disabledEmail}
+                    onChange={(e) => setNewEmail(e.target.value)}
+                    value={newEmail}
+                  ></input>
+                  {confirmationEmail && (
+                    <>
+                      <p className="confirmation">
+                        <CheckIcon /> {confirmationEmail}
+                      </p>
+                    </>
+                  )}
+                  <StyledButtonWrapper direction="row" width="100%" gap="1rem">
+                    <StyledButton
+                      onClick={() => {
+                        setDisabledEmail(!disabledEmail)
+                        setConfirmationEmail('')
+                        setPasswordErrorMessage('')
+                        setErrorMessage('')
+                        setConfirmationPassword('')
+                      }}
+                      padding="0.8rem"
+                      fontSize="0.8rem"
+                      borderRadius="0.5rem"
+                    >
+                      {disabledEmail ? 'Edit' : 'Cancel'}
+                    </StyledButton>
+                    {disabledEmail ? (
+                      ''
+                    ) : (
+                      <StyledButton
+                        onClick={() => {
+                          saveEmail()
+                        }}
+                        padding="0.8rem"
+                        fontSize="0.8rem"
+                        borderRadius="0.5rem"
+                        bgColor="var(--dark-blue)"
+                        color="var(--dark-beige)"
+                        border="2px solid var(--dark-beige)"
+                      >
+                        Save
+                      </StyledButton>
+                    )}
+                  </StyledButtonWrapper>
+                </div>
+
+                <div className="input-group">
+                  <label>Password</label>
+                  <span>Old password:</span>
+                  <input
+                    type="password"
+                    disabled={true}
+                    placeholder="******"
+                  ></input>
+                  <span>New password:</span>
+                  <input
+                    type="password"
+                    disabled={disabledPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                  ></input>
+                  <span>Confirm password:</span>
+                  <input
+                    type="password"
+                    disabled={disabledPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  ></input>
+                  {confirmationPassword && (
+                    <>
+                      <p className="confirmation">
+                        <CheckIcon /> {confirmationPassword}
+                      </p>
+                    </>
+                  )}
+                  {passwordErrorMessage && (
+                    <p className="error"> {passwordErrorMessage}</p>
+                  )}
+
+                  <StyledButtonWrapper direction="row" width="100%" gap="1rem">
+                    <StyledButton
+                      onClick={() => {
+                        setDisabledPassword(!disabledPassword)
+                        setPasswordErrorMessage('')
+                        setErrorMessage('')
+                        setConfirmationPassword('')
+                      }}
+                      padding="0.8rem"
+                      fontSize="0.8rem"
+                      borderRadius="0.5rem"
+                    >
+                      {disabledPassword ? 'Edit' : 'Cancel'}
+                    </StyledButton>
+                    {disabledPassword ? (
+                      ''
+                    ) : (
+                      <StyledButton
+                        onClick={() => {
+                          savePassword()
+                        }}
+                        padding="0.8rem"
+                        fontSize="0.8rem"
+                        borderRadius="0.5rem"
+                        bgColor="var(--dark-blue)"
+                        color="var(--dark-beige)"
+                        border="2px solid var(--dark-beige)"
+                      >
+                        Save
+                      </StyledButton>
+                    )}
+                  </StyledButtonWrapper>
+                </div>
               </StyledFlexWrapper>
             </div>
           </StyledProfileCard>
