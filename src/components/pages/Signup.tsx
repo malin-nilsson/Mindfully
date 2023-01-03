@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
@@ -36,7 +36,7 @@ export default function Signup() {
   const [confirm, setConfirm] = useState('')
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
-
+  const shakeRef = useRef<HTMLFormElement | null>(null)
   /////////////////////////
   // SIGN UP WITH GOOGLE //
   /////////////////////////
@@ -66,6 +66,7 @@ export default function Signup() {
         }
       })
       .catch((error) => {
+        shakeContainer()
         console.log(error)
         setErrorMessage(error.message)
         setError(true)
@@ -105,6 +106,7 @@ export default function Signup() {
           })
         })
         .catch((error) => {
+          shakeContainer()
           setError(true)
 
           if (error.code.includes('auth/weak-password')) {
@@ -125,6 +127,14 @@ export default function Signup() {
     }
   }
 
+  const shakeContainer = () => {
+    if (shakeRef.current) {
+      shakeRef.current.className = 'shake'
+
+      shakeRef.current.classList.remove('shake')
+    }
+  }
+
   return (
     <>
       {loader ? (
@@ -137,10 +147,7 @@ export default function Signup() {
           transition={{ duration: 0.4 }}
         >
           <StyledFlexWrapper>
-            <StyledForm
-              onSubmit={(e) => e.preventDefault()}
-              className={errorMessage || missingFields ? 'shake' : ''}
-            >
+            <StyledForm ref={shakeRef} onSubmit={(e) => e.preventDefault()}>
               <StyledHeadingM>Sign up</StyledHeadingM>
               <p>
                 Creating an account enables you to save your progress &#128522;
