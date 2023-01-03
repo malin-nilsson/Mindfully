@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
@@ -33,6 +33,7 @@ export default function Login() {
   const [authenticating, setAuthenticating] = useState(false)
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
+  const shakeRef = useRef<HTMLFormElement | null>(null)
 
   /////////////////////////
   // SIGN IN WITH GOOGLE //
@@ -101,6 +102,14 @@ export default function Login() {
       })
   }
 
+  const shakeContainer = () => {
+    if (shakeRef.current) {
+      shakeRef.current.className = 'shake'
+
+      shakeRef.current.classList.remove('shake')
+    }
+  }
+
   return (
     <>
       {loader ? (
@@ -114,6 +123,7 @@ export default function Login() {
         >
           <StyledFlexWrapper>
             <StyledForm
+              ref={shakeRef}
               onSubmit={(e) => e.preventDefault()}
               className={errorMessage || missingFields ? 'shake' : ''}
             >
