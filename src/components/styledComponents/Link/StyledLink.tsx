@@ -3,7 +3,9 @@ import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledLink = styled.a`
   font-family: var(--text-font);
-  color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--dark-blue)'};
+  background-color: ${(props: IStylingProps) =>
+    props.bgColor || 'var(--dark-beige)'};
   font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};
   text-transform: ${(props: IStylingProps) =>
     props.textTransform || 'uppercase'};

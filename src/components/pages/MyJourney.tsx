@@ -16,14 +16,21 @@ import {
 } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledLink } from '../styledComponents/Link/StyledLink'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
+import { StyledButton } from '../styledComponents/Button/StyledButton'
+
 // MUI //
+import FeedIcon from '@mui/icons-material/Feed'
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
+// DATE STReEAK //
 import { summary } from 'date-streaks'
+// REACT ROUTER //
+import { useNavigate } from 'react-router-dom'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
@@ -31,6 +38,7 @@ export default function MyJourney() {
   const [currentStreak, setCurrentStreak] = useState(0)
   const [sessionsTotal, setSessionsTotal] = useState(0)
   const [showJourney, setShowJourney] = useState(false)
+  const navigate = useNavigate()
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -109,7 +117,11 @@ export default function MyJourney() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
     >
-      <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
+      <StyledFlexWrapper
+        justify="flex-start"
+        padding="1.5rem 0 2rem"
+        width="100%"
+      >
         <StyledFlexWrapper>
           <StyledHeadingXL color="var(--dark-beige)">
             Your journey so far
@@ -236,7 +248,7 @@ export default function MyJourney() {
         >
           <div className="history-wrapper">
             <>
-              {progress &&
+              {progress ? (
                 progress.map((session) => {
                   return (
                     <div className="history-single" key={session.id}>
@@ -263,7 +275,24 @@ export default function MyJourney() {
                       </StyledFlexWrapper>
                     </div>
                   )
-                })}
+                })
+              ) : (
+                <StyledFlexWrapper gap="2rem">
+                  <FeedIcon style={{ color: '#f7dba8', fontSize: '3rem' }} />
+                  <StyledHeadingS borderBottom="unset">
+                    No history yet
+                  </StyledHeadingS>
+
+                  <StyledButton
+                    onClick={() => {
+                      navigate('/explore')
+                    }}
+                  >
+                    <AutoAwesomeIcon />
+                    Find a meditation
+                  </StyledButton>
+                </StyledFlexWrapper>
+              )}
             </>
           </div>
         </StyledFlexWrapper>

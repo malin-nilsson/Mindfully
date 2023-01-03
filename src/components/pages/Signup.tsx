@@ -37,6 +37,7 @@ export default function Signup() {
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
   const shakeRef = useRef<HTMLFormElement | null>(null)
+
   /////////////////////////
   // SIGN UP WITH GOOGLE //
   /////////////////////////

@@ -18,6 +18,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
+// UTILS //
+import { getUser } from '../../utils/getUser'
+import { getFavorites } from '../../utils/getFavorites'
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -40,10 +43,11 @@ export default function Explore() {
     id: 0,
   })
   const [fillHeart, setFillHeart] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  })
+  }, [])
 
   const handleOnChange = (e: string) => {
     let filtered: IMeditation[] = []
@@ -214,7 +218,7 @@ export default function Explore() {
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">
                         <StyledImageWrapper maxHeight="22px">
-                          {fillHeart ? (
+                          {isFavorite ? (
                             <FavoriteIcon
                               style={{ color: '#f7dba8' }}
                               fontSize="medium"

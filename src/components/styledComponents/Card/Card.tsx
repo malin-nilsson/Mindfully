@@ -65,7 +65,7 @@ export const StyledProfileCard = styled(StyledMeditationCard)`
   }
 
   @media ${devices.desktop} {
-    padding: 3rem 3.5rem;
+    padding: 1.5rem 3rem;
     width: 50%;
   }
 `
