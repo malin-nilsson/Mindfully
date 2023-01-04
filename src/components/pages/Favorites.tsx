@@ -82,7 +82,7 @@ export default function Favorites() {
 
   return (
     <>
-      {loader && <Loader message="Take a deep breath..."></Loader>}
+      {loader && <Loader />}
       {videoModal && (
         <motion.div
           initial={{ opacity: 0 }}

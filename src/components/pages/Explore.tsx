@@ -42,12 +42,44 @@ export default function Explore() {
     audio: '',
     id: 0,
   })
-  const [fillHeart, setFillHeart] = useState(false)
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [favorites, setFavorites] = useState<IMeditation[]>()
 
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [])
+    matchFavorites()
+  }, [favorites])
+
+  const matchFavorites = async () => {
+    const userRef = await getUser()
+    const faves = await getFavorites()
+
+    if (userRef) {
+      try {
+        if (faves) {
+          const isFavorite: IMeditation[] = []
+          console.log('faves: ', faves)
+          faves.map((fave) => {
+            for (let i = 0; i < meditations.length; i++) {
+              if (fave.title === meditations[i].title) {
+                isFavorite.push(meditations[i])
+              }
+            }
+          })
+          setFavorites(isFavorite)
+          console.log('new array: ', isFavorite)
+        } else {
+          console.log('Document does not exist')
+          setFavorites([])
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  const checkIfFavorite = (m: IMeditation) => {
+    return favorites?.includes(m)
+  }
 
   const handleOnChange = (e: string) => {
     let filtered: IMeditation[] = []
@@ -92,7 +124,7 @@ export default function Explore() {
 
   return (
     <>
-      {loader && <Loader message="Take a deep breath..."></Loader>}
+      {loader && <Loader />}
       {videoModal && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -181,7 +213,7 @@ export default function Explore() {
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">
                         <StyledImageWrapper maxHeight="22px">
-                          {fillHeart ? (
+                          {checkIfFavorite(meditation) ? (
                             <FavoriteIcon
                               style={{ color: '#f7dba8' }}
                               fontSize="medium"
@@ -218,7 +250,7 @@ export default function Explore() {
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">
                         <StyledImageWrapper maxHeight="22px">
-                          {isFavorite ? (
+                          {checkIfFavorite(meditation) ? (
                             <FavoriteIcon
                               style={{ color: '#f7dba8' }}
                               fontSize="medium"

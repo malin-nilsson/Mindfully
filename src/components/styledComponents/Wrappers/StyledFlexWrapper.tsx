@@ -121,7 +121,7 @@ export const StyledFlexWrapper = styled.div`
     width: 100%;
     justify-content: flex-start;
     align-items: center;
-    gap: 2rem;
+    gap: 1rem;
 
     label {
       color: var(--dark-beige);
