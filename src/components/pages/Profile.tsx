@@ -49,6 +49,7 @@ export default function Profile() {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [passwordErrorMessage, setPasswordErrorMessage] = useState('')
+  const [emailErrorMessage, setEmailErrorMessage] = useState('')
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -96,15 +97,17 @@ export default function Profile() {
         .catch((error) => {
           setError(true)
 
-          if (error.code.includes('auth/weak-password')) {
-            setErrorMessage('Please enter a stronger password.')
-          } else if (error.code.includes('auth/email-already-in-use')) {
-            setErrorMessage('Email is already in use.')
+          if (error.code.includes('auth/email-already-in-use')) {
+            setEmailErrorMessage('Email is already in use.')
           } else if (error.code.includes('auth/invalid-email')) {
-            setErrorMessage('Email is invalid. Please try again.')
+            setEmailErrorMessage('Email is invalid. Please try again.')
+          } else if (error.code.includes('auth/requires-recent-login')) {
+            setEmailErrorMessage(
+              "It's been a while since you logged in. For security reasons, sign out and sign in again to change your password.",
+            )
           } else {
             console.log(error)
-            setErrorMessage(
+            setEmailErrorMessage(
               'Unable to make changes right now. Please try again later.',
             )
           }
@@ -122,7 +125,7 @@ export default function Profile() {
     if (auth.currentUser && newPassword && confirmPassword) {
       if (newPassword !== confirmPassword) {
         setError(true)
-        setErrorMessage("Passwords don't match. Please try again.")
+        setPasswordErrorMessage("Passwords don't match. Please try again.")
       } else {
         updatePassword(auth.currentUser, newPassword)
           .then(() => {
@@ -132,13 +135,16 @@ export default function Profile() {
           .catch((error) => {
             setError(true)
             if (error.code.includes('auth/weak-password')) {
-              setErrorMessage('Please enter a stronger password.')
+              setPasswordErrorMessage('Please enter a stronger password.')
             } else if (error.code.includes('auth/requires-recent-login')) {
               setPasswordErrorMessage(
                 "It's been a while since you logged in. For security reasons, sign out and sign in again to change your password.",
               )
             } else {
               console.log(error.message)
+              setPasswordErrorMessage(
+                'Unable to make changes right now. Please try again later.',
+              )
             }
           })
       }
@@ -239,12 +245,16 @@ export default function Profile() {
                       </p>
                     </>
                   )}
+                  {emailErrorMessage && (
+                    <p className="error"> {emailErrorMessage}</p>
+                  )}
                   <StyledButtonWrapper direction="row" width="100%" gap="1rem">
                     <StyledButton
                       onClick={() => {
                         setDisabledEmail(!disabledEmail)
                         setConfirmationEmail('')
                         setPasswordErrorMessage('')
+                        setEmailErrorMessage('')
                         setErrorMessage('')
                         setConfirmationPassword('')
                       }}

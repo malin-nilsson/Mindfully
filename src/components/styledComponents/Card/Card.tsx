@@ -59,6 +59,13 @@ export const StyledProfileCard = styled(StyledMeditationCard)`
   height: unset;
   padding: 2rem 3rem;
   width: unset;
+  background: var(--light-blue);
+
+  &:hover {
+    cursor: default;
+    transform: unset;
+    background: var(--light-blue);
+  }
 
   @media ${devices.tablet} {
     width: 40%;
