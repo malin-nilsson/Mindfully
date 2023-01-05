@@ -1,20 +1,25 @@
+import { useEffect, useState } from 'react'
+// STYLED COMPONENTS //
 import styled from 'styled-components'
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
-import CloseIcon from '@mui/icons-material/Close'
+import { devices } from '../../breakpoints/Breakpoints'
+import { IStylingProps } from '../models/IStylingProps'
+import Animation from '../Animations/StyledAnimations'
+import { StyledHeadingM } from '../Headings/StyledHeadings'
+// MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import { devices } from '../../breakpoints/Breakpoints'
-import { useEffect, useState } from 'react'
+import CloseIcon from '@mui/icons-material/Close'
+// MODELS //
 import { IMeditation } from '../../../models/IMeditation'
-import { IStylingProps } from '../models/IStylingProps'
+// FIREBASE //
 import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getUser } from '../../../utils/getUser'
 import { getProgress } from '../../../utils/getProgress'
-import Animation from '../Animations/StyledAnimations'
+// DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
-import { StyledHeadingM } from '../Headings/StyledHeadings'
 
 interface IModalProps {
   meditation: IMeditation
@@ -170,7 +175,7 @@ export default function ImageModal(props: IModalProps) {
         align="flex-end"
         justify="flex-end"
         direction="row"
-        padding="2rem 1rem 0rem"
+        padding="1rem 1rem 0rem"
         width="auto"
         margin="unset"
         gap="1rem"
@@ -212,10 +217,13 @@ export default function ImageModal(props: IModalProps) {
           <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
         </StyledImageWrapper>
       </StyledFlexWrapper>
-      <StyledFlexWrapper padding="0.5rem 0">
+      <StyledFlexWrapper padding="0">
         <StyledHeadingM color="var(--dark-blue)">
           {props.meditation.title}
         </StyledHeadingM>
+        <div className="description">
+          <p>{props.meditation.description}</p>
+        </div>
       </StyledFlexWrapper>
       <Animation
         meditation={props.meditation}
@@ -240,6 +248,7 @@ export const StyledModal = styled.div`
   top: 0;
   left: 0;
   z-index: 20;
+  overflow: hidden;
 
   @media ${devices.desktop} {
     justify-content: flex-start;
@@ -270,6 +279,19 @@ export const StyledModal = styled.div`
     &:hover {
       cursor: pointer;
       transform: translate(-0.1rem, -0.2rem);
+    }
+  }
+
+  .description {
+    @media ${devices.desktop} {
+      width: 55%;
+    }
+    p {
+      margin: 0.2rem 0 0.4rem;
+      padding: 0;
+      font-size: 1rem;
+      font-weight: 300;
+      text-align: center;
     }
   }
 `

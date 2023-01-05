@@ -35,7 +35,7 @@ export default function Favorites() {
   useEffect(() => {
     window.scrollTo(0, 0)
     showFavorites()
-  }, [])
+  }, [favorites])
 
   const showFavorites = async () => {
     const userRef = await getUser()

@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components'
 import { IMeditation } from '../../../models/IMeditation'
 import { devices } from '../../breakpoints/Breakpoints'
 import { StyledButton } from '../Button/StyledButton'
+import { IStylingProps } from '../models/IStylingProps'
 
 interface IAnimationProps {
   meditation: IMeditation
@@ -215,7 +216,7 @@ export const StyledAnimation = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 4.5rem 0 1.5rem;
+    margin: 2.5rem 0 1rem;
     height: 300px;
     width: 300px;
     position: relative;
@@ -252,7 +253,10 @@ export const StyledAnimation = styled.div`
   }
 
   .animate-circle {
-    background-color: var(--dark-beige);
+    background-color: ${(props: IStylingProps) =>
+      props.bgColor || 'var(--light-beige)'};
+    outline: ${(props: IStylingProps) =>
+      props.outline || '2px solid var(--mid-blue)'};
     height: 90%;
     width: 90%;
     border-radius: 50%;
@@ -264,8 +268,10 @@ export const StyledAnimation = styled.div`
     align-items: center;
   }
   .animation-ball {
-    background-color: var(--mid-blue);
-    outline: 2px solid var(--dark-beige);
+    background-color: ${(props: IStylingProps) =>
+      props.bgColor || 'var(--dark-beige)'};
+    outline: ${(props: IStylingProps) =>
+      props.outline || '2px solid var(--mid-blue)'};
     border-radius: 50%;
     height: 1.3rem;
     width: 1.3rem;
@@ -292,8 +298,11 @@ export const StyledAnimation = styled.div`
     transform-origin: bottom center;
   }
   .animation-inner-container {
-    background-color: var(--mid-blue);
-    outline: 10px solid var(--dark-beige);
+    background-color: ${(props: IStylingProps) =>
+      props.bgColor || 'var(--dark-beige)'};
+    outline: ${(props: IStylingProps) =>
+      props.outline || '10px solid var(--mid-blue)'};
+
     height: 100%;
     width: 100%;
     border-radius: 50%;
@@ -304,7 +313,7 @@ export const StyledAnimation = styled.div`
   }
 
   .animation-text {
-    font-size: 2rem;
+    font-size: 2.2rem;
     z-index: 900;
     color: #010f1c;
   }

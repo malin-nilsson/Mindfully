@@ -36,6 +36,8 @@ export const MeditationCatalog: IMeditation[] = [
     icon: boxBreathingIcon,
     img: boxBreathingImage,
     audio: '',
+    description:
+      'Box breathing is a technique practiced by Navy SEALs used in high-stress situations to aid in stress management and overall wellness.',
     totalTime: 12000,
     holdTime: 4000,
     breatheTime: 4000,
@@ -65,6 +67,8 @@ export const MeditationCatalog: IMeditation[] = [
     icon: fourSevenEightIcon,
     img: fourSevenEightImage,
     audio: '',
+    description:
+      'The 4-7-8 method includes rhythmic breathing and focuses on regulating your breath to promote sleep and relaxation.',
     totalTime: 19000,
     holdTime: 7000,
     breatheTime: 4000,

@@ -19,12 +19,13 @@ import { Slider } from '@mui/material'
 // MODELS //
 import { IMeditation } from '../../../models/IMeditation'
 // DATE DNS //
-import { differenceInMinutes, differenceInSeconds } from 'date-fns'
+import { differenceInSeconds } from 'date-fns'
 // FIREBASE //
 import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getProgress } from '../../../utils/getProgress'
 import { getUser } from '../../../utils/getUser'
+import { motion } from 'framer-motion'
 
 interface IModalProps {
   meditation: IMeditation
@@ -40,6 +41,7 @@ export default function VideoModal(props: IModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   const [timer, setTimer] = useState('00:00:00')
+  const [hideTimer, setHideTimer] = useState(false)
 
   useEffect(() => {
     fillFavorite()
@@ -64,7 +66,7 @@ export default function VideoModal(props: IModalProps) {
 
   const startTimer = (e: any) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(e)
-    console.log(total)
+
     if (total >= 1) {
       setTimer(
         (hours > 9 ? hours : '0' + hours) +
@@ -262,6 +264,12 @@ export default function VideoModal(props: IModalProps) {
     }
   }
 
+  // VISIBILITY STYLE
+
+  const visibilityStyle = {
+    visibility: hideTimer && 'hidden',
+  } as React.CSSProperties
+
   return (
     <StyledVideo>
       <div className="video-container">
@@ -336,12 +344,21 @@ export default function VideoModal(props: IModalProps) {
 
           <StyledFlexWrapper margin="unset" direction="row" width="100%">
             <StyledFlexWrapper margin="unset">
-              <ArrowBackIosNewIcon
-                fontSize="large"
-                style={{ color: 'var(--dark-beige)' }}
-              />
+              <div className="icon-wrapper">
+                <span
+                  onClick={() => {
+                    setHideTimer(!hideTimer)
+                  }}
+                >
+                  <ArrowBackIosNewIcon
+                    fontSize="large"
+                    style={{ color: 'var(--dark-beige)' }}
+                  />{' '}
+                </span>
+              </div>
             </StyledFlexWrapper>
             <StyledCard
+              style={visibilityStyle}
               align="flex-start"
               className="modal-card"
               justify="center"
@@ -422,12 +439,12 @@ export default function VideoModal(props: IModalProps) {
                         <PlayCircleFilledIcon />
                       )}
                     </StyledImageWrapper>
-                    {isMeditating ? 'Finish' : 'Play'}
+                    {isMeditating ? 'Pause' : 'Play'}
                   </StyledButton>
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
             </StyledCard>
-            <StyledFlexWrapper margin="unset">
+            <StyledFlexWrapper margin="unset" style={visibilityStyle}>
               <span className="timer">{timer}</span>
             </StyledFlexWrapper>
           </StyledFlexWrapper>

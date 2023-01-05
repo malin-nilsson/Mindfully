@@ -5,6 +5,7 @@ export interface IMeditation {
   img?: string
   audio?: string
   video?: string
+  description?: string
   id: number
   totalTime?: number
   holdTime?: number

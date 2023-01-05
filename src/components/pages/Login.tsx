@@ -44,9 +44,11 @@ export default function Login() {
   /////////////////////////
   const signInWithGoogle = async () => {
     setAuthing(true)
+    setLoader(true)
 
     signInWithPopup(auth, new GoogleAuthProvider())
       .then(async (response) => {
+        setLoader(false)
         const additionalUserInfo = getAdditionalUserInfo(response)
 
         // Check if user already exists
@@ -228,8 +230,8 @@ export default function Login() {
                   we'll send a reset link.
                 </p>
                 <span>
-                  Psst... If you don't receive an email from us, check all the
-                  folders in your email, including Junk and Spam.
+                  Psst... If you don't receive an email, check all the folders
+                  in your email, including Junk and Spam.
                 </span>
               </div>
 

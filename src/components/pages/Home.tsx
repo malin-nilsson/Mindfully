@@ -30,7 +30,9 @@ export default function Home() {
 
     onAuthStateChanged(auth, (user) => {
       if (user !== null) {
-        setDisplayName(user.displayName as string)
+        const fullName = user.displayName as string
+        const firstName = fullName.split(' ')[0]
+        setDisplayName(firstName)
       } else {
         navigate('/')
       }
