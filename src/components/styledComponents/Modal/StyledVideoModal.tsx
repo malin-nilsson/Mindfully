@@ -64,8 +64,8 @@ export default function VideoModal(props: IModalProps) {
 
   const startTimer = (e: any) => {
     let { total, hours, minutes, seconds } = getTimeRemaining(e)
-
-    if (total >= 0) {
+    console.log(total)
+    if (total >= 1) {
       setTimer(
         (hours > 9 ? hours : '0' + hours) +
           ':' +
@@ -73,6 +73,9 @@ export default function VideoModal(props: IModalProps) {
           ':' +
           (seconds > 9 ? seconds : '0' + seconds),
       )
+    } else if (total === 0) {
+      setTimer('00' + ':' + '00' + ':' + '00')
+      stopMeditation()
     }
   }
 

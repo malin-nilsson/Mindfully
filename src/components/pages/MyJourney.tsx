@@ -58,7 +58,6 @@ export default function MyJourney() {
             return item.date
           })
           const streak = summary({ dates })
-          console.log(summary({ dates }))
 
           setCurrentStreak(streak.currentStreak)
 

@@ -57,7 +57,7 @@ export default function Explore() {
       try {
         if (faves) {
           const isFavorite: IMeditation[] = []
-          console.log('faves: ', faves)
+
           faves.map((fave) => {
             for (let i = 0; i < meditations.length; i++) {
               if (fave.title === meditations[i].title) {
@@ -66,7 +66,6 @@ export default function Explore() {
             }
           })
           setFavorites(isFavorite)
-          console.log('new array: ', isFavorite)
         } else {
           console.log('Document does not exist')
           setFavorites([])
