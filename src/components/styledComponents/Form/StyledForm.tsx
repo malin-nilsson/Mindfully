@@ -18,7 +18,7 @@ export const StyledForm = styled.form`
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
   @media ${devices.tablet} {
-    padding: 2.5rem 3.5rem 0.5rem;
+    padding: 2.5rem 3.5rem 1.5rem;
     width: 100%;
   }
 
@@ -27,7 +27,7 @@ export const StyledForm = styled.form`
     padding: 1rem;
     outline: none;
     border: 1px solid var(--dark-beige);
-    border-radius: 0.9rem;
+    border-radius: 1rem;
     color: var(--dark-beige);
 
     &:focus {
@@ -54,6 +54,36 @@ export const StyledForm = styled.form`
     margin: 0.5rem 0;
   }
 
+  .password-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      font-size: 0.8rem;
+      margin: 0 0 0.5rem;
+      text-decoration: underline;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .forgot-password {
+    width: 100%;
+    p {
+      font-size: 1.1rem;
+      font-weight: 300;
+    }
+
+    span {
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+  }
+
   a {
     color: var(--dark-beige);
     text-decoration: underline;
@@ -76,5 +106,11 @@ export const StyledForm = styled.form`
 
   .error-input {
     border: 1px solid #a90000;
+  }
+
+  .history-icon {
+    &:hover {
+      cursor: pointer;
+    }
   }
 `

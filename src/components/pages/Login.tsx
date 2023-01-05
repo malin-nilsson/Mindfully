@@ -7,6 +7,7 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import GoogleIcon from '@mui/icons-material/Google'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 // REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
 // FIREBASE //
@@ -16,6 +17,7 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   getAdditionalUserInfo,
+  sendPasswordResetEmail,
 } from 'firebase/auth'
 import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
@@ -34,6 +36,8 @@ export default function Login() {
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
   const shakeRef = useRef<HTMLFormElement | null>(null)
+  const [login, setLogin] = useState(true)
+  const [forgotPasswordEmail, setForgotPasswordEmail] = useState('')
 
   /////////////////////////
   // SIGN IN WITH GOOGLE //
@@ -102,19 +106,31 @@ export default function Login() {
       })
   }
 
-  const shakeContainer = () => {
-    if (shakeRef.current) {
-      shakeRef.current.className = 'shake'
-
-      shakeRef.current.classList.remove('shake')
+  // PASSWORD RESET //
+  const resetPassword = () => {
+    setError(false)
+    setMissingFields(false)
+    if (forgotPasswordEmail) {
+      sendPasswordResetEmail(auth, forgotPasswordEmail)
+        .then(() => {
+          // Password reset email sent!
+          // ..
+        })
+        .catch((error) => {
+          setError(true)
+          setErrorMessage(error.message)
+        })
+    } else {
+      setError(true)
+      setMissingFields(true)
     }
   }
 
   return (
     <>
-      {loader ? (
-        <Loader></Loader>
-      ) : (
+      {loader && <Loader />}
+
+      {login ? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -128,7 +144,7 @@ export default function Login() {
               className={errorMessage || missingFields ? 'shake' : ''}
             >
               <StyledHeadingM>Welcome back</StyledHeadingM>
-              {error && <p className="error">{errorMessage}</p>}
+              {errorMessage && <p className="error">{errorMessage}</p>}
 
               <div className="input-group">
                 <label>Email</label>
@@ -140,7 +156,20 @@ export default function Login() {
                 />
               </div>
               <div className="input-group">
-                <label>Password</label>
+                <div className="password-group">
+                  {' '}
+                  <label>Password</label>{' '}
+                  <span
+                    onClick={() => {
+                      setErrorMessage('')
+                      setError(false)
+                      setLogin(!login)
+                      setMissingFields(false)
+                    }}
+                  >
+                    Forgot password?
+                  </span>{' '}
+                </div>
                 <input
                   onChange={(e) => setPassword(e.target.value)}
                   type="password"
@@ -167,9 +196,70 @@ export default function Login() {
               >
                 <GoogleIcon></GoogleIcon>Log in with Google
               </StyledButton>
+
               <p>
                 Don't have an account? <Link to="/signup">Create one.</Link>
               </p>
+            </StyledForm>
+          </StyledFlexWrapper>
+        </motion.div>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <StyledFlexWrapper>
+            <StyledForm
+              ref={shakeRef}
+              onSubmit={(e) => e.preventDefault()}
+              className={errorMessage || missingFields ? 'shake' : ''}
+            >
+              <span onClick={() => setLogin(true)} className="history-icon">
+                <ArrowBackIosIcon />
+              </span>
+
+              <StyledHeadingM>Forgot your password?</StyledHeadingM>
+              <div className="forgot-password">
+                <p>
+                  {' '}
+                  Not to worry, we got you! &#128591; Enter your email below and
+                  we'll send a reset link.
+                </p>
+                <span>
+                  Psst... If you don't receive an email from us, check all the
+                  folders in your email, including Junk and Spam.
+                </span>
+              </div>
+
+              {errorMessage && <p className="error">{errorMessage}</p>}
+              {missingFields && (
+                <p className="error">Please fill out missing fields.</p>
+              )}
+              <div className="input-group">
+                <label>Email</label>
+                <input
+                  onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                  type="email"
+                  placeholder="Email address"
+                  className={error && !email ? 'error-input' : ''}
+                />
+              </div>
+
+              <StyledButton
+                type="button"
+                onClick={() => {
+                  resetPassword()
+                }}
+                disabled={authing}
+                bgColor="var(--mid-blue)"
+                color="var(--dark-beige)"
+                border="1px solid var(--dark-beige)"
+                width="100%"
+              >
+                Reset password
+              </StyledButton>
             </StyledForm>
           </StyledFlexWrapper>
         </motion.div>

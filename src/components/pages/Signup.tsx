@@ -148,10 +148,14 @@ export default function Signup() {
           transition={{ duration: 0.4 }}
         >
           <StyledFlexWrapper>
-            <StyledForm ref={shakeRef} onSubmit={(e) => e.preventDefault()}>
+            <StyledForm
+              onSubmit={(e) => e.preventDefault()}
+              className={errorMessage || missingFields ? 'shake' : ''}
+            >
               <StyledHeadingM>Sign up</StyledHeadingM>
               <p>
-                Creating an account enables you to save your progress &#128522;
+                Creating an account enables you to track your progress and save
+                favorite meditations &#128522;
               </p>
               {missingFields && (
                 <p className="error">Please fill out missing fields.</p>
