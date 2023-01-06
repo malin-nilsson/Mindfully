@@ -35,6 +35,14 @@ export const StyledCard = styled.div`
   }
 `
 
+export const StyledTimerCard = styled(StyledCard)`
+  &:hover {
+    cursor: unset;
+    transform: unset;
+    background: var(--dark-beige);
+  }
+`
+
 export const StyledMeditationCard = styled(StyledCard)`
   background: var(--dark-blue);
   color: var(--dark-beige);

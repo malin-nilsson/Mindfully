@@ -203,13 +203,13 @@ export const StyledFlexWrapper = styled.div`
   .show {
     display: flex;
     visibility: visible;
-    animation: ${fadeIn} 0.5s forwards;
+    animation: ${fadeIn} 0.3s forwards;
     animation-fill-mode: forwards;
   }
 
   .hide {
     visibility: none;
-    animation: ${fadeOut} 0.5s forwards;
+    animation: ${fadeOut} 0.3s forwards;
     animation-fill-mode: forwards;
   }
 `

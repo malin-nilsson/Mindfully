@@ -4,7 +4,7 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import { StyledButton } from '../Button/StyledButton'
-import { StyledCard } from '../Card/Card'
+import { StyledTimerCard } from '../Card/Card'
 import { StyledHeadingXS, StyledHeadingM } from '../Headings/StyledHeadings'
 import styled from 'styled-components'
 // MUI //
@@ -41,7 +41,7 @@ export default function VideoModal(props: IModalProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   const [timer, setTimer] = useState('00:00:00')
-  const [hideTimer, setHideTimer] = useState(false)
+  const [showTimer, setShowTimer] = useState(true)
 
   useEffect(() => {
     fillFavorite()
@@ -266,10 +266,6 @@ export default function VideoModal(props: IModalProps) {
 
   // VISIBILITY STYLE
 
-  const visibilityStyle = {
-    visibility: hideTimer && 'hidden',
-  } as React.CSSProperties
-
   return (
     <StyledVideo>
       <div className="video-container">
@@ -347,7 +343,7 @@ export default function VideoModal(props: IModalProps) {
               <div className="icon-wrapper">
                 <span
                   onClick={() => {
-                    setHideTimer(!hideTimer)
+                    setShowTimer(!showTimer)
                   }}
                 >
                   <ArrowBackIosNewIcon
@@ -357,11 +353,10 @@ export default function VideoModal(props: IModalProps) {
                 </span>
               </div>
             </StyledFlexWrapper>
-            <StyledCard
-              style={visibilityStyle}
+            <StyledTimerCard
               align="flex-start"
-              className="modal-card"
               justify="center"
+              className={showTimer ? 'show modal-card' : 'hide'}
             >
               <StyledFlexWrapper
                 direction="row"
@@ -439,12 +434,15 @@ export default function VideoModal(props: IModalProps) {
                         <PlayCircleFilledIcon />
                       )}
                     </StyledImageWrapper>
-                    {isMeditating ? 'Pause' : 'Play'}
+                    {isMeditating ? 'Stop' : 'Play'}
                   </StyledButton>
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
-            </StyledCard>
-            <StyledFlexWrapper margin="unset" style={visibilityStyle}>
+            </StyledTimerCard>
+            <StyledFlexWrapper
+              margin="unset"
+              className={showTimer ? 'show' : 'hide'}
+            >
               <span className="timer">{timer}</span>
             </StyledFlexWrapper>
           </StyledFlexWrapper>
