@@ -5,10 +5,10 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  max-width: 430px;
+  max-width: 400px;
   margin-top: 0.8rem;
   background-color: rgba(9, 12, 40, 0.9);
-  border-radius: 5rem;
+  border-radius: 0.4rem;
   padding: 2.5rem 1rem;
   width: 90%;
   color: var(--dark-beige);

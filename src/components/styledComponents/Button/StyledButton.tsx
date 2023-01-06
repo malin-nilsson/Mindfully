@@ -8,7 +8,7 @@ export const StyledButton = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  border-radius: ${(props: IStylingProps) => props.borderRadius || '1rem'};
+  border-radius: ${(props: IStylingProps) => props.borderRadius || '0.5rem'};
   border: ${(props: IStylingProps) => props.border || 'none'};
   font-weight: ${(props: IStylingProps) => props.fontWeight || '600'};
   font-size: ${(props: IStylingProps) => props.fontSize || '0.9rem'};

@@ -36,6 +36,8 @@ export const StyledLoader = styled.div`
   height: 100vh;
   width: 100vw;
   margin: 0 auto;
+  overflow: hidden;
+  
   .loader-wrapper {
     margin: ${(props: IStylingProps) => props.margin || '12rem auto 0px'};
     display: flex;

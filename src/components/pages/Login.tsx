@@ -23,6 +23,7 @@ import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
+import { StyledLandingPageWrapper } from '../styledComponents/Wrappers/StyledLandingPageWrapper'
 
 export default function Login() {
   const auth = getAuth()
@@ -132,140 +133,147 @@ export default function Login() {
     <>
       {loader && <Loader />}
 
-      {login ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <StyledFlexWrapper>
-            <StyledForm
-              ref={shakeRef}
-              onSubmit={(e) => e.preventDefault()}
-              className={errorMessage || missingFields ? 'shake' : ''}
+      <StyledLandingPageWrapper>
+        <div className="landingpage-box">
+          <h1>Image here</h1>
+        </div>
+        {login ? (
+          <div className="landingpage-box">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
             >
-              <StyledHeadingM>Welcome back</StyledHeadingM>
-              {errorMessage && <p className="error">{errorMessage}</p>}
+              <StyledFlexWrapper>
+                <StyledForm
+                  ref={shakeRef}
+                  onSubmit={(e) => e.preventDefault()}
+                  className={errorMessage || missingFields ? 'shake' : ''}
+                >
+                  <StyledHeadingM>Welcome back</StyledHeadingM>
+                  {errorMessage && <p className="error">{errorMessage}</p>}
 
-              <div className="input-group">
-                <label>Email</label>
-                <input
-                  onChange={(e) => setEmail(e.target.value)}
-                  type="email"
-                  placeholder="Email address"
-                  className={error && !email ? 'error-input' : ''}
-                />
-              </div>
-              <div className="input-group">
-                <div className="password-group">
-                  {' '}
-                  <label>Password</label>{' '}
-                  <span
-                    onClick={() => {
-                      setErrorMessage('')
-                      setError(false)
-                      setLogin(!login)
-                      setMissingFields(false)
-                    }}
+                  <div className="input-group">
+                    <label>Email</label>
+                    <input
+                      onChange={(e) => setEmail(e.target.value)}
+                      type="email"
+                      placeholder="Email address"
+                      className={error && !email ? 'error-input' : ''}
+                    />
+                  </div>
+                  <div className="input-group">
+                    <div className="password-group">
+                      {' '}
+                      <label>Password</label>{' '}
+                      <span
+                        onClick={() => {
+                          setErrorMessage('')
+                          setError(false)
+                          setLogin(!login)
+                          setMissingFields(false)
+                        }}
+                      >
+                        Forgot password?
+                      </span>{' '}
+                    </div>
+                    <input
+                      onChange={(e) => setPassword(e.target.value)}
+                      type="password"
+                      placeholder="Password"
+                      className={error && !password ? 'error-input' : ''}
+                    />
+                  </div>
+                  <StyledButton
+                    onClick={() => signInWithEmailPassword()}
+                    disabled={authenticating}
+                    margin="1rem 0 0.5rem"
+                    width="100%"
                   >
-                    Forgot password?
-                  </span>{' '}
-                </div>
-                <input
-                  onChange={(e) => setPassword(e.target.value)}
-                  type="password"
-                  placeholder="Password"
-                  className={error && !password ? 'error-input' : ''}
-                />
-              </div>
-              <StyledButton
-                onClick={() => signInWithEmailPassword()}
-                disabled={authenticating}
-                margin="1rem 0 0.5rem"
-                width="100%"
-              >
-                Log in
-              </StyledButton>
-              <StyledButton
-                type="button"
-                onClick={() => signInWithGoogle()}
-                disabled={authing}
-                bgColor="var(--mid-blue)"
-                color="var(--dark-beige)"
-                border="1px solid var(--dark-beige)"
-                width="100%"
-              >
-                <GoogleIcon></GoogleIcon>Log in with Google
-              </StyledButton>
+                    Log in
+                  </StyledButton>
+                  <StyledButton
+                    type="button"
+                    onClick={() => signInWithGoogle()}
+                    disabled={authing}
+                    bgColor="var(--mid-blue)"
+                    color="var(--dark-beige)"
+                    border="1px solid var(--dark-beige)"
+                    width="100%"
+                  >
+                    <GoogleIcon></GoogleIcon>Log in with Google
+                  </StyledButton>
 
-              <p>
-                Don't have an account? <Link to="/signup">Create one.</Link>
-              </p>
-            </StyledForm>
-          </StyledFlexWrapper>
-        </motion.div>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <StyledFlexWrapper>
-            <StyledForm
-              ref={shakeRef}
-              onSubmit={(e) => e.preventDefault()}
-              className={errorMessage || missingFields ? 'shake' : ''}
-            >
-              <span onClick={() => setLogin(true)} className="history-icon">
-                <ArrowBackIosIcon />
-              </span>
-
-              <StyledHeadingM>Forgot your password?</StyledHeadingM>
-              <div className="forgot-password">
-                <p>
-                  {' '}
-                  Not to worry, we got you! &#128591; Enter your email below and
-                  we'll send a reset link.
-                </p>
-                <span>
-                  Psst... If you don't receive an email, check all the folders
-                  in your email, including Junk and Spam.
+                  <p>
+                    Don't have an account? <Link to="/signup">Create one.</Link>
+                  </p>
+                </StyledForm>
+              </StyledFlexWrapper>
+            </motion.div>
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <StyledFlexWrapper>
+              <StyledForm
+                ref={shakeRef}
+                onSubmit={(e) => e.preventDefault()}
+                className={errorMessage || missingFields ? 'shake' : ''}
+              >
+                <span onClick={() => setLogin(true)} className="history-icon">
+                  <ArrowBackIosIcon />
                 </span>
-              </div>
 
-              {errorMessage && <p className="error">{errorMessage}</p>}
-              {missingFields && (
-                <p className="error">Please fill out missing fields.</p>
-              )}
-              <div className="input-group">
-                <label>Email</label>
-                <input
-                  onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                  type="email"
-                  placeholder="Email address"
-                  className={error && !email ? 'error-input' : ''}
-                />
-              </div>
+                <StyledHeadingM>Forgot your password?</StyledHeadingM>
+                <div className="forgot-password">
+                  <p>
+                    {' '}
+                    Not to worry, we got you! &#128591; Enter your email below
+                    and we'll send a reset link.
+                  </p>
+                  <span>
+                    Psst... If you don't receive an email, check all the folders
+                    in your email, including Junk and Spam.
+                  </span>
+                </div>
 
-              <StyledButton
-                type="button"
-                onClick={() => {
-                  resetPassword()
-                }}
-                disabled={authing}
-                bgColor="var(--mid-blue)"
-                color="var(--dark-beige)"
-                border="1px solid var(--dark-beige)"
-                width="100%"
-              >
-                Reset password
-              </StyledButton>
-            </StyledForm>
-          </StyledFlexWrapper>
-        </motion.div>
-      )}
+                {errorMessage && <p className="error">{errorMessage}</p>}
+                {missingFields && (
+                  <p className="error">Please fill out missing fields.</p>
+                )}
+                <div className="input-group">
+                  <label>Email</label>
+                  <input
+                    onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                    type="email"
+                    placeholder="Email address"
+                    className={error && !email ? 'error-input' : ''}
+                  />
+                </div>
+
+                <StyledButton
+                  type="button"
+                  onClick={() => {
+                    resetPassword()
+                  }}
+                  disabled={authing}
+                  bgColor="var(--mid-blue)"
+                  color="var(--dark-beige)"
+                  border="1px solid var(--dark-beige)"
+                  width="100%"
+                >
+                  Reset password
+                </StyledButton>
+              </StyledForm>
+            </StyledFlexWrapper>
+          </motion.div>
+        )}
+      </StyledLandingPageWrapper>
     </>
   )
 }

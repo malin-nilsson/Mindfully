@@ -5,10 +5,7 @@ import NavbarStartpage from './styledComponents/Navbar/StyledNavStartpage'
 export default function LayoutStartpage() {
   return (
     <>
-      <NavbarStartpage />
-      <StyledHero>
-        <Outlet></Outlet>
-      </StyledHero>
+      <Outlet></Outlet>
     </>
   )
 }

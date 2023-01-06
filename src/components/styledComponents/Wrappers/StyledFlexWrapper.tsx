@@ -223,10 +223,6 @@ export const StyledButtonWrapper = styled.div`
   @media ${devices.tablet} {
     width: ${(props: IStylingProps) => props.width || '50%'};
   }
-
-  @media ${devices.desktop} {
-    width: ${(props: IStylingProps) => props.width || '30%'};
-  }
 `
 
 export const StyledProgressWrapper = styled.div`

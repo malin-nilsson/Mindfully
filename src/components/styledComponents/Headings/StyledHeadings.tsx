@@ -8,15 +8,15 @@ export const StyledHeadingXXL = styled.h1`
   font-weight: 300;
   margin: 0;
   padding: 0;
-  color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
   text-align: center;
 
   @media ${devices.tablet} {
-    font-size: 3.5rem;
+    font-size: 2.6rem;
   }
 
   @media ${devices.desktop} {
-    font-size: 4rem;
+    font-size: 2.8rem;
     text-align: left;
   }
 `
@@ -92,12 +92,8 @@ export const StyledHeadingLogo = styled.h4`
   color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
   text-transform: lowercase;
   letter-spacing: 0.05rem;
-  font-size: 1.4rem;
+  font-size: 2rem;
   margin: 0 0 0 0.5rem;
   padding: 0;
   display: inline;
-
-  @media ${devices.desktop} {
-    margin: 0 0 0 1rem;
-  }
 `
