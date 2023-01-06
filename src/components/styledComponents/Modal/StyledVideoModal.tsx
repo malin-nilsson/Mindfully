@@ -12,6 +12,7 @@ import UpdateIcon from '@mui/icons-material/Update'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import CloseIcon from '@mui/icons-material/Close'
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled'
 import StopCircleIcon from '@mui/icons-material/StopCircle'
@@ -346,10 +347,17 @@ export default function VideoModal(props: IModalProps) {
                     setShowTimer(!showTimer)
                   }}
                 >
-                  <ArrowBackIosNewIcon
-                    fontSize="large"
-                    style={{ color: 'var(--dark-beige)' }}
-                  />{' '}
+                  {showTimer ? (
+                    <ArrowBackIosNewIcon
+                      fontSize="large"
+                      style={{ color: 'var(--dark-beige)' }}
+                    />
+                  ) : (
+                    <ArrowForwardIosIcon
+                      fontSize="large"
+                      style={{ color: 'var(--dark-beige)' }}
+                    />
+                  )}
                 </span>
               </div>
             </StyledFlexWrapper>
