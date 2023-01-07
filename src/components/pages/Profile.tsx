@@ -1,9 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 // STYLED COMPONENTS //
-import {
-  StyledMeditationCard,
-  StyledProfileCard,
-} from '../styledComponents/Card/Card'
+import { StyledProfileCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,

@@ -10,6 +10,7 @@ import GoogleIcon from '@mui/icons-material/Google'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import EmailIcon from '@mui/icons-material/Email'
 import LockIcon from '@mui/icons-material/Lock'
+import CheckIcon from '@mui/icons-material/Check'
 // REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
 // FIREBASE //
@@ -25,7 +26,6 @@ import { setDoc, doc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-import { StyledLandingPageWrapper } from '../styledComponents/Wrappers/StyledLandingPageWrapper'
 
 export default function Login() {
   const auth = getAuth()
@@ -41,6 +41,7 @@ export default function Login() {
   const shakeRef = useRef<HTMLFormElement | null>(null)
   const [login, setLogin] = useState(true)
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('')
+  const [passwordResetMessage, setPasswordResetMessage] = useState(false)
 
   /////////////////////////
   // SIGN IN WITH GOOGLE //
@@ -115,19 +116,29 @@ export default function Login() {
   const resetPassword = () => {
     setError(false)
     setMissingFields(false)
+    console.log(forgotPasswordEmail)
     if (forgotPasswordEmail) {
       sendPasswordResetEmail(auth, forgotPasswordEmail)
         .then(() => {
-          // Password reset email sent!
-          // ..
+          setPasswordResetMessage(true)
         })
         .catch((error) => {
           setError(true)
-          setErrorMessage(error.message)
+
+          if (error.code.includes('auth/invalid-email')) {
+            setErrorMessage(
+              'Email is invalid. Are you sure you entered the correct email address?',
+            )
+          } else {
+            setErrorMessage(error.message)
+          }
         })
-    } else {
+    } else if (forgotPasswordEmail === '') {
       setError(true)
       setMissingFields(true)
+    } else {
+      setError(true)
+      setErrorMessage('Unable to reset password. Please try again later.')
     }
   }
 
@@ -178,6 +189,8 @@ export default function Login() {
                       setError(false)
                       setLogin(!login)
                       setMissingFields(false)
+                      setPasswordResetMessage(false)
+                      setForgotPasswordEmail('')
                     }}
                   >
                     Forgot password?
@@ -224,6 +237,7 @@ export default function Login() {
         </motion.div>
       ) : (
         <motion.div
+          className="landingpage-box beige"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -235,11 +249,20 @@ export default function Login() {
               onSubmit={(e) => e.preventDefault()}
               className={errorMessage || missingFields ? 'shake' : ''}
             >
-              <span onClick={() => setLogin(true)} className="history-icon">
+              <span
+                onClick={() => {
+                  setErrorMessage('')
+                  setLogin(true)
+                  setError(false)
+                }}
+                className="history-icon"
+              >
                 <ArrowBackIosIcon />
               </span>
 
-              <StyledHeadingM>Forgot your password?</StyledHeadingM>
+              <StyledHeadingM color="var(--mid-blue)">
+                Forgot your password?
+              </StyledHeadingM>
               <div className="forgot-password">
                 <p>
                   {' '}
@@ -258,12 +281,17 @@ export default function Login() {
               )}
               <div className="input-group">
                 <label>Email</label>
-                <input
-                  onChange={(e) => setForgotPasswordEmail(e.target.value)}
-                  type="email"
-                  placeholder="Email address"
-                  className={error && !email ? 'error-input' : ''}
-                />
+                <div className="input-icon-container">
+                  <input
+                    onChange={(e) => setForgotPasswordEmail(e.target.value)}
+                    type="email"
+                    placeholder="Email address"
+                    className={error && !email ? 'error-input' : ''}
+                  />
+                  <span className="input-icon">
+                    <EmailIcon style={{ color: '#c7b091' }} fontSize="small" />
+                  </span>
+                </div>
               </div>
 
               <StyledButton
@@ -279,6 +307,19 @@ export default function Login() {
               >
                 Reset password
               </StyledButton>
+
+              {passwordResetMessage && (
+                <StyledFlexWrapper
+                  justify="flex-start"
+                  direction="row"
+                  align="center"
+                  margin="unset"
+                  padding="0"
+                >
+                  {' '}
+                  <CheckIcon />A password reset email has been sent!
+                </StyledFlexWrapper>
+              )}
             </StyledForm>
           </StyledFlexWrapper>
         </motion.div>

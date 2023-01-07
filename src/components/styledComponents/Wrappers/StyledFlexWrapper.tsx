@@ -87,10 +87,17 @@ export const StyledFlexWrapper = styled.div`
     background-color: var(--dark-blue);
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 1rem;
+    width: 95%;
+    padding: 1.5rem;
+    box-sizing: border-box;
+
+    @media ${devices.tablet} {
+      width: 55%;
+      padding: 1.5rem 2rem;
+    }
 
     @media ${devices.desktop} {
       width: 40%;
-      padding: 1.5rem 2rem;
     }
 
     span {
@@ -222,7 +229,7 @@ export const StyledFlexWrapper = styled.div`
 `
 
 export const StyledButtonWrapper = styled.div`
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: ${(props: IStylingProps) => props.gap || ''};

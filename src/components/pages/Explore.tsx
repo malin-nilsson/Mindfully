@@ -67,7 +67,7 @@ export default function Explore() {
           })
           setFavorites(isFavorite)
         } else {
-          console.log('Document does not exist')
+          return
         }
       } catch (error) {
         console.log(error)

@@ -65,8 +65,9 @@ export const StyledMeditationCard = styled(StyledCard)`
 `
 export const StyledProfileCard = styled(StyledMeditationCard)`
   height: unset;
-  padding: 2rem 3rem;
-  width: unset;
+  padding: 2rem;
+  width: 90%;
+  box-sizing: border-box;
   background: var(--light-blue);
 
   &:hover {
@@ -77,6 +78,7 @@ export const StyledProfileCard = styled(StyledMeditationCard)`
 
   @media ${devices.tablet} {
     width: 40%;
+    padding: 2rem 3rem;
   }
 
   @media ${devices.desktop} {

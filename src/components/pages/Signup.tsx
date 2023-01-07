@@ -120,7 +120,9 @@ export default function Signup() {
           } else if (error.code.includes('auth/email-already-in-use')) {
             setErrorMessage('Email is already in use.')
           } else if (error.code.includes('auth/invalid-email')) {
-            setErrorMessage('Email is invalid. Please try again.')
+            setErrorMessage(
+              'Email is invalid. Are you sure you entered the correct email?',
+            )
           } else {
             setErrorMessage('Unable to sign up. Please try again later.')
           }

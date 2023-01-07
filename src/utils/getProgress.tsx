@@ -15,6 +15,7 @@ export const getProgress = async () => {
       if (docSnap.exists()) {
         // Get user favorites
         const progress = docSnap.data().progress
+
         if (progress) {
           return progress
         }

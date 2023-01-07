@@ -34,7 +34,7 @@ export const StyledForm = styled.form`
   input[type='text'],
   [type='email'],
   [type='password'] {
-    background: var(--light-blue);
+    background: var(--mid-blue);
   }
 
   label {

@@ -52,6 +52,9 @@ export default function MyJourney() {
     if (userRef) {
       try {
         if (sessions) {
+          sessions.sort((a, b) => {
+            return +new Date(b.date) - +new Date(a.date)
+          })
           setProgress(sessions as IProgress[])
 
           const dates = sessions.map((item) => {
