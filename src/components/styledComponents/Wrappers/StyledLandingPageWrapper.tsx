@@ -2,18 +2,7 @@ import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
-export default function LandingPageWrapper() {
-  return (
-    <>
-      <div className="landingpage-box"></div>
-      <div className="landingpage-box"></div>
-    </>
-  )
-}
-
 export const StyledLandingPageWrapper = styled.div`
-  background-color: ${(props: IStylingProps) =>
-    props.bgColor || 'var(--dark-beige)'};
   width: 100vw;
   height: 100vh;
   overflow: hidden;
@@ -26,13 +15,27 @@ export const StyledLandingPageWrapper = styled.div`
 
   .landingpage-box {
     width: 50%;
-    background-color: var(--dark-blue);
+
     display: flex;
     justify-content: center;
     align-items: center;
 
-    > div:nth-of-type(1) {
+    &.blue {
+      background-color: var(--mid-blue);
+      overflow: hidden;
+    }
+
+    &.beige {
       background-color: var(--dark-beige);
+      overflow: scroll;
+    }
+
+    &.signup {
+      padding: 2rem 0;
+
+      @media ${devices.desktop} {
+        padding: 10rem 0 0;
+      }
     }
   }
 `

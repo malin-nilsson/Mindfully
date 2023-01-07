@@ -3,30 +3,19 @@ import { Link } from 'react-router-dom'
 // STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import {
-  StyledHeadingL,
   StyledHeadingLogo,
-  StyledHeadingM,
   StyledHeadingS,
-  StyledHeadingXL,
-  StyledHeadingXXL,
 } from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,
 } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import { StyledLandingPageWrapper } from '../styledComponents/Wrappers/StyledLandingPageWrapper'
 
 export default function Welcome() {
   return (
-    <StyledLandingPageWrapper>
-      <div className="landingpage-box">
-        <StyledImageWrapper maxHeight="20rem">
-          <img src="/assets/flowers.png" />
-        </StyledImageWrapper>
-      </div>
-
-      <div className="landingpage-box">
+    <>
+      <div className="landingpage-box beige">
         <StyledFlexWrapper
           padding="0"
           direction="column"
@@ -83,6 +72,6 @@ export default function Welcome() {
           </StyledFlexWrapper>
         </StyledFlexWrapper>
       </div>
-    </StyledLandingPageWrapper>
+    </>
   )
 }

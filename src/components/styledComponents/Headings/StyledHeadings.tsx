@@ -53,7 +53,7 @@ export const StyledHeadingM = styled.h3`
   font-family: var(--text-font);
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
   font-size: ${(props: IStylingProps) => props.fontSize || '1.7rem'};
-  margin: 0;
+  margin: ${(props: IStylingProps) => props.margin || '0'};
   padding: ${(props: IStylingProps) => props.padding || '0'};
   text-align: left;
   font-weight: ${(props: IStylingProps) => props.fontWeight || '300'};

@@ -6,16 +6,10 @@ export const StyledForm = styled.form`
   flex-direction: column;
   gap: 10px;
   max-width: 400px;
-  margin-top: 0.8rem;
-  background-color: rgba(9, 12, 40, 0.9);
-  border-radius: 0.4rem;
+  margin-top: 0.8rem auto;
   padding: 2.5rem 1rem;
   width: 90%;
-  color: var(--dark-beige);
-
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  color: var(--mid-blue);
 
   @media ${devices.tablet} {
     padding: 2.5rem 3.5rem 1.5rem;
@@ -26,9 +20,10 @@ export const StyledForm = styled.form`
     font-size: 0.9rem;
     padding: 1rem;
     outline: none;
-    border: 1px solid var(--dark-beige);
-    border-radius: 1rem;
-    color: var(--dark-beige);
+    border: 1px solid var(--mid-blue);
+    border-radius: 0.3rem;
+    background-color: var(--mid-blue);
+    color: var(--light-beige);
 
     &:focus {
       outline: none;
@@ -39,7 +34,7 @@ export const StyledForm = styled.form`
   input[type='text'],
   [type='email'],
   [type='password'] {
-    background: var(--mid-blue);
+    background: var(--light-blue);
   }
 
   label {
@@ -52,6 +47,21 @@ export const StyledForm = styled.form`
     display: flex;
     flex-direction: column;
     margin: 0.5rem 0;
+  }
+
+  .input-icon-container {
+    position: relative;
+    input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 1rem 1rem 1rem 2.6rem;
+    }
+    .input-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 16px;
+    }
   }
 
   .password-group {
@@ -85,7 +95,7 @@ export const StyledForm = styled.form`
   }
 
   a {
-    color: var(--dark-beige);
+    color: var(--mid-blue);
     text-decoration: underline;
   }
 

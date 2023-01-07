@@ -301,7 +301,7 @@ export const StyledAnimation = styled.div`
     background-color: ${(props: IStylingProps) =>
       props.bgColor || 'var(--dark-beige)'};
     outline: ${(props: IStylingProps) =>
-      props.outline || '10px solid var(--mid-blue)'};
+      props.outline || '10px solid var(--light-beige)'};
 
     height: 100%;
     width: 100%;
@@ -322,6 +322,7 @@ export const StyledAnimation = styled.div`
     padding: 1rem;
     margin: 0.5rem 0;
     width: 50%;
+    border: 1px solid var(--light-beige);
 
     @media ${devices.tablet} {
       width: 30%;

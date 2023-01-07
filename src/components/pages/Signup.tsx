@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
@@ -7,6 +7,9 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import GoogleIcon from '@mui/icons-material/Google'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import EmailIcon from '@mui/icons-material/Email'
+import LockIcon from '@mui/icons-material/Lock'
 // REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
 // FIREBASE //
@@ -22,6 +25,8 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
+// MUI //
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 
 export default function Signup() {
   const auth = getAuth()
@@ -142,17 +147,21 @@ export default function Signup() {
         <Loader></Loader>
       ) : (
         <motion.div
+          className="landingpage-box beige signup"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <StyledFlexWrapper>
+          <StyledFlexWrapper width="100%">
             <StyledForm
               onSubmit={(e) => e.preventDefault()}
               className={errorMessage || missingFields ? 'shake' : ''}
             >
-              <StyledHeadingM>Sign up</StyledHeadingM>
+              <Link to="/login">
+                <ArrowBackIosIcon />
+              </Link>
+              <StyledHeadingM color="var(--mid-blue)">Sign up</StyledHeadingM>
               <p>
                 Creating an account enables you to track your progress and save
                 favorite meditations &#128522;
@@ -163,30 +172,48 @@ export default function Signup() {
               {errorMessage && <p className="error">{errorMessage}</p>}
               <div className="input-group">
                 <label>First name</label>
-                <input
-                  type="text"
-                  placeholder="First name"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className={error && !firstName ? 'error-input' : ''}
-                />
+                <div className="input-icon-container">
+                  <input
+                    type="text"
+                    placeholder="First name"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className={error && !firstName ? 'error-input' : ''}
+                  />
+                  <span className="input-icon">
+                    <AccountCircleIcon
+                      style={{ color: '#c7b091' }}
+                      fontSize="small"
+                    />
+                  </span>
+                </div>
               </div>
               <div className="input-group">
                 <label>Email</label>
-                <input
-                  type="email"
-                  placeholder="Email"
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={error && !email ? 'error-input' : ''}
-                />
+                <div className="input-icon-container">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={error && !email ? 'error-input' : ''}
+                  />
+                  <span className="input-icon">
+                    <EmailIcon style={{ color: '#c7b091' }} fontSize="small" />
+                  </span>
+                </div>
               </div>
               <div className="input-group">
                 <label>Password</label>
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className={error && !password ? 'error-input' : ''}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                <div className="input-icon-container">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className={error && !password ? 'error-input' : ''}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <span className="input-icon">
+                    <LockIcon style={{ color: '#c7b091' }} fontSize="small" />
+                  </span>
+                </div>
               </div>
               <StyledButton
                 onClick={() =>
@@ -196,6 +223,7 @@ export default function Signup() {
                 margin="1rem 0 0.5rem"
                 disabled={registering}
                 width="100%"
+                border="2px solid var(--mid-blue)"
               >
                 Create account
               </StyledButton>
