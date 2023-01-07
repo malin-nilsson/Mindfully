@@ -1,25 +1,28 @@
 import { useState } from 'react'
+// REACT ROUTER //
 import { Link, NavLink, useNavigate } from 'react-router-dom'
+// STYLED COMPONENTS //
 import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
 import { StyledHeadingLogo } from '../Headings/StyledHeadings'
+import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
+import { StyledButton } from '../Button/StyledButton'
+import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
+// MUI //
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'
 import { StyledLogoIcon } from '../Logo/StyledLogoIcon'
 import HomeIcon from '@mui/icons-material/Home'
 import PersonIcon from '@mui/icons-material/Person'
-import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import AppsIcon from '@mui/icons-material/Apps'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
+// FIREBASE //
 import { getAuth, signOut } from 'firebase/auth'
-import { StyledButton } from '../Button/StyledButton'
-import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 
 export default function Navbar() {
   const [isActive, setIsActive] = useState<Boolean>(false)
   const auth = getAuth()
-  const navigate = useNavigate()
 
   const toggleMobileMenu = () => {
     setIsActive((isActive) => !isActive)
@@ -29,11 +32,11 @@ export default function Navbar() {
     <StyledNav>
       <StyledLogoIcon>
         <Link to="/home" className="logo-wrapper">
-          <StyledImageWrapper>
+          <StyledImageWrapper maxHeight="2rem">
             <img src="/assets/logo/logo-dkblue.png" alt="Mindfully logo"></img>
           </StyledImageWrapper>
           <span>
-            <StyledHeadingLogo>Mindfully</StyledHeadingLogo>
+            <StyledHeadingLogo fontSize="1.4rem">Mindfully</StyledHeadingLogo>
           </span>
         </Link>
       </StyledLogoIcon>
@@ -186,11 +189,13 @@ const StyledNavLinks = styled.nav`
       display: flex;
       align-items: center;
       gap: 1rem;
+      box-sizing: border-box;
+      padding: 1rem;
 
       @media ${devices.desktop} {
         font-size: 1.03rem;
         gap: 1rem;
-        padding: 1.7rem;
+        padding: 1.5rem;
         transition: background-color 0.2s ease-in-out;
         width: unset;
 

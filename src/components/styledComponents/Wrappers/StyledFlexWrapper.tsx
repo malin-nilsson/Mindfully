@@ -57,7 +57,7 @@ export const StyledFlexWrapper = styled.div`
     display: flex;
 
     @media ${devices.tablet} {
-      gap: 3rem;
+      gap: 2rem;
     }
     @media ${devices.desktop} {
       gap: 6rem;
@@ -69,6 +69,13 @@ export const StyledFlexWrapper = styled.div`
     @media ${devices.desktop} {
       width: 50%;
       padding: 2rem 0;
+    }
+  }
+
+  .login-wrapper {
+    margin: 2rem 0;
+    @media ${devices.desktop} {
+      margin: 6rem 0;
     }
   }
 

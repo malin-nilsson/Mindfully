@@ -37,7 +37,7 @@ export default function Welcome() {
             </StyledHeadingLogo>
           </StyledFlexWrapper>
 
-          <StyledFlexWrapper width="100%" margin="6rem 0">
+          <StyledFlexWrapper width="100%" className="login-wrapper">
             <StyledFlexWrapper margin="1rem 0 0">
               <StyledHeadingS color="var(--dark-blue)" borderBottom="unset">
                 Welcome to Mindfully.

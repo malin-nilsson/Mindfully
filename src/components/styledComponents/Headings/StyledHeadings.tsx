@@ -92,7 +92,7 @@ export const StyledHeadingLogo = styled.h4`
   color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
   text-transform: lowercase;
   letter-spacing: 0.05rem;
-  font-size: 2rem;
+  font-size: ${(props: IStylingProps) => props.fontSize || '2rem'};
   margin: 0 0 0 0.5rem;
   padding: 0;
   display: inline;

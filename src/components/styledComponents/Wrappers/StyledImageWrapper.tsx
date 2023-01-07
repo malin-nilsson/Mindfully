@@ -13,12 +13,13 @@ export const StyledImageWrapper = styled.span`
   flex-direction: column;
 
   img {
+    width: auto;
     max-height: ${(props: IStylingProps) => props.maxHeight || ''};
     margin: ${(props: IStylingProps) => props.margin || '0 0.1rem 0 0'};
   }
 
   span {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 1rem 0;
   }
 `

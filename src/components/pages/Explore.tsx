@@ -205,12 +205,12 @@ export default function Explore() {
                       color="var(--dark-beige)"
                       onClick={() => showModal(meditation)}
                     >
-                      <StyledImageWrapper maxHeight="50px">
+                      <StyledImageWrapper maxHeight="3rem">
                         <img src={meditation.icon} alt="Emoji"></img>
                         <span>{meditation.title} </span>
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">
-                        <StyledImageWrapper maxHeight="22px">
+                        <StyledImageWrapper maxHeight="2rem">
                           {checkIfFavorite(meditation) ? (
                             <FavoriteIcon
                               style={{ color: '#f7dba8' }}
@@ -242,12 +242,12 @@ export default function Explore() {
                       color="var(--dark-beige)"
                       onClick={() => showModal(meditation)}
                     >
-                      <StyledImageWrapper maxHeight="50px">
+                      <StyledImageWrapper maxHeight="2.5rem">
                         <img src={meditation.icon} alt="Emoji"></img>
                         <span>{meditation.title} </span>
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">
-                        <StyledImageWrapper maxHeight="22px">
+                        <StyledImageWrapper maxHeight="2rem">
                           {checkIfFavorite(meditation) ? (
                             <FavoriteIcon
                               style={{ color: '#f7dba8' }}
