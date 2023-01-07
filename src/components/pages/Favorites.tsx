@@ -12,7 +12,6 @@ import VideoModal from '../styledComponents/Modal/StyledVideoModal'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 // FIRESTORE //
-import { getUser } from '../../utils/getUser'
 import { getFavorites } from '../../utils/getFavorites'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
@@ -39,19 +38,12 @@ export default function Favorites() {
   }, [favorites])
 
   const showFavorites = async () => {
-    const userRef = await getUser()
     const faves = await getFavorites()
 
-    if (userRef) {
-      try {
-        if (faves) {
-          setFavorites(faves)
-        } else {
-          setNoFavorites(true)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+    if (faves) {
+      setFavorites(faves)
+    } else {
+      setNoFavorites(true)
     }
   }
 
@@ -127,7 +119,7 @@ export default function Favorites() {
               </StyledImageWrapper>
             </StyledFlexWrapper>
 
-            {noFavorites ? (
+            {noFavorites || (favorites && favorites.length < 1) ? (
               <StyledFlexWrapper color="var(--dark-beige)">
                 <p>
                   Tap the heart icon on any meditation to add to your Favorites

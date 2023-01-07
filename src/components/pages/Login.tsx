@@ -266,8 +266,8 @@ export default function Login() {
               <div className="forgot-password">
                 <p>
                   {' '}
-                  Not to worry, we got you! &#128591; Enter your email below and
-                  we'll send a reset link.
+                  Not to worry &#128591; Enter your email below and we will send
+                  a reset link.
                 </p>
                 <span>
                   Psst... If you don't receive an email, check all the folders

@@ -68,7 +68,8 @@ export const StyledProfileCard = styled(StyledMeditationCard)`
   padding: 2rem;
   width: 90%;
   box-sizing: border-box;
-  background: var(--light-blue);
+  background: var(--dark-blue);
+  margin: 0 0 2rem;
 
   &:hover {
     cursor: default;

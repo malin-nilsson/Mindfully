@@ -19,7 +19,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // UTILS //
-import { getUser } from '../../utils/getUser'
 import { getFavorites } from '../../utils/getFavorites'
 
 export default function Explore() {
@@ -50,28 +49,21 @@ export default function Explore() {
   }, [favorites])
 
   const matchFavorites = async () => {
-    const userRef = await getUser()
     const faves = await getFavorites()
 
-    if (userRef) {
-      try {
-        if (faves) {
-          const isFavorite: IMeditation[] = []
+    if (faves) {
+      const isFavorite: IMeditation[] = []
 
-          faves.map((fave) => {
-            for (let i = 0; i < meditations.length; i++) {
-              if (fave.title === meditations[i].title) {
-                isFavorite.push(meditations[i])
-              }
-            }
-          })
-          setFavorites(isFavorite)
-        } else {
-          return
+      faves.map((fave) => {
+        for (let i = 0; i < meditations.length; i++) {
+          if (fave.title === meditations[i].title) {
+            isFavorite.push(meditations[i])
+          }
         }
-      } catch (error) {
-        console.log(error)
-      }
+      })
+      setFavorites(isFavorite)
+    } else {
+      return
     }
   }
 

@@ -16,7 +16,7 @@ import { IMeditation } from '../../../models/IMeditation'
 // FIREBASE //
 import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getFavorites } from '../../../utils/getFavorites'
-import { getUser } from '../../../utils/getUser'
+import { getUID } from '../../../utils/getUID'
 import { getProgress } from '../../../utils/getProgress'
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
@@ -53,7 +53,7 @@ export default function ImageModal(props: IModalProps) {
   // SAVE FAVORITE IN FIRESTORE //
   ///////////////////////////////
   const saveFavorite = async (favorite: IMeditation) => {
-    const userRef = await getUser()
+    const userRef = await getUID()
     const faves = await getFavorites()
 
     if (userRef) {
@@ -97,7 +97,7 @@ export default function ImageModal(props: IModalProps) {
   // REMOVE FAVORITE FROM FIRESTORE //
   ////////////////////////////////////
   const removeFavorite = async (m: IMeditation) => {
-    const userRef = await getUser()
+    const userRef = await getUID()
     const faves = await getFavorites()
 
     if (userRef) {
@@ -138,7 +138,7 @@ export default function ImageModal(props: IModalProps) {
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
   const saveMeditatedMinutes = async (time: number) => {
-    const userRef = await getUser()
+    const userRef = await getUID()
     const progress = await getProgress()
 
     const meditation = {

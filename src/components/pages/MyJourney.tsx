@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { IProgress } from '../../models/IProgress'
 // FIRESTORE //
 import { getProgress } from '../../utils/getProgress'
-import { getUser } from '../../utils/getUser'
 // STYLED COMPONENTS //
 import {
   StyledHeadingS,
@@ -17,7 +16,6 @@ import {
 import { StyledLink } from '../styledComponents/Link/StyledLink'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
-
 // MUI //
 import FeedIcon from '@mui/icons-material/Feed'
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
@@ -46,40 +44,33 @@ export default function MyJourney() {
   }, [])
 
   const showProgress = async () => {
-    const userRef = await getUser()
     const sessions: IProgress[] = await getProgress()
 
-    if (userRef) {
-      try {
-        if (sessions) {
-          sessions.sort((a, b) => {
-            return +new Date(b.date) - +new Date(a.date)
-          })
-          setProgress(sessions as IProgress[])
+    if (sessions) {
+      sessions.sort((a, b) => {
+        return +new Date(b.date) - +new Date(a.date)
+      })
+      setProgress(sessions as IProgress[])
 
-          const dates = sessions.map((item) => {
-            return item.date
-          })
-          const streak = summary({ dates })
+      const dates = sessions.map((item) => {
+        return item.date
+      })
+      const streak = summary({ dates })
 
-          setCurrentStreak(streak.currentStreak)
+      setCurrentStreak(streak.currentStreak)
 
-          const initialValue = 0
-          const totalSeconds = sessions.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.seconds,
-            initialValue,
-          )
+      const initialValue = 0
+      const totalSeconds = sessions.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.seconds,
+        initialValue,
+      )
 
-          const time = toDaysMinutesSeconds(totalSeconds)
-          setTimeTotal(time)
+      const time = toDaysMinutesSeconds(totalSeconds)
+      setTimeTotal(time)
 
-          setSessionsTotal(sessions.length)
-        } else {
-          setTimeTotal('0')
-        }
-      } catch (error) {
-        console.log(error)
-      }
+      setSessionsTotal(sessions.length)
+    } else {
+      setTimeTotal('0')
     }
   }
 

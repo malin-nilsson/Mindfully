@@ -19,14 +19,13 @@ import StopCircleIcon from '@mui/icons-material/StopCircle'
 import { Slider } from '@mui/material'
 // MODELS //
 import { IMeditation } from '../../../models/IMeditation'
-// DATE DNS //
+// DATE FNS //
 import { differenceInSeconds } from 'date-fns'
 // FIREBASE //
 import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getProgress } from '../../../utils/getProgress'
-import { getUser } from '../../../utils/getUser'
-import { motion } from 'framer-motion'
+import { getUID } from '../../../utils/getUID'
 
 interface IModalProps {
   meditation: IMeditation
@@ -131,7 +130,7 @@ export default function VideoModal(props: IModalProps) {
   // SAVE FAVORITE IN FIRESTORE //
   ///////////////////////////////
   const saveFavorite = async (favorite: IMeditation) => {
-    const userRef = await getUser()
+    const userRef = await getUID()
     const faves = await getFavorites()
 
     if (userRef) {
@@ -177,7 +176,7 @@ export default function VideoModal(props: IModalProps) {
   // REMOVE FAVORITE FROM FIRESTORE //
   ////////////////////////////////////
   const removeFavorite = async (m: IMeditation) => {
-    const userRef = await getUser()
+    const userRef = await getUID()
     const faves = await getFavorites()
 
     if (userRef) {
@@ -234,7 +233,7 @@ export default function VideoModal(props: IModalProps) {
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
   const saveMeditatedMinutes = async (time: number) => {
-    const userRef = await getUser()
+    const userRef = await getUID()
     const progress = await getProgress()
 
     const meditation = {
