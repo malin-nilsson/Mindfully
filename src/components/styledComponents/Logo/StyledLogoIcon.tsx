@@ -13,8 +13,6 @@ export const StyledLogoIcon = styled.div`
     padding: 2rem 1.6rem 1rem;
   }
   img {
-    height: 2.7rem;
-    width: 2.7rem;
     transition: scale 0.15s ease-in-out;
     &:hover {
       scale: 1.1;

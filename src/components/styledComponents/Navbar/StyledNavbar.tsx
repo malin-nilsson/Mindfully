@@ -32,7 +32,7 @@ export default function Navbar() {
     <StyledNav>
       <StyledLogoIcon>
         <Link to="/home" className="logo-wrapper">
-          <StyledImageWrapper maxHeight="2rem">
+          <StyledImageWrapper maxHeight="2.2rem">
             <img src="/assets/logo/logo-dkblue.png" alt="Mindfully logo"></img>
           </StyledImageWrapper>
           <span>
@@ -195,7 +195,7 @@ const StyledNavLinks = styled.nav`
       @media ${devices.desktop} {
         font-size: 1.03rem;
         gap: 1rem;
-        padding: 1.5rem;
+        padding: 1.7rem;
         transition: background-color 0.2s ease-in-out;
         width: unset;
 
