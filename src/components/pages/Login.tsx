@@ -112,7 +112,9 @@ export default function Login() {
       })
   }
 
-  // PASSWORD RESET //
+  ////////////////////
+  // RESET PASSWORD //
+  ////////////////////
   const resetPassword = () => {
     setError(false)
     setMissingFields(false)

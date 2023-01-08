@@ -9,14 +9,12 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { moods } from '../../data/Moods'
 import { StyledCard } from '../styledComponents/Card/Card'
+import Loader from '../styledComponents/Loader/StyledLoader'
 // REACT ROUTER //
-import { Link, useNavigate } from 'react-router-dom'
-// FIREBASE //
-import { getAuth } from 'firebase/auth'
+import { Link } from 'react-router-dom'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 import { getFirstName } from '../../utils/getFirstName'
-import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function Home() {
   const [selfAssessment, setSelfAssessment] = useState(false)

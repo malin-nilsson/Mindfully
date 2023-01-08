@@ -264,8 +264,6 @@ export default function VideoModal(props: IModalProps) {
     }
   }
 
-  // VISIBILITY STYLE
-
   return (
     <StyledVideo>
       <div className="video-container">

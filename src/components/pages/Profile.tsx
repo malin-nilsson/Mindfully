@@ -60,6 +60,9 @@ export default function Profile() {
     })
   }, [auth])
 
+  ////////////////////////
+  // SAVE UPDATED NAME //
+  ////////////////////////
   const saveFirstName = async () => {
     setMissingFields('')
     if (auth.currentUser && newFirstName) {
@@ -80,6 +83,9 @@ export default function Profile() {
     }
   }
 
+  ////////////////////////
+  // SAVE UPDATED EMAIL //
+  ////////////////////////
   const saveEmail = () => {
     setMissingFields('')
     setError(false)
@@ -116,6 +122,9 @@ export default function Profile() {
     }
   }
 
+  ////////////////////////
+  // SAVE UPDATED EMAIL //
+  ////////////////////////
   const savePassword = async () => {
     setMissingFields('')
 

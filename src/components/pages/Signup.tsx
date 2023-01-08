@@ -41,7 +41,6 @@ export default function Signup() {
   const [confirm, setConfirm] = useState('')
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
-  const shakeRef = useRef<HTMLFormElement | null>(null)
 
   /////////////////////////
   // SIGN UP WITH GOOGLE //
@@ -72,7 +71,6 @@ export default function Signup() {
         }
       })
       .catch((error) => {
-        shakeContainer()
         console.log(error)
         setErrorMessage(error.message)
         setError(true)
@@ -112,7 +110,6 @@ export default function Signup() {
           })
         })
         .catch((error) => {
-          shakeContainer()
           setError(true)
 
           if (error.code.includes('auth/weak-password')) {
@@ -132,14 +129,6 @@ export default function Signup() {
     } else if (firstName === '' || email === '' || password === '') {
       setError(true)
       setMissingFields(true)
-    }
-  }
-
-  const shakeContainer = () => {
-    if (shakeRef.current) {
-      shakeRef.current.className = 'shake'
-
-      shakeRef.current.classList.remove('shake')
     }
   }
 

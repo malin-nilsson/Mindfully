@@ -1,10 +1,6 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
-import {
-  StyledHeadingM,
-  StyledHeadingS,
-} from '../styledComponents/Headings/StyledHeadings'
+import { StyledHeadingS } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 
 export default function NotFound() {
