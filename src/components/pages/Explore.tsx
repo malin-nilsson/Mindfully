@@ -71,6 +71,9 @@ export default function Explore() {
     return favorites?.includes(m)
   }
 
+  ////////////////////////
+  // FILTER MEDITATIONS //
+  ////////////////////////
   const handleOnChange = (e: string) => {
     let filtered: IMeditation[] = []
 
@@ -87,6 +90,9 @@ export default function Explore() {
     }
   }
 
+  /////////////////
+  // CLOSE MODAL //
+  /////////////////
   const hideModal = () => {
     setLoader(false)
     setVideoModal(false)
@@ -94,6 +100,9 @@ export default function Explore() {
     setHideMeditations(false)
   }
 
+  ////////////////
+  // SHOW MODAL //
+  ////////////////
   const showModal = (m: IMeditation) => {
     setHideMeditations(true)
     setLoader(true)
