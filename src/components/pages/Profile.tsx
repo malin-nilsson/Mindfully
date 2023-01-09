@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledProfileCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
@@ -17,6 +17,8 @@ import {
   updatePassword,
   updateProfile,
 } from 'firebase/auth'
+import { getStorage, ref, getDownloadURL } from 'firebase/storage'
+
 // REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
 // FRAMER MOTION //
@@ -24,6 +26,7 @@ import { motion } from 'framer-motion'
 // MUI //
 import CheckIcon from '@mui/icons-material/Check'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
+import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function Profile() {
   const auth = getAuth()
@@ -31,13 +34,12 @@ export default function Profile() {
   const [disabledName, setDisabledName] = useState(true)
   const [disabledEmail, setDisabledEmail] = useState(true)
   const [disabledPassword, setDisabledPassword] = useState(true)
-  const [userInfo, setUserInfo] = useState({
-    firstName: '',
-    email: '',
-  })
-  const [newFirstName, setNewFirstName] = useState(userInfo.firstName)
-  const [newEmail, setNewEmail] = useState(userInfo.email)
+  const [loader, setLoader] = useState(true)
+  const [newFirstName, setNewFirstName] = useState('')
+  const [newEmail, setNewEmail] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [profilePicture, setProfilePicture] = useState('')
+  const [userHasPicture, setUserHasPicture] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState('')
   const [confirmationName, setConfirmationName] = useState('')
   const [confirmationEmail, setConfirmationEmail] = useState('')
@@ -54,7 +56,15 @@ export default function Profile() {
       if (user !== null) {
         setNewEmail(user.email as string)
         setNewFirstName(user.displayName as string)
+        setLoader(false)
+        if (!user.photoURL === null) {
+          setUserHasPicture(true)
+          setProfilePicture(user.photoURL as string)
+        } else {
+          setUserHasPicture(false)
+        }
       } else {
+        setLoader(false)
         navigate('/')
       }
     })
@@ -159,206 +169,264 @@ export default function Profile() {
     }
   }
 
+  //////////////////////////
+  // SAVE PROFILE PICTURE //
+  //////////////////////////
+  const handlePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) console.log(e.target.files[0])
+  }
+
+  const saveProfilePicture = () => {
+    const types = ['image/png', 'image/jpeg']
+  }
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <StyledFlexWrapper justify="flex-start" padding="1.5rem 0 0" width="100%">
-        <StyledFlexWrapper>
-          <StyledHeadingXL color="var(--dark-beige)">Profile</StyledHeadingXL>
-        </StyledFlexWrapper>
+    <>
+      {loader ? (
+        <Loader position="relative" width="unset" />
+      ) : (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <StyledFlexWrapper
+            justify="flex-start"
+            padding="1.5rem 0 0"
+            width="100%"
+          >
+            <StyledFlexWrapper>
+              <StyledHeadingXL color="var(--dark-beige)">
+                Profile
+              </StyledHeadingXL>
+            </StyledFlexWrapper>
 
-        <StyledFlexWrapper width="100%" color="var(--dark-beige)">
-          <StyledProfileCard>
-            <div className="profile-wrapper">
-              <StyledImageWrapper>
-                <SentimentSatisfiedAltIcon style={{ fontSize: '4rem' }} />
-              </StyledImageWrapper>
-
-              <StyledFlexWrapper
-                color="var(--dark-beige)"
-                align="flex-start"
-                width="100%"
-                margin="unset"
-              >
-                {missingFields && <p className="error"> {missingFields}</p>}
-                {errorMessage && <p className="error"> {errorMessage}</p>}
-
-                <div className="input-group">
-                  <label>First name</label>
-                  <input
-                    type="text"
-                    disabled={disabledName}
-                    onChange={(e) => setNewFirstName(e.target.value)}
-                    value={newFirstName}
-                  ></input>
-                  {confirmationName && (
-                    <>
-                      <p className="confirmation">
-                        <CheckIcon /> {confirmationName}
-                      </p>
-                    </>
-                  )}
-                  <StyledButtonWrapper direction="row" width="100%" gap="1rem">
-                    <StyledButton
-                      onClick={() => {
-                        setDisabledName(!disabledName)
-                        setConfirmationName('')
-                        setErrorMessage('')
-                        setPasswordErrorMessage('')
-                      }}
-                      padding="0.8rem"
-                      fontSize="0.8rem"
-                      borderRadius="0.5rem"
-                    >
-                      {disabledName ? 'Edit' : 'Cancel'}
-                    </StyledButton>
-                    {disabledName ? (
-                      ''
+            <StyledFlexWrapper width="100%" color="var(--dark-beige)">
+              <StyledProfileCard>
+                <div className="profile-wrapper">
+                  <StyledImageWrapper>
+                    {userHasPicture ? (
+                      <img
+                        src={profilePicture}
+                        alt="Profile picture"
+                        referrerPolicy="no-referrer"
+                        style={{ borderRadius: '50%' }}
+                      />
                     ) : (
-                      <StyledButton
-                        onClick={() => {
-                          saveFirstName()
-                        }}
-                        padding="0.8rem"
-                        fontSize="0.8rem"
-                        borderRadius="0.5rem"
-                        bgColor="var(--dark-blue)"
-                        color="var(--dark-beige)"
-                        border="2px solid var(--dark-beige)"
-                      >
-                        Save
-                      </StyledButton>
+                      <SentimentSatisfiedAltIcon style={{ fontSize: '4rem' }} />
                     )}
-                  </StyledButtonWrapper>
-                </div>
+                  </StyledImageWrapper>
 
-                <div className="input-group">
-                  <label>Email address</label>
-                  <input
-                    type="email"
-                    disabled={disabledEmail}
-                    onChange={(e) => setNewEmail(e.target.value)}
-                    value={newEmail}
-                  ></input>
-                  {confirmationEmail && (
-                    <>
-                      <p className="confirmation">
-                        <CheckIcon /> {confirmationEmail}
-                      </p>
-                    </>
-                  )}
-                  {emailErrorMessage && (
-                    <p className="error"> {emailErrorMessage}</p>
-                  )}
-                  <StyledButtonWrapper direction="row" width="100%" gap="1rem">
-                    <StyledButton
-                      onClick={() => {
-                        setDisabledEmail(!disabledEmail)
-                        setConfirmationEmail('')
-                        setPasswordErrorMessage('')
-                        setEmailErrorMessage('')
-                        setErrorMessage('')
-                        setConfirmationPassword('')
-                      }}
-                      padding="0.8rem"
-                      fontSize="0.8rem"
-                      borderRadius="0.5rem"
-                    >
-                      {disabledEmail ? 'Edit' : 'Cancel'}
-                    </StyledButton>
-                    {disabledEmail ? (
-                      ''
-                    ) : (
-                      <StyledButton
-                        onClick={() => {
-                          saveEmail()
-                        }}
-                        padding="0.8rem"
-                        fontSize="0.8rem"
-                        borderRadius="0.5rem"
-                        bgColor="var(--dark-blue)"
-                        color="var(--dark-beige)"
-                        border="2px solid var(--dark-beige)"
+                  <div>
+                    <input
+                      type="file"
+                      onChange={(e) => handlePictureChange(e)}
+                    />
+                  </div>
+                  <StyledButton
+                    width="30%"
+                    padding="0.5rem"
+                    fontSize="0.8rem"
+                    onClick={() => saveProfilePicture()}
+                  >
+                    Upload picture
+                  </StyledButton>
+                  <StyledFlexWrapper
+                    color="var(--dark-beige)"
+                    align="flex-start"
+                    width="100%"
+                    margin="unset"
+                  >
+                    {missingFields && <p className="error"> {missingFields}</p>}
+                    {errorMessage && <p className="error"> {errorMessage}</p>}
+
+                    <div className="input-group">
+                      <label>First name</label>
+                      <input
+                        type="text"
+                        disabled={disabledName}
+                        onChange={(e) => setNewFirstName(e.target.value)}
+                        value={newFirstName}
+                      ></input>
+                      {confirmationName && (
+                        <>
+                          <p className="confirmation">
+                            <CheckIcon /> {confirmationName}
+                          </p>
+                        </>
+                      )}
+                      <StyledButtonWrapper
+                        direction="row"
+                        width="100%"
+                        gap="1rem"
                       >
-                        Save
-                      </StyledButton>
-                    )}
-                  </StyledButtonWrapper>
-                </div>
+                        <StyledButton
+                          onClick={() => {
+                            setDisabledName(!disabledName)
+                            setConfirmationName('')
+                            setErrorMessage('')
+                            setPasswordErrorMessage('')
+                          }}
+                          padding="0.8rem"
+                          fontSize="0.8rem"
+                          borderRadius="0.5rem"
+                        >
+                          {disabledName ? 'Edit' : 'Cancel'}
+                        </StyledButton>
+                        {disabledName ? (
+                          ''
+                        ) : (
+                          <StyledButton
+                            onClick={() => {
+                              saveFirstName()
+                            }}
+                            padding="0.8rem"
+                            fontSize="0.8rem"
+                            borderRadius="0.5rem"
+                            bgColor="var(--dark-blue)"
+                            color="var(--dark-beige)"
+                            border="2px solid var(--dark-beige)"
+                          >
+                            Save
+                          </StyledButton>
+                        )}
+                      </StyledButtonWrapper>
+                    </div>
 
-                <div className="input-group">
-                  <label>Password</label>
-                  <span>Old password:</span>
-                  <input
-                    type="password"
-                    disabled={true}
-                    placeholder="******"
-                  ></input>
-                  <span>New password:</span>
-                  <input
-                    type="password"
-                    disabled={disabledPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                  ></input>
-                  <span>Confirm password:</span>
-                  <input
-                    type="password"
-                    disabled={disabledPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                  ></input>
-                  {confirmationPassword && (
-                    <>
-                      <p className="confirmation">
-                        <CheckIcon /> {confirmationPassword}
-                      </p>
-                    </>
-                  )}
-                  {passwordErrorMessage && (
-                    <p className="error"> {passwordErrorMessage}</p>
-                  )}
-
-                  <StyledButtonWrapper direction="row" width="100%" gap="1rem">
-                    <StyledButton
-                      onClick={() => {
-                        setDisabledPassword(!disabledPassword)
-                        setPasswordErrorMessage('')
-                        setErrorMessage('')
-                        setConfirmationPassword('')
-                      }}
-                      padding="0.8rem"
-                      fontSize="0.8rem"
-                      borderRadius="0.5rem"
-                    >
-                      {disabledPassword ? 'Edit' : 'Cancel'}
-                    </StyledButton>
-                    {disabledPassword ? (
-                      ''
-                    ) : (
-                      <StyledButton
-                        onClick={() => {
-                          savePassword()
-                        }}
-                        padding="0.8rem"
-                        fontSize="0.8rem"
-                        borderRadius="0.5rem"
-                        bgColor="var(--dark-blue)"
-                        color="var(--dark-beige)"
-                        border="2px solid var(--dark-beige)"
+                    <div className="input-group">
+                      <label>Email address</label>
+                      <input
+                        type="email"
+                        disabled={disabledEmail}
+                        onChange={(e) => setNewEmail(e.target.value)}
+                        value={newEmail}
+                      ></input>
+                      {confirmationEmail && (
+                        <>
+                          <p className="confirmation">
+                            <CheckIcon /> {confirmationEmail}
+                          </p>
+                        </>
+                      )}
+                      {emailErrorMessage && (
+                        <p className="error"> {emailErrorMessage}</p>
+                      )}
+                      <StyledButtonWrapper
+                        direction="row"
+                        width="100%"
+                        gap="1rem"
                       >
-                        Save
-                      </StyledButton>
-                    )}
-                  </StyledButtonWrapper>
+                        <StyledButton
+                          onClick={() => {
+                            setDisabledEmail(!disabledEmail)
+                            setConfirmationEmail('')
+                            setPasswordErrorMessage('')
+                            setEmailErrorMessage('')
+                            setErrorMessage('')
+                            setConfirmationPassword('')
+                          }}
+                          padding="0.8rem"
+                          fontSize="0.8rem"
+                          borderRadius="0.5rem"
+                        >
+                          {disabledEmail ? 'Edit' : 'Cancel'}
+                        </StyledButton>
+                        {disabledEmail ? (
+                          ''
+                        ) : (
+                          <StyledButton
+                            onClick={() => {
+                              saveEmail()
+                            }}
+                            padding="0.8rem"
+                            fontSize="0.8rem"
+                            borderRadius="0.5rem"
+                            bgColor="var(--dark-blue)"
+                            color="var(--dark-beige)"
+                            border="2px solid var(--dark-beige)"
+                          >
+                            Save
+                          </StyledButton>
+                        )}
+                      </StyledButtonWrapper>
+                    </div>
+
+                    <div className="input-group">
+                      <label>Password</label>
+                      <span>Old password:</span>
+                      <input
+                        type="password"
+                        disabled={true}
+                        placeholder="******"
+                      ></input>
+                      <span>New password:</span>
+                      <input
+                        type="password"
+                        disabled={disabledPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                      ></input>
+                      <span>Confirm password:</span>
+                      <input
+                        type="password"
+                        disabled={disabledPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                      ></input>
+                      {confirmationPassword && (
+                        <>
+                          <p className="confirmation">
+                            <CheckIcon /> {confirmationPassword}
+                          </p>
+                        </>
+                      )}
+                      {passwordErrorMessage && (
+                        <p className="error"> {passwordErrorMessage}</p>
+                      )}
+
+                      <StyledButtonWrapper
+                        direction="row"
+                        width="100%"
+                        gap="1rem"
+                      >
+                        <StyledButton
+                          onClick={() => {
+                            setDisabledPassword(!disabledPassword)
+                            setPasswordErrorMessage('')
+                            setErrorMessage('')
+                            setConfirmationPassword('')
+                          }}
+                          padding="0.8rem"
+                          fontSize="0.8rem"
+                          borderRadius="0.5rem"
+                        >
+                          {disabledPassword ? 'Edit' : 'Cancel'}
+                        </StyledButton>
+                        {disabledPassword ? (
+                          ''
+                        ) : (
+                          <StyledButton
+                            onClick={() => {
+                              savePassword()
+                            }}
+                            padding="0.8rem"
+                            fontSize="0.8rem"
+                            borderRadius="0.5rem"
+                            bgColor="var(--dark-blue)"
+                            color="var(--dark-beige)"
+                            border="2px solid var(--dark-beige)"
+                          >
+                            Save
+                          </StyledButton>
+                        )}
+                      </StyledButtonWrapper>
+                    </div>
+                  </StyledFlexWrapper>
                 </div>
-              </StyledFlexWrapper>
-            </div>
-          </StyledProfileCard>
-        </StyledFlexWrapper>
-      </StyledFlexWrapper>
-    </motion.div>
+              </StyledProfileCard>
+            </StyledFlexWrapper>
+          </StyledFlexWrapper>
+        </motion.div>
+      )}
+    </>
   )
 }
