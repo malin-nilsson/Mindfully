@@ -6,8 +6,8 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import Loader from '../styledComponents/Loader/StyledLoader'
-import VideoModal from '../styledComponents/Modal/StyledVideoModal'
-import ImageModal from '../styledComponents/Modal/StyledImageModal'
+import VideoModal from '../styledComponents/Modal/VideoModal'
+import ImageModal from '../styledComponents/Modal/ImageModal'
 // DATA //
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 // MODELS //

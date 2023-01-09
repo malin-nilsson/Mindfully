@@ -36,6 +36,11 @@ export const StyledCard = styled.div`
 `
 
 export const StyledTimerCard = styled(StyledCard)`
+  @media ${devices.desktop} {
+    height: 14rem;
+    width: 15rem;
+    padding: 0rem;
+  }
   &:hover {
     cursor: unset;
     transform: unset;

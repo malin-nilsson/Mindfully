@@ -39,7 +39,7 @@ export const MeditationCatalog: IMeditation[] = [
     img: boxBreathingImage,
     audio: '',
     description:
-      'Box breathing is a technique practiced by Navy SEALs used in high-stress situations to aid in stress management and overall wellness.',
+      'Box breathing is a technique practiced by Navy SEALs and is used in high-stress situations to aid in stress management and overall wellness.',
     totalTime: 12000,
     holdTime: 4000,
     breatheTime: 4000,
@@ -69,7 +69,7 @@ export const MeditationCatalog: IMeditation[] = [
     icon: fourSevenEightIcon,
     img: fourSevenEightImage,
     description:
-      'The 4-7-8 method includes rhythmic breathing and focuses on regulating your breath to promote sleep and relaxation.',
+      '4-7-8 is a rhythmic breathing exercise (breathing in for 4 seconds, holding for 7 and breathing out for 8) to promote sleep and relaxation.',
     totalTime: 19000,
     holdTime: 7000,
     breatheTime: 4000,
@@ -81,7 +81,7 @@ export const MeditationCatalog: IMeditation[] = [
     icon: fiveBreathsIcon,
     img: fiveBreathsImage,
     description:
-      'Paying close attention to your breath is an easy way to bring mindfulness into your day. Breathe in  through your nose, follow that breath with your awareness, then breathe out fully through your mouth.',
+      'Paying attention to your breath is an easy way to calm the nervous system and step into the present moment. Concentrate on the sensation of breathing in through your nose and out through your mouth.',
     totalTime: 10000,
     breatheTime: 5000,
     id: 43249,

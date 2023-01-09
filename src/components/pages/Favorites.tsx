@@ -6,9 +6,9 @@ import { StyledMeditationCard } from '../styledComponents/Card/Card'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import ImageModal from '../styledComponents/Modal/StyledImageModal'
+import ImageModal from '../styledComponents/Modal/ImageModal'
 import Loader from '../styledComponents/Loader/StyledLoader'
-import VideoModal from '../styledComponents/Modal/StyledVideoModal'
+import VideoModal from '../styledComponents/Modal/VideoModal'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 // FIRESTORE //

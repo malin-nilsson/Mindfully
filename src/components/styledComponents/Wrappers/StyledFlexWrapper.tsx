@@ -124,13 +124,13 @@ export const StyledFlexWrapper = styled.div`
     animation: ${shake} 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
   .timer {
-    font-size: 2rem;
+    font-size: 1rem;
     color: var(--light-beige);
-    -webkit-text-stroke: 1px var(--mid-blue);
     font-weight: 500;
+    text-align: left;
 
     @media ${devices.desktop} {
-      font-size: 2.7rem;
+      font-size: 1.7rem;
     }
   }
 

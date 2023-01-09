@@ -394,11 +394,11 @@ export const StyledAnimation = styled.div`
   }
 
   .animation-button {
-    padding: 1rem;
+    padding: 0.7rem;
     margin: 0.5rem 0;
     width: 50%;
     border: 1px solid var(--light-beige);
-
+    font-weight: 500;
     @media ${devices.tablet} {
       width: 30%;
     }
