@@ -22,7 +22,7 @@ export default function Favorites() {
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
   const [hideFavorites, setHideFavorites] = useState(false)
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(true)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
@@ -42,8 +42,10 @@ export default function Favorites() {
 
     if (faves) {
       setFavorites(faves)
+      setLoader(false)
     } else {
       setNoFavorites(true)
+      setLoader(false)
     }
   }
 
@@ -74,7 +76,7 @@ export default function Favorites() {
 
   return (
     <>
-      {loader && <Loader />}
+      {loader && <Loader position="relative" width="unset" />}
       {videoModal && (
         <motion.div
           initial={{ opacity: 0 }}

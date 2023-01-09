@@ -4,10 +4,13 @@ import { IStylingProps } from '../models/IStylingProps'
 
 interface ILoaderProps {
   message?: string
+  position?: string
+  width?: string
 }
+
 export default function Loader(props: ILoaderProps) {
   return (
-    <StyledLoader>
+    <StyledLoader position={props.position} width={props.width}>
       <div className="loader-wrapper">
         <StyledHeadingL color="var(--dark-beige)">
           {props.message}
@@ -28,16 +31,16 @@ const loader = keyframes`
 `
 
 export const StyledLoader = styled.div`
-  position: absolute;
+  position: ${(props: IStylingProps) => props.position || 'absolute'};
   top: 0;
   left: 0;
   background: var(--dark-blue);
   z-index: 10;
   height: 100vh;
-  width: 100vw;
+  width: ${(props: IStylingProps) => props.width || '100vw'};
   margin: 0 auto;
   overflow: hidden;
-  
+
   .loader-wrapper {
     margin: ${(props: IStylingProps) => props.margin || '12rem auto 0px'};
     display: flex;

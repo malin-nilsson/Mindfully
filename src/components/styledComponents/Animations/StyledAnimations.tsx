@@ -31,7 +31,15 @@ export default function Animation(props: IAnimationProps) {
     props.handleTime(new Date())
     boxBreathing()
   }
-  /// Box Breathing animation //
+
+  const handleFiveBreaths = () => {
+    props.handleTime(new Date())
+    fiveMindfulBreaths()
+  }
+
+  ////////////////////
+  /// BOX BREATHING //
+  ////////////////////
   const boxBreathing = () => {
     setIsMeditating(true)
 
@@ -53,7 +61,7 @@ export default function Animation(props: IAnimationProps) {
     ) {
       button.current.style.display = 'none'
       ball.current.style.animationPlayState = 'running'
-      text.current.innerText = 'Breathe In!'
+      text.current.innerText = 'Breathe In'
       outerContainer.current.className = 'animation-outer-container grow-box'
 
       setTimeout(() => {
@@ -63,7 +71,7 @@ export default function Animation(props: IAnimationProps) {
 
         setTimeout(() => {
           if (text.current && outerContainer.current && circle.current) {
-            text.current.innerText = 'Breathe Out!'
+            text.current.innerText = 'Breathe Out'
             outerContainer.current.className =
               'animation-outer-container shrink-box'
           }
@@ -72,7 +80,9 @@ export default function Animation(props: IAnimationProps) {
     }
   }
 
-  /// 4-7-8 Breathing animation //
+  //////////////////////
+  /// 4-7-8 BREATHING //
+  //////////////////////
   const fourBreathing = () => {
     setIsMeditating(true)
 
@@ -83,7 +93,6 @@ export default function Animation(props: IAnimationProps) {
     }, props.meditation.totalTime)
 
     interval.current = id
-    console.log(interval.current)
 
     if (
       text.current &&
@@ -94,7 +103,7 @@ export default function Animation(props: IAnimationProps) {
     ) {
       button.current.style.display = 'none'
       ball.current.style.animationPlayState = 'running'
-      text.current.innerText = 'Breathe In!'
+      text.current.innerText = 'Breathe In'
       outerContainer.current.className = 'animation-outer-container grow-478'
       circle.current.className = 'animate-circle animate-circle-inhale'
 
@@ -105,7 +114,7 @@ export default function Animation(props: IAnimationProps) {
 
         setTimeout(() => {
           if (text.current && outerContainer.current && circle.current) {
-            text.current.innerText = 'Breathe Out!'
+            text.current.innerText = 'Breathe Out'
             outerContainer.current.className =
               'animation-outer-container shrink-478'
             circle.current.className = 'animate-circle animate-circle-exhale'
@@ -115,13 +124,65 @@ export default function Animation(props: IAnimationProps) {
     }
   }
 
+  //////////////////////////
+  // FIVE MINDFUL BREATHS //
+  //////////////////////////
+  const fiveMindfulBreaths = () => {
+    setIsMeditating(true)
+
+    if (interval.current) clearInterval(interval.current)
+
+    const id = setInterval(() => {
+      fiveMindfulBreaths()
+    }, props.meditation.totalTime)
+
+    interval.current = id
+
+    if (
+      text.current &&
+      outerContainer.current &&
+      circle.current &&
+      ball.current &&
+      button.current
+    ) {
+      button.current.style.display = 'none'
+      ball.current.style.animationPlayState = 'running'
+      text.current.innerText = 'Breathe In'
+      outerContainer.current.className = 'animation-outer-container grow-five'
+
+      setTimeout(() => {
+        if (text.current && outerContainer.current && circle.current) {
+          text.current.innerText = 'Breath Out'
+          outerContainer.current.className =
+            'animation-outer-container shrink-five'
+          circle.current.className = 'animate-circle animate-circle-exhale'
+        }
+      }, props.meditation.breatheTime)
+    }
+  }
+
+  const applyClass = () => {
+    if (
+      props.meditation.title === '4-7-8 Breathing Technique' &&
+      ball.current
+    ) {
+      return 'animation-ball-container-478'
+    } else if (
+      props.meditation.title === 'Box Breathing Technique' &&
+      ball.current
+    ) {
+      return 'animation-ball-container-box'
+    } else if (
+      props.meditation.title === 'Five Mindful Breaths' &&
+      ball.current
+    ) {
+      return 'animation-ball-container-five'
+    }
+  }
+
   return (
     <StyledAnimation>
-      <div
-        ref={outerContainer}
-        className="animation-outer-container"
-        id="animation-container"
-      >
+      <div ref={outerContainer} className="animation-outer-container">
         <div className="animation-inner-container"></div>
         <div ref={circle} className="animate-circle" id="animate-circle">
           <p ref={text} className="animation-text">
@@ -129,14 +190,7 @@ export default function Animation(props: IAnimationProps) {
           </p>
         </div>
 
-        <div
-          ref={ball}
-          className={
-            props.meditation.title === '4-7-8 Breathing Technique'
-              ? 'animation-ball-container-478'
-              : 'animation-ball-container-box'
-          }
-        >
+        <div ref={ball} className={applyClass()}>
           <span className="animation-ball"></span>
         </div>
         <div className="gradient-circle"></div>
@@ -144,9 +198,13 @@ export default function Animation(props: IAnimationProps) {
       <StyledButton
         className="animation-button"
         onClick={() => {
-          props.meditation.title === '4-7-8 Breathing Technique'
-            ? handleFourBreathing()
-            : handleBoxBreathing()
+          if (props.meditation.title === '4-7-8 Breathing Technique') {
+            handleFourBreathing()
+          } else if (props.meditation.title === 'Box Breathing Technique') {
+            handleBoxBreathing()
+          } else {
+            handleFiveBreaths()
+          }
         }}
         ref={button}
       >
@@ -216,7 +274,7 @@ export const StyledAnimation = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 2.5rem 0 1rem;
+    margin: 3.5rem 0 0;
     height: 300px;
     width: 300px;
     position: relative;
@@ -227,12 +285,20 @@ export const StyledAnimation = styled.div`
     animation: ${grow} 4s linear forwards;
   }
 
+  .animation-outer-container.grow-five {
+    animation: ${grow} 5s linear forwards;
+  }
+
   .animation-outer-container.grow-box {
     animation: ${grow} 4s linear forwards;
   }
 
   .animation-outer-container.shrink-478 {
     animation: ${shrink} 8s linear forwards;
+  }
+
+  .animation-outer-container.shrink-five {
+    animation: ${shrink} 5s linear forwards;
   }
 
   .animation-outer-container.shrink-box {
@@ -254,9 +320,7 @@ export const StyledAnimation = styled.div`
 
   .animate-circle {
     background-color: ${(props: IStylingProps) =>
-      props.bgColor || 'var(--light-beige)'};
-    outline: ${(props: IStylingProps) =>
-      props.outline || '2px solid var(--mid-blue)'};
+      props.bgColor || 'var(--dark-beige)'};
     height: 90%;
     width: 90%;
     border-radius: 50%;
@@ -271,7 +335,7 @@ export const StyledAnimation = styled.div`
     background-color: ${(props: IStylingProps) =>
       props.bgColor || 'var(--dark-beige)'};
     outline: ${(props: IStylingProps) =>
-      props.outline || '2px solid var(--mid-blue)'};
+      props.outline || '1px solid var(--mid-blue)'};
     border-radius: 50%;
     height: 1.3rem;
     width: 1.3rem;
@@ -297,12 +361,21 @@ export const StyledAnimation = styled.div`
     animation-play-state: paused;
     transform-origin: bottom center;
   }
+  .animation-ball-container-five {
+    position: absolute;
+    top: -40px;
+    left: 140px;
+    width: 20px;
+    height: 190px;
+    animation: ${rotate} 10s linear forwards infinite;
+    animation-play-state: paused;
+    transform-origin: bottom center;
+  }
   .animation-inner-container {
     background-color: ${(props: IStylingProps) =>
       props.bgColor || 'var(--dark-beige)'};
     outline: ${(props: IStylingProps) =>
       props.outline || '10px solid var(--light-beige)'};
-
     height: 100%;
     width: 100%;
     border-radius: 50%;
@@ -313,8 +386,10 @@ export const StyledAnimation = styled.div`
   }
 
   .animation-text {
-    font-size: 2.2rem;
-    z-index: 900;
+    font-size: 3rem;
+    text-align: center;
+    font-weight: 100;
+    z-index: 100;
     color: #010f1c;
   }
 

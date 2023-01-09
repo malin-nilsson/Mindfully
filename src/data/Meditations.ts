@@ -19,6 +19,8 @@ import boxBreathingIcon from '../assets/meditations/icons/box.png'
 import boxBreathingImage from '../assets/meditations/box.jpg'
 import fourSevenEightIcon from '../assets/meditations/icons/478.png'
 import fourSevenEightImage from '../assets/meditations/478.jpg'
+import fiveBreathsImage from '../assets/meditations/fiveMindful.jpg'
+import fiveBreathsIcon from '../assets/meditations/icons/fiveMindful.png'
 
 export const MeditationCatalog: IMeditation[] = [
   {
@@ -66,13 +68,23 @@ export const MeditationCatalog: IMeditation[] = [
     tag: 'Guided Breathing Meditation',
     icon: fourSevenEightIcon,
     img: fourSevenEightImage,
-    audio: '',
     description:
       'The 4-7-8 method includes rhythmic breathing and focuses on regulating your breath to promote sleep and relaxation.',
     totalTime: 19000,
     holdTime: 7000,
     breatheTime: 4000,
     id: 43241,
+  },
+  {
+    title: 'Five Mindful Breaths',
+    tag: 'Guided Breathing Meditation',
+    icon: fiveBreathsIcon,
+    img: fiveBreathsImage,
+    description:
+      'Paying close attention to your breath is an easy way to bring mindfulness into your day. Breathe in  through your nose, follow that breath with your awareness, then breathe out fully through your mouth.',
+    totalTime: 10000,
+    breatheTime: 5000,
+    id: 43249,
   },
   {
     title: 'Night Ambience',

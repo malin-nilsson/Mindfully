@@ -97,7 +97,7 @@ export const StyledFlexWrapper = styled.div`
     }
 
     @media ${devices.desktop} {
-      width: 40%;
+      width: 50%;
     }
 
     span {
@@ -244,16 +244,21 @@ export const StyledProgressWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  gap: 1rem;
+  gap: 2rem;
+  padding: 1rem;
+  background-color: var(--dark-blue);
 
   @media ${devices.tablet} {
     padding: 1.5rem 0;
     margin: 1rem 0;
     flex-direction: row;
     gap: 2rem;
-    padding: 2rem 0 2.5rem;
+    padding: 2rem;
     margin: 2rem 0;
     align-items: center;
     justify-content: center;
+    width: 80%;
+    border-radius: 1rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 `
