@@ -6,6 +6,7 @@ export interface IStylingProps {
   justify?: string
   direction?: string
   align?: string
+  flexWrap?: string
   gap?: string
   padding?: string
   margin?: string
@@ -19,6 +20,8 @@ export interface IStylingProps {
   borderBottom?: string
   borderRadius?: string
   position?: string
+  top?: string
+  left?: string
   display?: string
   background?: string
   backgroundImage?: string

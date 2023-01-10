@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 // STYLED COMPONENTS/
-import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
+import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrappers'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import { StyledButton } from '../Button/StyledButton'
 import { StyledTimerCard } from '../Cards/Cards'

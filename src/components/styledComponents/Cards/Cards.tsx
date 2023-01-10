@@ -99,11 +99,12 @@ export const StyledProfileCard = styled(StyledMeditationCard)`
 
   .profile-picture-btn {
     width: 100%;
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
     font-size: 0.8rem;
 
     @media ${devices.tablet} {
       width: 30%;
+      padding: 0.5rem;
     }
   }
 `

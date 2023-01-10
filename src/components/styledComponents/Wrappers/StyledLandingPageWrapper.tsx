@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
-import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledLandingPageWrapper = styled.div`
   width: 100vw;

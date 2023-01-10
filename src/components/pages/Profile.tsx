@@ -5,7 +5,7 @@ import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,
-} from '../styledComponents/Wrappers/StyledFlexWrapper'
+} from '../styledComponents/Wrappers/StyledFlexWrappers'
 import Loader from '../styledComponents/Loader/StyledLoader'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
@@ -27,6 +27,7 @@ import { motion } from 'framer-motion'
 // MUI //
 import CheckIcon from '@mui/icons-material/Check'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
 
 export default function Profile() {
   const auth = getAuth()
@@ -244,37 +245,54 @@ export default function Profile() {
                 <div className="profile-wrapper">
                   <StyledImageWrapper>
                     {pictureURL !== '' ? (
-                      <img
-                        src={pictureURL}
-                        alt="Profile"
-                        referrerPolicy="no-referrer"
-                        className="profile-picture"
-                      />
+                      <div className="image">
+                        <img
+                          src={pictureURL}
+                          alt="Profile"
+                          referrerPolicy="no-referrer"
+                          className="profile-picture"
+                        />
+                        <span
+                          className="upload-icon"
+                          onClick={() => {
+                            setUploadPicture(!uploadPicture)
+                          }}
+                        >
+                          <PhotoCameraIcon
+                            fontSize="small"
+                            style={{
+                              color: 'var(--dark-blue)',
+                            }}
+                          />
+                        </span>
+                      </div>
                     ) : (
                       <SentimentSatisfiedAltIcon style={{ fontSize: '4rem' }} />
                     )}
                   </StyledImageWrapper>
 
                   {uploadPicture && (
-                    <div>
+                    <StyledFlexWrapper
+                      color="var(--dark-beige)"
+                      margin="0.5rem 0"
+                      direction="row"
+                      flexWrap="nowrap"
+                    >
                       <input
                         type="file"
                         onChange={(e) => handlePictureChange(e)}
                       />
-                    </div>
+
+                      <StyledButton
+                        className="profile-picture-btn"
+                        onClick={() => {
+                          saveProfilePicture()
+                        }}
+                      >
+                        Upload image
+                      </StyledButton>
+                    </StyledFlexWrapper>
                   )}
-
-                  <StyledButton
-                    className="profile-picture-btn"
-                    onClick={() => {
-                      uploadPicture
-                        ? saveProfilePicture()
-                        : setUploadPicture(!uploadPicture)
-                    }}
-                  >
-                    {uploadPicture ? 'Save image' : 'Upload image'}
-                  </StyledButton>
-
                   <StyledFlexWrapper
                     color="var(--dark-beige)"
                     align="flex-start"

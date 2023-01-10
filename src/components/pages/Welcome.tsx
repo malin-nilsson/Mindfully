@@ -9,7 +9,7 @@ import {
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,
-} from '../styledComponents/Wrappers/StyledFlexWrapper'
+} from '../styledComponents/Wrappers/StyledFlexWrappers'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 
 export default function Welcome() {

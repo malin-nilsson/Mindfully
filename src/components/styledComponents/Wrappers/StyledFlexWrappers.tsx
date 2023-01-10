@@ -4,7 +4,7 @@ import { IStylingProps } from '../models/IStylingProps'
 
 const fadeOut = keyframes`
     0% {opacity: 1;}
-            100% {opacity: 0;}
+    100% {opacity: 0;}
 `
 
 const fadeIn = keyframes`
@@ -30,7 +30,7 @@ const shake = keyframes`
 export const StyledFlexWrapper = styled.div`
   display: ${(props: IStylingProps) => props.display || 'flex'};
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
-  flex-wrap: wrap;
+  flex-wrap: ${(props: IStylingProps) => props.flexWrap || 'wrap'};
   justify-content: ${(props: IStylingProps) => props.justify || 'center'};
   align-items: ${(props: IStylingProps) => props.align || 'center'};
   gap: ${(props: IStylingProps) => props.gap || '1rem'};
@@ -41,6 +41,9 @@ export const StyledFlexWrapper = styled.div`
   padding: ${(props: IStylingProps) => props.padding || ''};
   color: ${(props: IStylingProps) => props.color || 'var(--mid-blue)'};
   border-radius: ${(props: IStylingProps) => props.borderRadius || ''};
+  position: ${(props: IStylingProps) => props.position || ''};
+  top: ${(props: IStylingProps) => props.top || ''};
+  left: ${(props: IStylingProps) => props.left || ''};
 
   .favorites-wrapper {
     @media ${devices.tablet} {
@@ -181,6 +184,10 @@ export const StyledFlexWrapper = styled.div`
       gap: 0.5rem;
       margin: 1rem 0;
       width: 100%;
+
+      span {
+        text-align: left;
+      }
     }
     .confirmation {
       color: var(--dark-beige);
@@ -236,6 +243,37 @@ export const StyledFlexWrapper = styled.div`
     visibility: none;
     animation: ${fadeOut} 0.3s forwards;
     animation-fill-mode: forwards;
+  }
+
+  .not-found-wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    img {
+      max-height: 10rem;
+
+      @media ${devices.tablet} {
+        max-height: 15rem;
+      }
+      @media ${devices.desktop} {
+        max-height: 25rem;
+      }
+    }
+
+    button {
+      margin: 2rem 0;
+      width: 100%;
+    }
+
+    h4 {
+      text-align: center;
+    }
   }
 `
 

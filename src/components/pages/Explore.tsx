@@ -3,7 +3,7 @@ import { Suspense, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledMeditationCard } from '../styledComponents/Cards/Cards'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
-import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
+import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappers'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import Loader from '../styledComponents/Loader/StyledLoader'

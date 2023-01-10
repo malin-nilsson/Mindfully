@@ -3,7 +3,7 @@ import { useRef, useState } from 'react'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
 import { StyledHeadingM } from '../styledComponents/Headings/StyledHeadings'
-import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
+import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappers'
 import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import GoogleIcon from '@mui/icons-material/Google'

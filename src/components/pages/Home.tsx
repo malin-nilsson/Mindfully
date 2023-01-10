@@ -4,7 +4,7 @@ import {
   StyledHeadingL,
   StyledHeadingS,
 } from '../styledComponents/Headings/StyledHeadings'
-import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
+import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappers'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledCard } from '../styledComponents/Cards/Cards'
 import Loader from '../styledComponents/Loader/StyledLoader'

@@ -7,7 +7,7 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { StyledHeadingLogo } from '../Headings/StyledHeadings'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import { StyledButton } from '../Button/StyledButton'
-import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
+import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrappers'
 // MUI //
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseIcon from '@mui/icons-material/Close'

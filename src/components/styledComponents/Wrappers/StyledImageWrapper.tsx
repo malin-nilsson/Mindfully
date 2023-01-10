@@ -24,7 +24,23 @@ export const StyledImageWrapper = styled.span`
 
   .profile-picture {
     border-radius: 50%;
-    height: 7rem;
-    width: 7rem;
+    height: 8rem;
+    width: 8rem;
+  }
+
+  .image {
+    position: relative;
+
+    .upload-icon {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      display: flex;
+      background-color: var(--dark-beige);
+      border-radius: 50%;
+      padding: 0.5rem;
+      margin-right: -10px;
+      margin-bottom: -5px;
+    }
   }
 `

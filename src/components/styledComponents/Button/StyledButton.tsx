@@ -23,12 +23,12 @@ export const StyledButton = styled.button`
   @media ${devices.tablet} {
     font-size: ${(props: IStylingProps) => props.fontSize || '1rem'};
     width: ${(props: IStylingProps) => props.width || '100%'};
-    padding: 1.3rem 2rem;
+    padding: 1rem 1.8rem;
   }
 
   @media ${devices.desktop} {
     width: ${(props: IStylingProps) => props.width || '100%'};
-    padding: ${(props: IStylingProps) => props.padding || '1.3rem 2rem'};
+    padding: ${(props: IStylingProps) => props.padding || ''};
   }
 
   &:hover {

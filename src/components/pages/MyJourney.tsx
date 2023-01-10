@@ -12,7 +12,7 @@ import {
 import {
   StyledFlexWrapper,
   StyledProgressWrapper,
-} from '../styledComponents/Wrappers/StyledFlexWrapper'
+} from '../styledComponents/Wrappers/StyledFlexWrappers'
 import { StyledLink } from '../styledComponents/Link/StyledLink'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
