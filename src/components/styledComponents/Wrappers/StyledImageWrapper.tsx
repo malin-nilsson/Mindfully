@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledImageWrapper = styled.span`
@@ -21,5 +20,11 @@ export const StyledImageWrapper = styled.span`
   span {
     font-size: 1rem;
     margin: 1rem 0;
+  }
+
+  .profile-picture {
+    border-radius: 50%;
+    height: 7rem;
+    width: 7rem;
   }
 `

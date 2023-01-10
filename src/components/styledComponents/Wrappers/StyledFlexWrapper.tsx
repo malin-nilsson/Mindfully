@@ -188,6 +188,8 @@ export const StyledFlexWrapper = styled.div`
       border: 1px solid #a90000;
       font-weight: 500;
       font-size: 0.9rem;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .error-input {

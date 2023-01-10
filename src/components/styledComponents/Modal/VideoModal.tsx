@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 // STYLED COMPONENTS/
-import { devices } from '../../breakpoints/Breakpoints'
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import { StyledButton } from '../Button/StyledButton'
-import { StyledTimerCard } from '../Card/Card'
+import { StyledTimerCard } from '../Cards/Cards'
 import { StyledHeadingXS, StyledHeadingS } from '../Headings/StyledHeadings'
 // MUI //
 import UpdateIcon from '@mui/icons-material/Update'

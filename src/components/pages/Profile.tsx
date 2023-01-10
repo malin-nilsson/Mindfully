@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
-import { StyledProfileCard } from '../styledComponents/Card/Card'
+import { StyledProfileCard } from '../styledComponents/Cards/Cards'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,
 } from '../styledComponents/Wrappers/StyledFlexWrapper'
-
+import Loader from '../styledComponents/Loader/StyledLoader'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 // FIREBASE //
@@ -17,8 +17,9 @@ import {
   updatePassword,
   updateProfile,
 } from 'firebase/auth'
-import { getStorage, ref, getDownloadURL } from 'firebase/storage'
-
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
+import { storage, database } from '../../firebase/config'
+import { onValue, ref as databaseRef, set } from '@firebase/database'
 // REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
 // FRAMER MOTION //
@@ -26,7 +27,6 @@ import { motion } from 'framer-motion'
 // MUI //
 import CheckIcon from '@mui/icons-material/Check'
 import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
-import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function Profile() {
   const auth = getAuth()
@@ -38,8 +38,9 @@ export default function Profile() {
   const [newFirstName, setNewFirstName] = useState('')
   const [newEmail, setNewEmail] = useState('')
   const [newPassword, setNewPassword] = useState('')
-  const [profilePicture, setProfilePicture] = useState('')
-  const [userHasPicture, setUserHasPicture] = useState(false)
+  const [profilePicture, setProfilePicture] = useState<File>()
+  const [pictureURL, setPictureURL] = useState('')
+  const [uploadPicture, setUploadPicture] = useState(false)
   const [confirmPassword, setConfirmPassword] = useState('')
   const [confirmationName, setConfirmationName] = useState('')
   const [confirmationEmail, setConfirmationEmail] = useState('')
@@ -52,17 +53,13 @@ export default function Profile() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    onAuthStateChanged(auth, (user) => {
+
+    onAuthStateChanged(auth, async (user) => {
       if (user !== null) {
         setNewEmail(user.email as string)
         setNewFirstName(user.displayName as string)
         setLoader(false)
-        if (!user.photoURL === null) {
-          setUserHasPicture(true)
-          setProfilePicture(user.photoURL as string)
-        } else {
-          setUserHasPicture(false)
-        }
+        getProfilePicture()
       } else {
         setLoader(false)
         navigate('/')
@@ -173,11 +170,54 @@ export default function Profile() {
   // SAVE PROFILE PICTURE //
   //////////////////////////
   const handlePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) console.log(e.target.files[0])
+    if (e.target.files) {
+      setProfilePicture(e.target.files[0])
+    }
   }
 
   const saveProfilePicture = () => {
     const types = ['image/png', 'image/jpeg']
+
+    if (
+      auth.currentUser &&
+      profilePicture &&
+      // Check if file is png or jpg
+      types.includes(profilePicture.type)
+    ) {
+      const storageRef = ref(
+        storage,
+        `images/${auth.currentUser.uid}/${profilePicture.name}`,
+      )
+      uploadBytes(storageRef, profilePicture)
+        .then((snapshot) => {
+          getDownloadURL(storageRef)
+            .then((url) => {
+              setPictureURL(url)
+              set(databaseRef(database, 'users/' + auth.currentUser?.uid), {
+                profile_picture: url,
+              })
+              setUploadPicture(false)
+            })
+            .catch((error) => {
+              setErrorMessage(error.message)
+            })
+        })
+        .catch((error) => {
+          setErrorMessage(error.message)
+        })
+    } else {
+      setErrorMessage('Please select an image file (png or jpg).')
+    }
+  }
+
+  const getProfilePicture = () => {
+    if (auth.currentUser) {
+      const imageRef = databaseRef(database, 'users/' + auth.currentUser.uid)
+      onValue(imageRef, (snapshot) => {
+        const data = snapshot.val()
+        setPictureURL(data.profile_picture)
+      })
+    }
   }
 
   return (
@@ -206,32 +246,38 @@ export default function Profile() {
               <StyledProfileCard>
                 <div className="profile-wrapper">
                   <StyledImageWrapper>
-                    {userHasPicture ? (
+                    {pictureURL !== '' ? (
                       <img
-                        src={profilePicture}
-                        alt="Profile picture"
+                        src={pictureURL}
+                        alt="Profile"
                         referrerPolicy="no-referrer"
-                        style={{ borderRadius: '50%' }}
+                        className="profile-picture"
                       />
                     ) : (
                       <SentimentSatisfiedAltIcon style={{ fontSize: '4rem' }} />
                     )}
                   </StyledImageWrapper>
 
-                  <div>
-                    <input
-                      type="file"
-                      onChange={(e) => handlePictureChange(e)}
-                    />
-                  </div>
+                  {uploadPicture && (
+                    <div>
+                      <input
+                        type="file"
+                        onChange={(e) => handlePictureChange(e)}
+                      />
+                    </div>
+                  )}
+
                   <StyledButton
-                    width="30%"
-                    padding="0.5rem"
-                    fontSize="0.8rem"
-                    onClick={() => saveProfilePicture()}
+                    className="profile-picture-btn"
+                    onClick={() => {
+                      uploadPicture
+                        ? saveProfilePicture()
+                        : setUploadPicture(!uploadPicture)
+                    }}
                   >
-                    Upload picture
+                    {uploadPicture ? 'Save image' : 'Upload image'}
                   </StyledButton>
+
                   <StyledFlexWrapper
                     color="var(--dark-beige)"
                     align="flex-start"

@@ -2,13 +2,11 @@ import { useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import {
   StyledHeadingL,
-  StyledHeadingM,
   StyledHeadingS,
 } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import { moods } from '../../data/Moods'
-import { StyledCard } from '../styledComponents/Card/Card'
+import { StyledCard } from '../styledComponents/Cards/Cards'
 import Loader from '../styledComponents/Loader/StyledLoader'
 // REACT ROUTER //
 import { Link } from 'react-router-dom'
@@ -17,8 +15,6 @@ import { motion } from 'framer-motion'
 import { getFirstName } from '../../utils/getFirstName'
 
 export default function Home() {
-  const [selfAssessment, setSelfAssessment] = useState(false)
-  const [cards, setCards] = useState(true)
   const [displayName, setDisplayName] = useState('')
   const [greeting, setGreeting] = useState('')
   const [loader, setLoader] = useState(false)
@@ -84,7 +80,10 @@ export default function Home() {
                 </StyledHeadingS>
 
                 <StyledImageWrapper maxHeight="40px">
-                  <img src="/assets/icons/zen.png"></img>
+                  <img
+                    src="/assets/icons/zen.png"
+                    alt="Illustration of person meditating"
+                  ></img>
                 </StyledImageWrapper>
 
                 <p>

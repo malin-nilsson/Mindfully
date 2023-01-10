@@ -83,12 +83,22 @@ export const StyledProfileCard = styled(StyledMeditationCard)`
   }
 
   @media ${devices.tablet} {
-    width: 40%;
+    width: 70%;
     padding: 2rem 3rem;
   }
 
   @media ${devices.desktop} {
     padding: 1.5rem 3rem;
     width: 50%;
+  }
+
+  .profile-picture-btn {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+
+    @media ${devices.tablet} {
+      width: 30%;
+    }
   }
 `
