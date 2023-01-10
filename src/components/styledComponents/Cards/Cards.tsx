@@ -30,6 +30,7 @@ export const StyledCard = styled.div`
     font-size: 0.9rem;
   }
   span {
+    text-align: center;
     font-size: 0.9rem;
     font-weight: 100;
   }
@@ -55,6 +56,10 @@ export const StyledMeditationCard = styled(StyledCard)`
   border: 1px solid var(--light-blue);
   width: 100%;
   height: ${(props: IStylingProps) => props.height || '14rem'};
+  padding: 1.5rem 1rem;
+  border-radius: 15px;
+  justify-content: center;
+  height: 11rem;
 
   &:hover {
     cursor: pointer;

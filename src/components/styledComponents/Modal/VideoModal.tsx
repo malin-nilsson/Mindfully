@@ -4,6 +4,7 @@ import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import { StyledButton } from '../Button/StyledButton'
 import { StyledTimerCard } from '../Cards/Cards'
+import { StyledVideo } from './StyledVideoModal'
 import { StyledHeadingXS, StyledHeadingS } from '../Headings/StyledHeadings'
 // MUI //
 import UpdateIcon from '@mui/icons-material/Update'
@@ -24,7 +25,6 @@ import { arrayUnion, updateDoc } from 'firebase/firestore'
 import { getFavorites } from '../../../utils/getFavorites'
 import { getProgress } from '../../../utils/getProgress'
 import { getUID } from '../../../utils/getUID'
-import { StyledVideo } from './StyledVideoModal'
 
 interface IModalProps {
   meditation: IMeditation
@@ -278,10 +278,9 @@ export default function VideoModal(props: IModalProps) {
           align="flex-end"
           justify="flex-end"
           direction="row"
-          padding="2rem 1rem"
           width="auto"
           margin="unset"
-          gap="1.5rem"
+          gap="1rem"
           className="modal-wrapper"
         >
           <StyledImageWrapper
@@ -359,6 +358,7 @@ export default function VideoModal(props: IModalProps) {
                 </span>
               </div>
             </StyledFlexWrapper>
+
             <StyledTimerCard
               align="flex-start"
               justify="center"
@@ -450,6 +450,7 @@ export default function VideoModal(props: IModalProps) {
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
             </StyledTimerCard>
+
             {showTime && (
               <StyledFlexWrapper
                 margin="unset"

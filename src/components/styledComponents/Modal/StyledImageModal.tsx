@@ -23,6 +23,16 @@ export const StyledImageModal = styled.div`
     justify-content: flex-start;
   }
 
+  .modal-wrapper {
+    position: relative;
+    margin-left: auto;
+    padding: 1rem 1rem 2rem;
+
+    @media ${devices.tablet} {
+      padding: 1rem 1rem 0.5rem;
+    }
+  }
+
   .modal-card {
     padding: 0.5rem;
     width: 80%;
@@ -52,10 +62,16 @@ export const StyledImageModal = styled.div`
   }
 
   .description {
-    border-bottom: 2px solid var(--mid-blue);
+    border-bottom: 1px solid var(--mid-blue);
+
+    @media ${devices.tablet} {
+      width: 55%;
+    }
+
     @media ${devices.desktop} {
       width: 55%;
     }
+
     p {
       margin: 0.2rem 0 0.4rem;
       padding: 0.5rem;

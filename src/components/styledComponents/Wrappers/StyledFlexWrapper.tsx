@@ -120,6 +120,15 @@ export const StyledFlexWrapper = styled.div`
     }
   }
 
+  .filter-link {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .active-link {
+    border-bottom: 1px solid black;
+  }
+
   .shake {
     animation: ${shake} 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
+import { Suspense, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledMeditationCard } from '../styledComponents/Cards/Cards'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
@@ -6,8 +7,6 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import Loader from '../styledComponents/Loader/StyledLoader'
-import VideoModal from '../styledComponents/Modal/VideoModal'
-import ImageModal from '../styledComponents/Modal/ImageModal'
 // DATA //
 import { MeditationCatalog as meditations } from '../../data/Meditations'
 // MODELS //
@@ -20,6 +19,13 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { motion } from 'framer-motion'
 // UTILS //
 import { getFavorites } from '../../utils/getFavorites'
+
+const VideoModal = React.lazy(() =>
+  import('../styledComponents/Modal/VideoModal'),
+)
+const ImageModal = React.lazy(() =>
+  import('../styledComponents/Modal/ImageModal'),
+)
 
 export default function Explore() {
   const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
@@ -123,26 +129,35 @@ export default function Explore() {
 
   return (
     <>
-      {loader && <Loader />}
       {videoModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <VideoModal meditation={selectedMeditation} closeModal={hideModal} />
-        </motion.div>
+        <Suspense fallback={<Loader />}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <VideoModal
+              meditation={selectedMeditation}
+              closeModal={hideModal}
+            />
+          </motion.div>
+        </Suspense>
       )}
       {imageModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <ImageModal meditation={selectedMeditation} closeModal={hideModal} />
-        </motion.div>
+        <Suspense fallback={<Loader />}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <ImageModal
+              meditation={selectedMeditation}
+              closeModal={hideModal}
+            />
+          </motion.div>
+        </Suspense>
       )}
       {allMeditations && (
         <motion.div
@@ -176,9 +191,9 @@ export default function Explore() {
               <select onChange={(e) => handleOnChange(e.target.value)}>
                 <>
                   <option value="All">All meditations</option>;
-                  <option value="Sound Meditation">Sound Meditation</option>;
+                  <option value="Sound Meditation">Sound Meditations</option>;
                   <option value="Guided Breathing Meditation">
-                    Guided Breathing Meditation
+                    Guided Meditations
                   </option>
                 </>
               </select>
@@ -196,14 +211,7 @@ export default function Explore() {
                   return (
                     <StyledMeditationCard
                       display={hideMeditations ? 'none' : 'flex'}
-                      borderRadius="15px"
-                      height="11rem"
-                      justify="center"
                       key={meditation.id}
-                      padding="1.5rem 1rem"
-                      background="var(--dark-blue)"
-                      border="1px solid var(--light-blue)"
-                      color="var(--dark-beige)"
                       onClick={() => showModal(meditation)}
                     >
                       <StyledImageWrapper maxHeight="3rem">
@@ -233,14 +241,7 @@ export default function Explore() {
                   return (
                     <StyledMeditationCard
                       display={hideMeditations ? 'none' : 'flex'}
-                      borderRadius="15px"
-                      height="11rem"
-                      justify="center"
                       key={meditation.id}
-                      padding="1.5rem 1rem"
-                      background="var(--dark-blue)"
-                      border="1px solid var(--light-blue)"
-                      color="var(--dark-beige)"
                       onClick={() => showModal(meditation)}
                     >
                       <StyledImageWrapper maxHeight="2.5rem">

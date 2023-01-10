@@ -82,7 +82,6 @@ export default function Profile() {
         })
         .catch((error) => {
           setError(true)
-          console.log(error)
         })
     } else {
       setError(true)
@@ -116,7 +115,6 @@ export default function Profile() {
               "It's been a while since you logged in. For security reasons, sign out and sign in again to change your password.",
             )
           } else {
-            console.log(error)
             setEmailErrorMessage(
               'Unable to make changes right now. Please try again later.',
             )
@@ -154,7 +152,6 @@ export default function Profile() {
                 "It's been a while since you logged in. For security reasons, sign out and sign in again to change your password.",
               )
             } else {
-              console.log(error.message)
               setPasswordErrorMessage(
                 'Unable to make changes right now. Please try again later.',
               )

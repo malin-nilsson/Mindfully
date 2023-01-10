@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrapper'
 import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
-import Animation from '../Animations/StyledAnimations'
+import Animation from '../Animations/Animation'
 import { StyledHeadingM } from '../Headings/StyledHeadings'
+import { StyledImageModal } from './StyledImageModal'
+
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
@@ -17,7 +19,6 @@ import { getUID } from '../../../utils/getUID'
 import { getProgress } from '../../../utils/getProgress'
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
-import { StyledImageModal } from './StyledImage'
 
 interface IModalProps {
   meditation: IMeditation
@@ -173,7 +174,7 @@ export default function ImageModal(props: IModalProps) {
         align="flex-end"
         justify="flex-end"
         direction="row"
-        padding="1rem 1rem 0rem"
+        className="modal-wrapper"
         width="auto"
         margin="unset"
         gap="1rem"

@@ -38,6 +38,11 @@ export const StyledVideo = styled.div`
   .modal-wrapper {
     position: relative;
     margin-left: auto;
+    padding: 1rem 1rem 2rem;
+
+    @media ${devices.tablet} {
+      padding: 1rem;
+    }
   }
 
   .modal-footer-wrapper {
