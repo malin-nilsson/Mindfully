@@ -6,17 +6,17 @@ export const StyledCard = styled.div`
   display: ${(props: IStylingProps) => props.display || 'flex'};
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: ${(props: IStylingProps) => props.gap || '2rem'};
-  justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
+  justify-content: ${(props: IStylingProps) => props.justify || 'center'};
   align-items: ${(props: IStylingProps) => props.align || 'center'};
   flex-wrap: wrap;
   color: ${(props: IStylingProps) => props.color || ' var(--mid-blue)'};
   padding: ${(props: IStylingProps) =>
-    props.padding || ' 1.7rem 1.6rem 1.3rem'};
+    props.padding || ' 1.7rem 1.6rem 1.7rem'};
   background-color: ${(props: IStylingProps) =>
     props.bgColor || 'var(--dark-beige)'};
   border-radius: ${(props: IStylingProps) => props.borderRadius || '15px'};
   width: ${(props: IStylingProps) => props.width || '15.5rem'};
-  height: ${(props: IStylingProps) => props.height || '14rem'};
+  height: ${(props: IStylingProps) => props.height || '13rem'};
   transition: all 0.3s ease-in-out;
 
   &:hover {

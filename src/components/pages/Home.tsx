@@ -87,8 +87,8 @@ export default function Home() {
                 </StyledImageWrapper>
 
                 <p>
-                  Explore the library and come back every time you need a
-                  mindful break.
+                  Explore the meditations and pick the right one for this
+                  moment.
                 </p>
               </StyledCard>
             </Link>
