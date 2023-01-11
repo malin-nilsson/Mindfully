@@ -17,10 +17,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { motion } from 'framer-motion'
 // UTILS //
 import { getFavorites } from '../../utils/getFavorites'
-import { client } from '../../lib/client'
 import { getMeditations } from '../../utils/getMeditations'
-import { arrayUnion, updateDoc } from 'firebase/firestore'
-import { getUID } from '../../utils/getUID'
+import { saveFavorite } from '../../utils/saveFavorite'
+import { removeFavorite } from '../../utils/removeFavorite'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -38,6 +37,8 @@ export default function Explore() {
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
   const [loader, setLoader] = useState(true)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [hideMeditations, setHideMeditations] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
@@ -99,7 +100,6 @@ export default function Explore() {
       setLoader(false)
     } else {
       setLoader(false)
-      return
     }
   }
 
@@ -110,7 +110,7 @@ export default function Explore() {
   ////////////////////////
   // FILTER MEDITATIONS //
   ////////////////////////
-  const handleOnChange = (e: string) => {
+  const filterMeditations = (e: string) => {
     let filtered: IMeditation[] = []
 
     if (e === 'All') {
@@ -156,82 +156,29 @@ export default function Explore() {
     setLoader(false)
   }
 
-  ///////////////////////////////
-  // SAVE FAVORITE IN FIRESTORE //
-  ///////////////////////////////
-  const saveFavorite = async (favorite: IMeditation) => {
-    const userRef = await getUID()
-    const faves = await getFavorites()
-
-    if (userRef) {
-      try {
-        if (faves) {
-          for (let i = 0; i < faves.length; i++) {
-            // If favorite already exists in Firestore, return
-            if (faves[i]._id === favorite._id) {
-              return
-            } // Else, add favorite to Firestore
-            else {
-              faves.push(favorite)
-              const favorites = arrayUnion(favorite)
-              await updateDoc(userRef, {
-                favorites,
-              })
-              setFavorites(faves)
-            }
-          }
-
-          // If favorites array is empty, create new one and update doc
-          if (faves.length === 0) {
-            const faves = [favorite]
-            await updateDoc(userRef, {
-              favorites: faves,
-            })
-            setFavorites(faves)
-          }
-        } else {
-          // If there isn't a favorites array, create one
-          const faves = [favorite]
-          await updateDoc(userRef, {
-            favorites: faves,
-          })
-          setFavorites(faves)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  const handleSaveFavorite = async (m: IMeditation) => {
+    const updatedFavorites = (await saveFavorite(m)) as IMeditation[] | string
+    if (typeof updatedFavorites == 'string') {
+      setError(true)
+      setErrorMessage(updatedFavorites)
+    } else {
+      setFavorites(updatedFavorites)
     }
   }
 
-  ////////////////////////////////////
-  // REMOVE FAVORITE FROM FIRESTORE //
-  ////////////////////////////////////
-  const removeFavorite = async (m: IMeditation) => {
-    const userRef = await getUID()
-    const faves = await getFavorites()
-
-    if (userRef) {
-      try {
-        if (faves) {
-          for (let i = 0; i < faves.length; i++) {
-            if (faves[i]._id === m._id) {
-              faves.splice(i, 1)
-              await updateDoc(userRef, {
-                favorites: faves,
-              })
-              setFavorites(faves)
-            }
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  const handleRemoveFavorite = async (m: IMeditation) => {
+    const updatedFavorites = (await removeFavorite(m)) as IMeditation[] | string
+    if (typeof updatedFavorites == 'string') {
+      setError(true)
+      setErrorMessage(updatedFavorites)
+    } else {
+      setFavorites(updatedFavorites)
     }
   }
 
   return (
     <>
-      {loader && <Loader position="relative" width="unset" />}
+      {loader && <Loader />}
       {videoModal && (
         <Suspense fallback={<Loader />}>
           <motion.div
@@ -243,8 +190,8 @@ export default function Explore() {
             <VideoModal
               meditation={selectedMeditation}
               closeModal={hideModal}
-              saveFavorite={saveFavorite}
-              removeFavorite={removeFavorite}
+              handleSaveFavorite={handleSaveFavorite}
+              handleRemoveFavorite={handleRemoveFavorite}
             />
           </motion.div>
         </Suspense>
@@ -260,8 +207,8 @@ export default function Explore() {
             <ImageModal
               meditation={selectedMeditation}
               closeModal={hideModal}
-              saveFavorite={saveFavorite}
-              removeFavorite={removeFavorite}
+              handleSaveFavorite={handleSaveFavorite}
+              handleRemoveFavorite={handleRemoveFavorite}
             />
           </motion.div>
         </Suspense>
@@ -295,7 +242,7 @@ export default function Explore() {
               <span className="select-icon">
                 <ExpandMoreIcon style={{ color: '#000' }} fontSize="medium" />
               </span>
-              <select onChange={(e) => handleOnChange(e.target.value)}>
+              <select onChange={(e) => filterMeditations(e.target.value)}>
                 <>
                   <option value="All">All meditations</option>;
                   <option value="Sound Meditation">Sound Meditations</option>;
@@ -305,6 +252,7 @@ export default function Explore() {
                 </>
               </select>
             </StyledSelect>
+            {error && errorMessage}
           </StyledFlexWrapper>
 
           <StyledFlexWrapper

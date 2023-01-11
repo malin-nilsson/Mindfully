@@ -38,7 +38,6 @@ export default function Login() {
   const [authenticating, setAuthenticating] = useState(false)
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
-  const shakeRef = useRef<HTMLFormElement | null>(null)
   const [login, setLogin] = useState(true)
   const [forgotPasswordEmail, setForgotPasswordEmail] = useState('')
   const [passwordResetMessage, setPasswordResetMessage] = useState(false)
@@ -92,7 +91,6 @@ export default function Login() {
         navigate('/home')
       })
       .catch((error) => {
-        console.log(error)
         setLoader(false)
         setAuthenticating(false)
         setError(true)
@@ -118,7 +116,7 @@ export default function Login() {
   const resetPassword = () => {
     setError(false)
     setMissingFields(false)
-    console.log(forgotPasswordEmail)
+
     if (forgotPasswordEmail) {
       sendPasswordResetEmail(auth, forgotPasswordEmail)
         .then(() => {
@@ -158,7 +156,6 @@ export default function Login() {
         >
           <StyledFlexWrapper width="100%">
             <StyledForm
-              ref={shakeRef}
               onSubmit={(e) => e.preventDefault()}
               className={errorMessage || missingFields ? 'shake' : ''}
             >
@@ -247,7 +244,6 @@ export default function Login() {
         >
           <StyledFlexWrapper>
             <StyledForm
-              ref={shakeRef}
               onSubmit={(e) => e.preventDefault()}
               className={errorMessage || missingFields ? 'shake' : ''}
             >

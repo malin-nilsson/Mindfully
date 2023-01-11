@@ -23,8 +23,8 @@ import { differenceInSeconds } from 'date-fns'
 interface IModalProps {
   meditation: IMeditation
   closeModal: () => void
-  saveFavorite: (m: IMeditation) => void
-  removeFavorite: (m: IMeditation) => void
+  handleSaveFavorite: (m: IMeditation) => void
+  handleRemoveFavorite: (m: IMeditation) => void
 }
 
 export default function ImageModal(props: IModalProps) {
@@ -121,10 +121,10 @@ export default function ImageModal(props: IModalProps) {
           onClick={() => {
             if (fillHeart) {
               setFillHeart(false)
-              props.removeFavorite(props.meditation)
+              props.handleRemoveFavorite(props.meditation)
             } else {
               setFillHeart(true)
-              props.saveFavorite(props.meditation)
+              props.handleSaveFavorite(props.meditation)
             }
           }}
         >

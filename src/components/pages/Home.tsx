@@ -17,11 +17,10 @@ import { getFirstName } from '../../utils/getFirstName'
 export default function Home() {
   const [displayName, setDisplayName] = useState('')
   const [greeting, setGreeting] = useState('')
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(true)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    setLoader(true)
     greetUser()
   }, [])
 

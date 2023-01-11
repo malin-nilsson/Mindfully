@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
 // STYLED COMPONENTS //
@@ -6,21 +6,30 @@ import { StyledMeditationCard } from '../styledComponents/Cards/Cards'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
 import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappers'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
-import ImageModal from '../styledComponents/Modal/ImageModal'
 import Loader from '../styledComponents/Loader/StyledLoader'
-import VideoModal from '../styledComponents/Modal/VideoModal'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 // FIRESTORE //
 import { getFavorites } from '../../utils/getFavorites'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-import { arrayUnion, updateDoc } from 'firebase/firestore'
-import { getUID } from '../../utils/getUID'
+// UTILS //
+import { removeFavorite } from '../../utils/removeFavorite'
+import { saveFavorite } from '../../utils/saveFavorite'
+import React from 'react'
+
+const VideoModal = React.lazy(() =>
+  import('../styledComponents/Modal/VideoModal'),
+)
+const ImageModal = React.lazy(() =>
+  import('../styledComponents/Modal/ImageModal'),
+)
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<IMeditation[]>()
   const [noFavorites, setNoFavorites] = useState(false)
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
   const [hideFavorites, setHideFavorites] = useState(false)
@@ -101,106 +110,62 @@ export default function Favorites() {
     setLoader(false)
   }
 
-  ///////////////////////////////
-  // SAVE FAVORITE IN FIRESTORE //
-  ///////////////////////////////
-  const saveFavorite = async (favorite: IMeditation) => {
-    const userRef = await getUID()
-    const faves = await getFavorites()
-
-    if (userRef) {
-      try {
-        if (faves) {
-          for (let i = 0; i < faves.length; i++) {
-            // If favorite already exists in Firestore, return
-            if (faves[i]._id === favorite._id) {
-              return
-            } // Else, add favorite to Firestore
-            else {
-              const favorites = arrayUnion(favorite)
-              await updateDoc(userRef, {
-                favorites,
-              })
-            }
-          }
-
-          // If favorites array is empty, create new one and update doc
-          if (faves.length === 0) {
-            const faves = [favorite]
-            await updateDoc(userRef, {
-              favorites: faves,
-            })
-          }
-        } else {
-          // If there isn't a favorites array, create one
-          const faves = [favorite]
-          await updateDoc(userRef, {
-            favorites: faves,
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  const handleSaveFavorite = async (m: IMeditation) => {
+    const updatedFavorites = (await saveFavorite(m)) as IMeditation[] | string
+    if (typeof updatedFavorites == 'string') {
+      setError(true)
+      setErrorMessage(updatedFavorites)
+    } else {
+      setFavorites(updatedFavorites)
     }
   }
 
-  ////////////////////////////////////
-  // REMOVE FAVORITE FROM FIRESTORE //
-  ////////////////////////////////////
-  const removeFavorite = async (m: IMeditation) => {
-    const userRef = await getUID()
-    const faves = await getFavorites()
-
-    if (userRef) {
-      try {
-        if (faves) {
-          for (let i = 0; i < faves.length; i++) {
-            if (faves[i]._id === m._id) {
-              faves.splice(i, 1)
-              await updateDoc(userRef, {
-                favorites: faves,
-              })
-            }
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  const handleRemoveFavorite = async (m: IMeditation) => {
+    const updatedFavorites = (await removeFavorite(m)) as IMeditation[] | string
+    if (typeof updatedFavorites == 'string') {
+      setError(true)
+      setErrorMessage(updatedFavorites)
+    } else {
+      setFavorites(updatedFavorites)
     }
   }
 
   return (
     <>
-      {loader && <Loader position="relative" width="unset" />}
+      {loader && <Loader />}
       {videoModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <VideoModal
-            meditation={selectedMeditation}
-            closeModal={hideModal}
-            saveFavorite={saveFavorite}
-            removeFavorite={removeFavorite}
-          />
-        </motion.div>
+        <Suspense fallback={<Loader />}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <VideoModal
+              meditation={selectedMeditation}
+              closeModal={hideModal}
+              handleSaveFavorite={handleSaveFavorite}
+              handleRemoveFavorite={handleRemoveFavorite}
+            />
+          </motion.div>
+        </Suspense>
       )}
       {imageModal && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <ImageModal
-            meditation={selectedMeditation}
-            closeModal={hideModal}
-            saveFavorite={saveFavorite}
-            removeFavorite={removeFavorite}
-          />
-        </motion.div>
+        <Suspense fallback={<Loader />}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <ImageModal
+              meditation={selectedMeditation}
+              closeModal={hideModal}
+              handleSaveFavorite={handleSaveFavorite}
+              handleRemoveFavorite={handleRemoveFavorite}
+            />
+          </motion.div>
+        </Suspense>
       )}
 
       <motion.div
@@ -224,6 +189,7 @@ export default function Favorites() {
               <StyledImageWrapper maxHeight="40px">
                 <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="large" />
               </StyledImageWrapper>
+              {error && errorMessage}
             </StyledFlexWrapper>
 
             {noFavorites || (favorites && favorites.length < 1) ? (

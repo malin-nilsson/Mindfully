@@ -31,14 +31,12 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 export default function Signup() {
   const auth = getAuth()
   const navigate = useNavigate()
-  const [authing, setAuthing] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [registering, setRegistering] = useState(false)
-  const [confirm, setConfirm] = useState('')
   const [loader, setLoader] = useState(false)
   const [missingFields, setMissingFields] = useState(false)
 
@@ -46,7 +44,7 @@ export default function Signup() {
   // SIGN UP WITH GOOGLE //
   /////////////////////////
   const signInWithGoogle = async () => {
-    setAuthing(true)
+    setRegistering(true)
 
     signInWithPopup(auth, new GoogleAuthProvider())
       .then(async (response) => {
@@ -57,9 +55,8 @@ export default function Signup() {
         if (!isNewUser) {
           navigate('/home')
         } else {
-          const splitName = response.user.displayName?.split(' ')[0]
           const userData = {
-            firstName: splitName,
+            firstName: firstName,
             email: response.user.email,
             createdAt: response.user.metadata.creationTime,
           }
@@ -71,10 +68,9 @@ export default function Signup() {
         }
       })
       .catch((error) => {
-        console.log(error)
         setErrorMessage(error.message)
         setError(true)
-        setAuthing(false)
+        setRegistering(false)
       })
   }
 
@@ -90,23 +86,17 @@ export default function Signup() {
       setErrorMessage('')
     }
     if (firstName && email && password) {
-      const splitName = firstName.split(' ')[0]
       setRegistering(true)
       setLoader(true)
       createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCred) => {
           const userData = {
-            firstName: splitName,
+            firstName: firstName,
             email: email,
             createdAt: userCred.user.metadata.creationTime,
           }
-
-          await updateProfile(userCred.user, {
-            displayName: userData.firstName,
-          }).then(async () => {
-            await setDoc(doc(db, 'users', userCred.user.uid), {
-              userData,
-            })
+          await setDoc(doc(db, 'users', userCred.user.uid), {
+            userData,
           })
         })
         .catch((error) => {
@@ -221,7 +211,7 @@ export default function Signup() {
               <StyledButton
                 type="button"
                 onClick={() => signInWithGoogle()}
-                disabled={authing}
+                disabled={registering}
                 bgColor="var(--mid-blue)"
                 color="var(--dark-beige)"
                 border="1px solid var(--dark-beige)"
