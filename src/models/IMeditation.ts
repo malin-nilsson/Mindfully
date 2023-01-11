@@ -1,13 +1,22 @@
 export interface IMeditation {
   title: string
   tag: string
-  icon: string
-  img?: string
-  audio?: string
-  video?: string
+  icon: SanityObject
+  image?: SanityObject
+  audio?: SanityObject
+  video?: SanityObject
   description?: string
-  id: number
+  _id: string
   totalTime?: number
   holdTime?: number
   breatheTime?: number
+}
+
+interface SanityObject {
+  asset: Asset
+}
+
+interface Asset {
+  url: string
+  _id: string
 }

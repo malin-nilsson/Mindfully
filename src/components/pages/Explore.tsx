@@ -7,8 +7,6 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import Loader from '../styledComponents/Loader/StyledLoader'
-// DATA //
-import { MeditationCatalog as meditations } from '../../data/Meditations'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
 // MUI //
@@ -19,6 +17,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { motion } from 'framer-motion'
 // UTILS //
 import { getFavorites } from '../../utils/getFavorites'
+import { client } from '../../lib/client'
+import { getMeditations } from '../../utils/getMeditations'
+import { arrayUnion, updateDoc } from 'firebase/firestore'
+import { getUID } from '../../utils/getUID'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -28,47 +30,75 @@ const ImageModal = React.lazy(() =>
 )
 
 export default function Explore() {
-  const [allMeditations, setAllMeditations] = useState<IMeditation[]>(
-    meditations,
-  )
+  const [allMeditations, setAllMeditations] = useState<IMeditation[]>()
   const [filteredMeditations, setFilteredMeditations] = useState<
     IMeditation[]
   >()
   const [showFilteredMeditations, setShowFilteredMeditations] = useState(false)
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(true)
   const [hideMeditations, setHideMeditations] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
-    img: '',
-    icon: '',
-    audio: '',
-    id: 0,
+    image: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    icon: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    audio: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    video: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    breatheTime: 0,
+    holdTime: 0,
+    totalTime: 0,
+    description: '',
+    _id: '',
   })
   const [favorites, setFavorites] = useState<IMeditation[]>()
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    matchFavorites()
-  }, [favorites])
+    showMeditations()
+  }, [favorites && favorites.length])
 
-  const matchFavorites = async () => {
+  const showMeditations = async () => {
+    const meditations: IMeditation[] = await getMeditations()
+    setAllMeditations(meditations)
+
     const faves = await getFavorites()
 
     if (faves) {
       const isFavorite: IMeditation[] = []
 
-      faves.map((fave) => {
+      for (let j = 0; j < faves.length; j++) {
         for (let i = 0; i < meditations.length; i++) {
-          if (fave.title === meditations[i].title) {
+          if (faves[j]._id === meditations[i]._id) {
             isFavorite.push(meditations[i])
           }
         }
-      })
+      }
       setFavorites(isFavorite)
+      setLoader(false)
     } else {
+      setLoader(false)
       return
     }
   }
@@ -86,7 +116,7 @@ export default function Explore() {
     if (e === 'All') {
       setShowFilteredMeditations(false)
     } else {
-      allMeditations.forEach((meditation) => {
+      allMeditations?.forEach((meditation) => {
         if (meditation.tag === e) {
           filtered.push(meditation)
         }
@@ -113,7 +143,6 @@ export default function Explore() {
     setHideMeditations(true)
     setLoader(true)
     setSelectedMeditation(m)
-
     if (m.tag === 'Guided Breathing Meditation') {
       setImageModal(true)
       setTimeout(stopLoader, 2000)
@@ -127,8 +156,82 @@ export default function Explore() {
     setLoader(false)
   }
 
+  ///////////////////////////////
+  // SAVE FAVORITE IN FIRESTORE //
+  ///////////////////////////////
+  const saveFavorite = async (favorite: IMeditation) => {
+    const userRef = await getUID()
+    const faves = await getFavorites()
+
+    if (userRef) {
+      try {
+        if (faves) {
+          for (let i = 0; i < faves.length; i++) {
+            // If favorite already exists in Firestore, return
+            if (faves[i]._id === favorite._id) {
+              return
+            } // Else, add favorite to Firestore
+            else {
+              faves.push(favorite)
+              const favorites = arrayUnion(favorite)
+              await updateDoc(userRef, {
+                favorites,
+              })
+              setFavorites(faves)
+            }
+          }
+
+          // If favorites array is empty, create new one and update doc
+          if (faves.length === 0) {
+            const faves = [favorite]
+            await updateDoc(userRef, {
+              favorites: faves,
+            })
+            setFavorites(faves)
+          }
+        } else {
+          // If there isn't a favorites array, create one
+          const faves = [favorite]
+          await updateDoc(userRef, {
+            favorites: faves,
+          })
+          setFavorites(faves)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  ////////////////////////////////////
+  // REMOVE FAVORITE FROM FIRESTORE //
+  ////////////////////////////////////
+  const removeFavorite = async (m: IMeditation) => {
+    const userRef = await getUID()
+    const faves = await getFavorites()
+
+    if (userRef) {
+      try {
+        if (faves) {
+          for (let i = 0; i < faves.length; i++) {
+            if (faves[i]._id === m._id) {
+              faves.splice(i, 1)
+              await updateDoc(userRef, {
+                favorites: faves,
+              })
+              setFavorites(faves)
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   return (
     <>
+      {loader && <Loader position="relative" width="unset" />}
       {videoModal && (
         <Suspense fallback={<Loader />}>
           <motion.div
@@ -140,6 +243,8 @@ export default function Explore() {
             <VideoModal
               meditation={selectedMeditation}
               closeModal={hideModal}
+              saveFavorite={saveFavorite}
+              removeFavorite={removeFavorite}
             />
           </motion.div>
         </Suspense>
@@ -155,6 +260,8 @@ export default function Explore() {
             <ImageModal
               meditation={selectedMeditation}
               closeModal={hideModal}
+              saveFavorite={saveFavorite}
+              removeFavorite={removeFavorite}
             />
           </motion.div>
         </Suspense>
@@ -211,11 +318,11 @@ export default function Explore() {
                   return (
                     <StyledMeditationCard
                       display={hideMeditations ? 'none' : 'flex'}
-                      key={meditation.id}
+                      key={meditation._id}
                       onClick={() => showModal(meditation)}
                     >
                       <StyledImageWrapper maxHeight="3rem">
-                        <img src={meditation.icon} alt="Emoji"></img>
+                        <img src={meditation.icon.asset.url} alt="Emoji"></img>
                         <span>{meditation.title} </span>
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">
@@ -241,11 +348,11 @@ export default function Explore() {
                   return (
                     <StyledMeditationCard
                       display={hideMeditations ? 'none' : 'flex'}
-                      key={meditation.id}
+                      key={meditation._id}
                       onClick={() => showModal(meditation)}
                     >
                       <StyledImageWrapper maxHeight="2.5rem">
-                        <img src={meditation.icon} alt="Emoji"></img>
+                        <img src={meditation.icon.asset.url} alt="Emoji"></img>
                         <span>{meditation.title} </span>
                       </StyledImageWrapper>
                       <StyledFlexWrapper align="flex-end" width="100%">

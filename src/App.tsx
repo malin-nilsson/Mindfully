@@ -15,8 +15,8 @@ import RedirectRoute from './utils/redirectUser'
 import Favorites from './components/pages/Favorites'
 import MyJourney from './components/pages/MyJourney'
 import NotFound from './components/pages/NotFound'
+// FRAMER MOTION //
 import { AnimatePresence } from 'framer-motion'
-import { motion } from 'framer-motion'
 
 function App() {
   return (

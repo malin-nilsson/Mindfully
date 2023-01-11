@@ -29,6 +29,8 @@ import { getUID } from '../../../utils/getUID'
 interface IModalProps {
   meditation: IMeditation
   closeModal: () => void
+  saveFavorite: (m: IMeditation) => void
+  removeFavorite: (m: IMeditation) => void
 }
 
 export default function VideoModal(props: IModalProps) {
@@ -45,7 +47,7 @@ export default function VideoModal(props: IModalProps) {
 
   useEffect(() => {
     fillFavorite()
-  }, [fillHeart, sliderValue])
+  }, [sliderValue])
 
   /////////////////////
   // TIMER FUNCTIONS //
@@ -120,82 +122,10 @@ export default function VideoModal(props: IModalProps) {
     const faves = await getFavorites()
     if (faves) {
       faves.forEach((fave) => {
-        if (fave.id === props.meditation.id) {
+        if (fave._id === props.meditation._id) {
           setFillHeart(true)
         }
       })
-    }
-  }
-
-  ///////////////////////////////
-  // SAVE FAVORITE IN FIRESTORE //
-  ///////////////////////////////
-  const saveFavorite = async (favorite: IMeditation) => {
-    const userRef = await getUID()
-    const faves = await getFavorites()
-
-    if (userRef) {
-      try {
-        if (faves) {
-          for (let i = 0; i < faves.length; i++) {
-            // If favorite already exists in Firestore, return
-            if (faves[i].id === favorite.id) {
-              return
-            } // Else, add favorite to Firestore
-            else {
-              const favorites = arrayUnion(favorite)
-              await updateDoc(userRef, {
-                favorites,
-              })
-              setFillHeart(true)
-            }
-          }
-
-          // If favorites array is empty, create new one and update doc
-          if (faves.length === 0) {
-            const faves = [favorite]
-            await updateDoc(userRef, {
-              favorites: faves,
-            })
-            setFillHeart(true)
-          }
-        } else {
-          // If there isn't a favorites array, create one
-          const faves = [favorite]
-          await updateDoc(userRef, {
-            favorites: faves,
-          })
-          setFillHeart(true)
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  }
-
-  ////////////////////////////////////
-  // REMOVE FAVORITE FROM FIRESTORE //
-  ////////////////////////////////////
-  const removeFavorite = async (m: IMeditation) => {
-    const userRef = await getUID()
-    const faves = await getFavorites()
-
-    if (userRef) {
-      try {
-        if (faves) {
-          for (let i = 0; i < faves.length; i++) {
-            if (faves[i].id === m.id) {
-              faves.splice(i, 1)
-              await updateDoc(userRef, {
-                favorites: faves,
-              })
-              setFillHeart(false)
-            }
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
     }
   }
 
@@ -270,7 +200,7 @@ export default function VideoModal(props: IModalProps) {
       <div className="video-container">
         <div className="video">
           <video ref={videoRef} loop muted>
-            <source src={props.meditation.video} />
+            <source src={props.meditation.video?.asset.url} />
           </video>
         </div>
 
@@ -290,9 +220,11 @@ export default function VideoModal(props: IModalProps) {
             className="icon"
             onClick={() => {
               if (fillHeart) {
-                removeFavorite(props.meditation)
+                setFillHeart(false)
+                props.removeFavorite(props.meditation)
               } else {
-                saveFavorite(props.meditation)
+                setFillHeart(true)
+                props.saveFavorite(props.meditation)
               }
             }}
           >
@@ -332,7 +264,7 @@ export default function VideoModal(props: IModalProps) {
           className="modal-footer-wrapper"
         >
           <audio ref={audioRef} loop>
-            <source src={props.meditation.audio} type="audio/mpeg" />
+            <source src={props.meditation.audio?.asset.url} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
 

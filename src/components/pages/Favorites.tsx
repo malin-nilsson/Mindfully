@@ -15,6 +15,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import { getFavorites } from '../../utils/getFavorites'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
+import { arrayUnion, updateDoc } from 'firebase/firestore'
+import { getUID } from '../../utils/getUID'
 
 export default function Favorites() {
   const [favorites, setFavorites] = useState<IMeditation[]>()
@@ -26,10 +28,35 @@ export default function Favorites() {
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
-    img: '',
-    icon: '',
-    audio: '',
-    id: 0,
+    image: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    icon: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    audio: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    video: {
+      asset: {
+        url: '',
+        _id: '',
+      },
+    },
+    breatheTime: 0,
+    holdTime: 0,
+    totalTime: 0,
+    description: '',
+    _id: '',
   })
 
   useEffect(() => {
@@ -74,6 +101,74 @@ export default function Favorites() {
     setLoader(false)
   }
 
+  ///////////////////////////////
+  // SAVE FAVORITE IN FIRESTORE //
+  ///////////////////////////////
+  const saveFavorite = async (favorite: IMeditation) => {
+    const userRef = await getUID()
+    const faves = await getFavorites()
+
+    if (userRef) {
+      try {
+        if (faves) {
+          for (let i = 0; i < faves.length; i++) {
+            // If favorite already exists in Firestore, return
+            if (faves[i]._id === favorite._id) {
+              return
+            } // Else, add favorite to Firestore
+            else {
+              const favorites = arrayUnion(favorite)
+              await updateDoc(userRef, {
+                favorites,
+              })
+            }
+          }
+
+          // If favorites array is empty, create new one and update doc
+          if (faves.length === 0) {
+            const faves = [favorite]
+            await updateDoc(userRef, {
+              favorites: faves,
+            })
+          }
+        } else {
+          // If there isn't a favorites array, create one
+          const faves = [favorite]
+          await updateDoc(userRef, {
+            favorites: faves,
+          })
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  ////////////////////////////////////
+  // REMOVE FAVORITE FROM FIRESTORE //
+  ////////////////////////////////////
+  const removeFavorite = async (m: IMeditation) => {
+    const userRef = await getUID()
+    const faves = await getFavorites()
+
+    if (userRef) {
+      try {
+        if (faves) {
+          for (let i = 0; i < faves.length; i++) {
+            if (faves[i]._id === m._id) {
+              faves.splice(i, 1)
+              await updateDoc(userRef, {
+                favorites: faves,
+              })
+            }
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   return (
     <>
       {loader && <Loader position="relative" width="unset" />}
@@ -84,7 +179,12 @@ export default function Favorites() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <VideoModal meditation={selectedMeditation} closeModal={hideModal} />
+          <VideoModal
+            meditation={selectedMeditation}
+            closeModal={hideModal}
+            saveFavorite={saveFavorite}
+            removeFavorite={removeFavorite}
+          />
         </motion.div>
       )}
       {imageModal && (
@@ -94,7 +194,12 @@ export default function Favorites() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <ImageModal meditation={selectedMeditation} closeModal={hideModal} />
+          <ImageModal
+            meditation={selectedMeditation}
+            closeModal={hideModal}
+            saveFavorite={saveFavorite}
+            removeFavorite={removeFavorite}
+          />
         </motion.div>
       )}
 
@@ -143,7 +248,7 @@ export default function Favorites() {
                         borderRadius="15px"
                         height="11rem"
                         justify="center"
-                        key={favorite.id}
+                        key={favorite._id}
                         padding="1.5rem 1rem"
                         background="var(--dark-blue)"
                         border="1px solid var(--light-blue)"
@@ -151,7 +256,7 @@ export default function Favorites() {
                         onClick={() => showModal(favorite)}
                       >
                         <StyledImageWrapper maxHeight="50px">
-                          <img src={favorite.icon} alt="Emoji"></img>
+                          <img src={favorite.icon?.asset.url} alt="Emoji"></img>
                           <span>{favorite.title} </span>
                         </StyledImageWrapper>
                         <StyledFlexWrapper align="flex-end" width="100%">

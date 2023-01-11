@@ -268,7 +268,7 @@ export default function MyJourney() {
                               margin="0 0.5rem 0 0"
                             >
                               <img
-                                src={session.meditation.icon}
+                                src={session.meditation.icon.asset.url}
                                 alt="Meditation icon"
                               />
                             </StyledImageWrapper>
