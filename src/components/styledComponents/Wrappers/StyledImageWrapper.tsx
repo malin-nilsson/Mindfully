@@ -41,6 +41,12 @@ export const StyledImageWrapper = styled.span`
       padding: 0.5rem;
       margin-right: -10px;
       margin-bottom: -5px;
+      transition: transform 0.2s ease-in-out;
+
+      &:hover {
+        cursor: pointer;
+        transform: translateY(-0.15rem);
+      }
     }
   }
 `

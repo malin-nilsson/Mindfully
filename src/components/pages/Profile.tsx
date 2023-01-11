@@ -1,4 +1,6 @@
 import { ChangeEvent, useEffect, useState } from 'react'
+// MODELS //
+import { IUser } from '../../models/IUser'
 // STYLED COMPONENTS //
 import { StyledProfileCard } from '../styledComponents/Cards/Cards'
 import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
@@ -12,26 +14,27 @@ import { StyledButton } from '../styledComponents/Button/StyledButton'
 // FIREBASE //
 import {
   getAuth,
-  onAuthStateChanged,
   updateEmail,
   updatePassword,
   updateProfile,
 } from 'firebase/auth'
 import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
-import { storage, database } from '../../firebase/config'
+import { storage, database, db } from '../../firebase/config'
 import { onValue, ref as databaseRef, set } from '@firebase/database'
+import { setDoc, doc } from 'firebase/firestore'
 // REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // MUI //
 import CheckIcon from '@mui/icons-material/Check'
-import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
+// UTLS //
+import { getFirstName } from '../../utils/getFirstName'
 
 export default function Profile() {
   const auth = getAuth()
-  const navigate = useNavigate()
   const [disabledName, setDisabledName] = useState(true)
   const [disabledEmail, setDisabledEmail] = useState(true)
   const [disabledPassword, setDisabledPassword] = useState(true)
@@ -54,19 +57,16 @@ export default function Profile() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
+    getUserInfo()
+  }, [])
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user !== null) {
-        setNewEmail(user.email as string)
-        setNewFirstName(user.displayName as string)
-        setLoader(false)
-        getProfilePicture()
-      } else {
-        setLoader(false)
-        navigate('/')
-      }
-    })
-  }, [auth])
+  const getUserInfo = async () => {
+    const user: IUser = await getFirstName()
+    setNewFirstName(user.firstName as string)
+    setNewEmail(user.email as string)
+    setLoader(false)
+    getProfilePicture()
+  }
 
   ////////////////////////
   // SAVE UPDATED NAME //
@@ -77,6 +77,17 @@ export default function Profile() {
       updateProfile(auth.currentUser, {
         displayName: newFirstName,
       })
+        .then(async () => {
+          const userData = {
+            firstName: newFirstName,
+            email: auth.currentUser?.email,
+            createdAt: auth.currentUser?.metadata.creationTime,
+          }
+
+          await setDoc(doc(db, 'users', auth.currentUser?.uid as string), {
+            userData,
+          })
+        })
         .then(() => {
           setConfirmationName('Your changes have been saved.')
           setDisabledName(true)
@@ -213,6 +224,7 @@ export default function Profile() {
       const imageRef = databaseRef(database, 'users/' + auth.currentUser.uid)
       onValue(imageRef, (snapshot) => {
         const data = snapshot.val()
+        if (data === null) return
         setPictureURL(data.profile_picture)
       })
     }
@@ -267,7 +279,22 @@ export default function Profile() {
                         </span>
                       </div>
                     ) : (
-                      <SentimentSatisfiedAltIcon style={{ fontSize: '4rem' }} />
+                      <div className="image">
+                        <AccountCircleIcon style={{ fontSize: '6rem' }} />
+                        <span
+                          className="upload-icon"
+                          onClick={() => {
+                            setUploadPicture(!uploadPicture)
+                          }}
+                        >
+                          <PhotoCameraIcon
+                            fontSize="small"
+                            style={{
+                              color: 'var(--dark-blue)',
+                            }}
+                          />
+                        </span>
+                      </div>
                     )}
                   </StyledImageWrapper>
 
