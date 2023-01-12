@@ -74,11 +74,12 @@ export default function Explore() {
     _id: '',
   })
   const [favorites, setFavorites] = useState<IMeditation[]>()
+  const dependencyExpression = favorites && favorites.length
 
   useEffect(() => {
     window.scrollTo(0, 0)
     showMeditations()
-  }, [favorites && favorites.length])
+  }, [dependencyExpression])
 
   const showMeditations = async () => {
     const meditations: IMeditation[] = await getMeditations()
@@ -157,6 +158,7 @@ export default function Explore() {
   }
 
   const handleSaveFavorite = async (m: IMeditation) => {
+    setError(false)
     const updatedFavorites = (await saveFavorite(m)) as IMeditation[] | string
     if (typeof updatedFavorites == 'string') {
       setError(true)
@@ -167,6 +169,7 @@ export default function Explore() {
   }
 
   const handleRemoveFavorite = async (m: IMeditation) => {
+    setError(false)
     const updatedFavorites = (await removeFavorite(m)) as IMeditation[] | string
     if (typeof updatedFavorites == 'string') {
       setError(true)
@@ -252,9 +255,8 @@ export default function Explore() {
                 </>
               </select>
             </StyledSelect>
-            {error && errorMessage}
           </StyledFlexWrapper>
-
+          {error && errorMessage}
           <StyledFlexWrapper
             padding="4rem 1rem 1.5rem"
             direction="row"

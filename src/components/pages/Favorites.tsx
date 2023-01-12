@@ -111,6 +111,7 @@ export default function Favorites() {
   }
 
   const handleSaveFavorite = async (m: IMeditation) => {
+    setError(false)
     const updatedFavorites = (await saveFavorite(m)) as IMeditation[] | string
     if (typeof updatedFavorites == 'string') {
       setError(true)
@@ -121,6 +122,7 @@ export default function Favorites() {
   }
 
   const handleRemoveFavorite = async (m: IMeditation) => {
+    setError(false)
     const updatedFavorites = (await removeFavorite(m)) as IMeditation[] | string
     if (typeof updatedFavorites == 'string') {
       setError(true)

@@ -22,8 +22,6 @@ import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { storage, database, db } from '../../firebase/config'
 import { onValue, ref as databaseRef, set } from '@firebase/database'
 import { setDoc, doc } from 'firebase/firestore'
-// REACT ROUTER //
-import { useNavigate } from 'react-router-dom'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // MUI //
@@ -64,7 +62,6 @@ export default function Profile() {
     const user: IUser = await getFirstName()
     setNewFirstName(user.firstName as string)
     setNewEmail(user.email as string)
-    setLoader(false)
     getProfilePicture()
   }
 
@@ -190,12 +187,12 @@ export default function Profile() {
     if (
       auth.currentUser &&
       profilePicture &&
-      // Check if file is png or jpg
+      // Check that file is png or jpg
       types.includes(profilePicture.type)
     ) {
       const storageRef = ref(
         storage,
-        `images/${auth.currentUser.uid}/${profilePicture.name}`,
+        `/images/${auth.currentUser.uid}/${profilePicture.name}`,
       )
       uploadBytes(storageRef, profilePicture)
         .then((snapshot) => {
@@ -224,8 +221,12 @@ export default function Profile() {
       const imageRef = databaseRef(database, 'users/' + auth.currentUser.uid)
       onValue(imageRef, (snapshot) => {
         const data = snapshot.val()
-        if (data === null) return
+        if (data === null) {
+          setLoader(false)
+          return
+        }
         setPictureURL(data.profile_picture)
+        setLoader(false)
       })
     }
   }
@@ -299,26 +300,33 @@ export default function Profile() {
                   </StyledImageWrapper>
 
                   {uploadPicture && (
-                    <StyledFlexWrapper
-                      color="var(--dark-beige)"
-                      margin="0.5rem 0"
-                      direction="row"
-                      flexWrap="nowrap"
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
                     >
-                      <input
-                        type="file"
-                        onChange={(e) => handlePictureChange(e)}
-                      />
-
-                      <StyledButton
-                        className="profile-picture-btn"
-                        onClick={() => {
-                          saveProfilePicture()
-                        }}
+                      <StyledFlexWrapper
+                        color="var(--dark-beige)"
+                        margin="0.5rem 0"
+                        direction="row"
+                        flexWrap="nowrap"
                       >
-                        Upload image
-                      </StyledButton>
-                    </StyledFlexWrapper>
+                        <input
+                          type="file"
+                          onChange={(e) => handlePictureChange(e)}
+                        />
+
+                        <StyledButton
+                          className="profile-picture-btn"
+                          onClick={() => {
+                            saveProfilePicture()
+                          }}
+                        >
+                          Upload image
+                        </StyledButton>
+                      </StyledFlexWrapper>
+                    </motion.div>
                   )}
                   <StyledFlexWrapper
                     color="var(--dark-beige)"
