@@ -6,6 +6,7 @@ import { StyledAnimation } from './StyledAnimation'
 interface IAnimationProps {
   meditation: IMeditation
   handleTime: (time: Date | number) => void
+  handleInterval: (interval: NodeJS.Timer) => void
 }
 
 export default function Animation(props: IAnimationProps) {
@@ -47,7 +48,7 @@ export default function Animation(props: IAnimationProps) {
     }, props.meditation.totalTime)
 
     interval.current = id
-    console.log(interval.current)
+    props.handleInterval(interval.current)
 
     if (
       text.current &&
@@ -90,6 +91,7 @@ export default function Animation(props: IAnimationProps) {
     }, props.meditation.totalTime)
 
     interval.current = id
+    props.handleInterval(interval.current)
 
     if (
       text.current &&
@@ -134,6 +136,7 @@ export default function Animation(props: IAnimationProps) {
     }, props.meditation.totalTime)
 
     interval.current = id
+    props.handleInterval(interval.current)
 
     if (
       text.current &&

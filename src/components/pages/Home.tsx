@@ -12,7 +12,7 @@ import Loader from '../styledComponents/Loader/StyledLoader'
 import { Link } from 'react-router-dom'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-import { getFirstName } from '../../utils/getFirstName'
+import { getUser } from '../../utils/getUser'
 
 export default function Home() {
   const [displayName, setDisplayName] = useState('')
@@ -25,7 +25,7 @@ export default function Home() {
   }, [])
 
   const greetUser = async () => {
-    const user = await getFirstName()
+    const user = await getUser()
     const name = user.firstName
     const firstName = name.split(' ')[0]
 

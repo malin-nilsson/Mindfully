@@ -5,20 +5,18 @@ import { StyledImageWrapper } from '../Wrappers/StyledImageWrapper'
 import Animation from '../Animations/Animation'
 import { StyledHeadingM } from '../Headings/StyledHeadings'
 import { StyledImageModal } from './StyledImageModal'
-
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import CloseIcon from '@mui/icons-material/Close'
 // MODELS //
 import { IMeditation } from '../../../models/IMeditation'
-// FIREBASE //
-import { arrayUnion, updateDoc } from 'firebase/firestore'
+// UTILS //
 import { getFavorites } from '../../../utils/getFavorites'
-import { getUID } from '../../../utils/getUID'
-import { getProgress } from '../../../utils/getProgress'
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
+import { saveProgress } from '../../../utils/saveProgress'
+import { Timer } from '@mui/icons-material'
 
 interface IModalProps {
   meditation: IMeditation
@@ -31,6 +29,9 @@ export default function ImageModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
   const [isMeditating, setIsMeditating] = useState(false)
   const [startTime, setStartTime] = useState<Date | number>()
+  const [intervalNo, setintervalNo] = useState<ReturnType<
+    typeof setInterval
+  > | null>(null)
 
   useEffect(() => {
     fillFavorite()
@@ -59,19 +60,16 @@ export default function ImageModal(props: IModalProps) {
   ////////////////////////////
   const stopMeditation = () => {
     setIsMeditating(false)
-
+    clearInterval(intervalNo as NodeJS.Timer)
     // get time / results & save
     const result = differenceInSeconds(new Date(), startTime as number)
-    saveMeditatedMinutes(result)
+    saveTime(result)
   }
 
   ////////////////////////////////
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
-  const saveMeditatedMinutes = async (time: number) => {
-    const userRef = await getUID()
-    const progress = await getProgress()
-
+  const saveTime = async (time: number) => {
     const meditation = {
       seconds: time,
       meditation: props.meditation,
@@ -81,23 +79,11 @@ export default function ImageModal(props: IModalProps) {
 
     if (time === 0 || Number.isNaN(time)) return
 
-    if (userRef) {
-      try {
-        if (progress) {
-          const newProgress = arrayUnion(meditation)
-          await updateDoc(userRef, {
-            progress: newProgress,
-          })
-        } else {
-          const newProgress = [meditation]
-          await updateDoc(userRef, {
-            progress: newProgress,
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    saveProgress(meditation)
+  }
+
+  const handleInterval = (interval: NodeJS.Timer) => {
+    setintervalNo(interval)
   }
 
   return (
@@ -118,6 +104,8 @@ export default function ImageModal(props: IModalProps) {
           background="var(--dark-blue)"
           padding="0.6rem"
           className="icon"
+          role="button"
+          tabIndex={0}
           onClick={() => {
             if (fillHeart) {
               setFillHeart(false)
@@ -144,6 +132,8 @@ export default function ImageModal(props: IModalProps) {
           background="var(--dark-blue)"
           padding="0.6rem"
           className="icon"
+          role="button"
+          tabIndex={0}
           onClick={() => {
             props.closeModal()
             stopMeditation()
@@ -163,6 +153,7 @@ export default function ImageModal(props: IModalProps) {
       <Animation
         meditation={props.meditation}
         handleTime={handleTime}
+        handleInterval={handleInterval}
       ></Animation>
     </StyledImageModal>
   )

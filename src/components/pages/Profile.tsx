@@ -29,7 +29,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
 // UTLS //
-import { getFirstName } from '../../utils/getFirstName'
+import { getUser } from '../../utils/getUser'
 
 export default function Profile() {
   const auth = getAuth()
@@ -59,7 +59,7 @@ export default function Profile() {
   }, [])
 
   const getUserInfo = async () => {
-    const user: IUser = await getFirstName()
+    const user: IUser = await getUser()
     setNewFirstName(user.firstName as string)
     setNewEmail(user.email as string)
     getProfilePicture()

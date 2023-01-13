@@ -20,11 +20,9 @@ import { Slider } from '@mui/material'
 import { IMeditation } from '../../../models/IMeditation'
 // DATE FNS //
 import { differenceInSeconds } from 'date-fns'
-// FIREBASE //
-import { arrayUnion, updateDoc } from 'firebase/firestore'
+// UTILS //
 import { getFavorites } from '../../../utils/getFavorites'
-import { getProgress } from '../../../utils/getProgress'
-import { getUID } from '../../../utils/getUID'
+import { saveProgress } from '../../../utils/saveProgress'
 
 interface IModalProps {
   meditation: IMeditation
@@ -157,16 +155,13 @@ export default function VideoModal(props: IModalProps) {
 
     // get time / results & save
     const result = differenceInSeconds(new Date(), startTime as number)
-    saveMeditatedMinutes(result)
+    saveTime(result)
   }
 
   ////////////////////////////////
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
-  const saveMeditatedMinutes = async (time: number) => {
-    const userRef = await getUID()
-    const progress = await getProgress()
-
+  const saveTime = async (time: number) => {
     const meditation = {
       seconds: time,
       meditation: props.meditation,
@@ -176,23 +171,7 @@ export default function VideoModal(props: IModalProps) {
 
     if (time === 0 || Number.isNaN(time)) return
 
-    if (userRef) {
-      try {
-        if (progress) {
-          const newProgress = arrayUnion(meditation)
-          await updateDoc(userRef, {
-            progress: newProgress,
-          })
-        } else {
-          const newProgress = [meditation]
-          await updateDoc(userRef, {
-            progress: newProgress,
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    saveProgress(meditation)
   }
 
   return (
@@ -218,6 +197,8 @@ export default function VideoModal(props: IModalProps) {
             background="var(--dark-blue)"
             padding="0.6rem"
             className="icon-favorite"
+            role="button"
+            tabIndex={0}
             onClick={() => {
               if (fillHeart) {
                 setFillHeart(false)
@@ -244,6 +225,8 @@ export default function VideoModal(props: IModalProps) {
             background="var(--dark-blue)"
             padding="0.6rem"
             className="icon-close"
+            role="button"
+            tabIndex={0}
             onClick={() => {
               if (isMeditating) {
                 stopMeditation()

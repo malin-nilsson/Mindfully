@@ -3,7 +3,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../firebase/config'
 
 // Get user's favorites
-export const getFirstName = async () => {
+export const getUser = async () => {
   const auth = getAuth()
 
   if (auth.currentUser) {
