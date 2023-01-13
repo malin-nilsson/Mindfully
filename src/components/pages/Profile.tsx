@@ -65,6 +65,15 @@ export default function Profile() {
     getProfilePicture()
   }
 
+  const clearMessagesAndErrors = () => {
+    setConfirmationName('')
+    setErrorMessage('')
+    setPasswordErrorMessage('')
+    setConfirmationEmail('')
+    setEmailErrorMessage('')
+    setConfirmationPassword('')
+    setError(false)
+  }
   ////////////////////////
   // SAVE UPDATED NAME //
   ////////////////////////
@@ -90,10 +99,9 @@ export default function Profile() {
           setDisabledName(true)
         })
         .catch((error) => {
-          setError(true)
+          setErrorMessage(error.message)
         })
     } else {
-      setError(true)
       setMissingFields('Please fill out missing fields.')
     }
   }
@@ -103,9 +111,7 @@ export default function Profile() {
   ////////////////////////
   const saveEmail = () => {
     setMissingFields('')
-    setError(false)
-    setErrorMessage('')
-    setPasswordErrorMessage('')
+    clearMessagesAndErrors()
     if (auth.currentUser && newEmail) {
       updateEmail(auth.currentUser, newEmail)
         .then(() => {
@@ -141,10 +147,8 @@ export default function Profile() {
   ////////////////////////
   const savePassword = async () => {
     setMissingFields('')
-
     if (auth.currentUser && newPassword && confirmPassword) {
       if (newPassword !== confirmPassword) {
-        setError(true)
         setPasswordErrorMessage("Passwords don't match. Please try again.")
       } else {
         updatePassword(auth.currentUser, newPassword)
@@ -153,7 +157,6 @@ export default function Profile() {
             setDisabledPassword(true)
           })
           .catch((error) => {
-            setError(true)
             if (error.code.includes('auth/weak-password')) {
               setPasswordErrorMessage('Please enter a stronger password.')
             } else if (error.code.includes('auth/requires-recent-login')) {
@@ -252,7 +255,6 @@ export default function Profile() {
                 Profile
               </StyledHeadingXL>
             </StyledFlexWrapper>
-
             <StyledFlexWrapper width="100%" color="var(--dark-beige)">
               <StyledProfileCard>
                 <div className="profile-wrapper">
@@ -298,7 +300,6 @@ export default function Profile() {
                       </div>
                     )}
                   </StyledImageWrapper>
-
                   {uploadPicture && (
                     <motion.div
                       initial={{ opacity: 0 }}
@@ -316,7 +317,6 @@ export default function Profile() {
                           type="file"
                           onChange={(e) => handlePictureChange(e)}
                         />
-
                         <StyledButton
                           className="profile-picture-btn"
                           onClick={() => {
@@ -336,7 +336,6 @@ export default function Profile() {
                   >
                     {missingFields && <p className="error"> {missingFields}</p>}
                     {errorMessage && <p className="error"> {errorMessage}</p>}
-
                     <div className="input-group">
                       <label>First name</label>
                       <input
@@ -346,11 +345,9 @@ export default function Profile() {
                         value={newFirstName}
                       ></input>
                       {confirmationName && (
-                        <>
-                          <p className="confirmation">
-                            <CheckIcon /> {confirmationName}
-                          </p>
-                        </>
+                        <p className="confirmation">
+                          <CheckIcon /> {confirmationName}
+                        </p>
                       )}
                       <StyledButtonWrapper
                         direction="row"
@@ -360,9 +357,7 @@ export default function Profile() {
                         <StyledButton
                           onClick={() => {
                             setDisabledName(!disabledName)
-                            setConfirmationName('')
-                            setErrorMessage('')
-                            setPasswordErrorMessage('')
+                            clearMessagesAndErrors()
                           }}
                           padding="0.8rem"
                           fontSize="0.8rem"
@@ -383,6 +378,7 @@ export default function Profile() {
                             bgColor="var(--dark-blue)"
                             color="var(--dark-beige)"
                             border="2px solid var(--dark-beige)"
+                            id="edit-name-btn"
                           >
                             Save
                           </StyledButton>
@@ -416,15 +412,12 @@ export default function Profile() {
                         <StyledButton
                           onClick={() => {
                             setDisabledEmail(!disabledEmail)
-                            setConfirmationEmail('')
-                            setPasswordErrorMessage('')
-                            setEmailErrorMessage('')
-                            setErrorMessage('')
-                            setConfirmationPassword('')
+                            clearMessagesAndErrors()
                           }}
                           padding="0.8rem"
                           fontSize="0.8rem"
                           borderRadius="0.5rem"
+                          id="edit-email-btn"
                         >
                           {disabledEmail ? 'Edit' : 'Cancel'}
                         </StyledButton>
@@ -487,13 +480,12 @@ export default function Profile() {
                         <StyledButton
                           onClick={() => {
                             setDisabledPassword(!disabledPassword)
-                            setPasswordErrorMessage('')
-                            setErrorMessage('')
-                            setConfirmationPassword('')
+                            clearMessagesAndErrors()
                           }}
                           padding="0.8rem"
                           fontSize="0.8rem"
                           borderRadius="0.5rem"
+                          id="edit-password-btn"
                         >
                           {disabledPassword ? 'Edit' : 'Cancel'}
                         </StyledButton>

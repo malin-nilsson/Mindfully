@@ -136,8 +136,8 @@ const StyledNav = styled.div`
   .navbar-signout-btn {
     width: 90%;
     @media ${devices.tablet} {
-      width: 30%;
-      margin-right: auto;
+      width: 40%;
+      margin: 0 auto;
     }
     @media ${devices.desktop} {
       width: 80%;

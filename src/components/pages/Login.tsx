@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'
@@ -212,7 +212,8 @@ export default function Login() {
                 disabled={authenticating}
                 margin="1rem 0 0.5rem"
                 width="100%"
-                border="2px solid var(--mid-blue)"
+                border="1px solid var(--mid-blue)"
+                id="login-btn"
               >
                 Log in
               </StyledButton>

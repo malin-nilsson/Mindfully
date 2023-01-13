@@ -189,6 +189,7 @@ export default function MyJourney() {
                     fontSize="1rem"
                     borderBottom="unset"
                     fontWeight="700"
+                    id="sessions"
                   >
                     {' '}
                     {sessionsTotal}

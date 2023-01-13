@@ -72,6 +72,7 @@ export const StyledVideo = styled.div`
 
     @media ${devices.tablet} {
       width: 60%;
+      justify-content: flex-start;
     }
 
     @media ${devices.desktop} {
@@ -83,7 +84,9 @@ export const StyledVideo = styled.div`
     }
   }
 
-  .icon {
+  .icon,
+  .icon-favorite,
+  .icon-close {
     transition: all 0.3s ease-in-out;
 
     &:hover {

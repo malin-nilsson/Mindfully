@@ -217,7 +217,7 @@ export default function VideoModal(props: IModalProps) {
             borderRadius="50%"
             background="var(--dark-blue)"
             padding="0.6rem"
-            className="icon"
+            className="icon-favorite"
             onClick={() => {
               if (fillHeart) {
                 setFillHeart(false)
@@ -243,7 +243,7 @@ export default function VideoModal(props: IModalProps) {
             borderRadius="50%"
             background="var(--dark-blue)"
             padding="0.6rem"
-            className="icon"
+            className="icon-close"
             onClick={() => {
               if (isMeditating) {
                 stopMeditation()
@@ -369,6 +369,7 @@ export default function VideoModal(props: IModalProps) {
                       isMeditating ? stopMeditation() : startMeditation()
                     }}
                     className="modal-button"
+                    id="meditation-button"
                   >
                     <StyledImageWrapper>
                       {isMeditating ? (
@@ -388,7 +389,7 @@ export default function VideoModal(props: IModalProps) {
                 margin="unset"
                 justify="flex-start"
                 align="flex-start"
-                className={showTimer ? 'show modal-card' : 'hide'}
+                className={showTimer ? 'show' : 'hide'}
               >
                 {' '}
                 <span className="timer">{timer}</span>
