@@ -1,3 +1,4 @@
+import React from 'react'
 import { Suspense, useEffect, useState } from 'react'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
@@ -16,7 +17,6 @@ import { motion } from 'framer-motion'
 // UTILS //
 import { removeFavorite } from '../../utils/removeFavorite'
 import { saveFavorite } from '../../utils/saveFavorite'
-import React from 'react'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -214,7 +214,6 @@ export default function Favorites() {
                     return (
                       <StyledMeditationCard
                         borderRadius="15px"
-                        height="11rem"
                         justify="center"
                         key={favorite._id}
                         padding="1.5rem 1rem"

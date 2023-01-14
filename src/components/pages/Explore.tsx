@@ -7,6 +7,7 @@ import { StyledFlexWrapper } from '../styledComponents/Wrappers/StyledFlexWrappe
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledSelect } from '../styledComponents/Select/Select'
 import Loader from '../styledComponents/Loader/StyledLoader'
+import { StyledButton } from '../styledComponents/Button/StyledButton'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
 // MUI //
@@ -239,24 +240,43 @@ export default function Explore() {
             display={hideMeditations ? 'none' : 'flex'}
             direction="row"
             color="var(--dark-beige)"
+            flexWrap="nowrap"
           >
-            <span>Filter: </span>
-            <StyledSelect>
-              <span className="select-icon">
-                <ExpandMoreIcon style={{ color: '#000' }} fontSize="medium" />
-              </span>
-              <select onChange={(e) => filterMeditations(e.target.value)}>
-                <>
-                  <option value="All">All meditations</option>;
-                  <option value="Sound Meditation">Sound Meditations</option>;
-                  <option value="Guided Breathing Meditation">
-                    Guided Meditations
-                  </option>
-                </>
-              </select>
-            </StyledSelect>
+            <div className="filter-wrapper">
+              <StyledButton onClick={() => filterMeditations('All')}>
+                All Meditations
+              </StyledButton>
+              <StyledButton
+                onClick={() => filterMeditations('Guided Breathing Meditation')}
+              >
+                Guided Meditation
+              </StyledButton>
+              <StyledButton
+                onClick={() => filterMeditations('Sound Meditation')}
+              >
+                Sound Meditation
+              </StyledButton>
+            </div>
+
+            <div className="filter-wrapper-mobile">
+              <StyledSelect>
+                <span className="select-icon">
+                  <ExpandMoreIcon style={{ color: '#000' }} fontSize="medium" />
+                </span>
+                <select onChange={(e) => filterMeditations(e.target.value)}>
+                  <>
+                    <option value="All">All meditations</option>;
+                    <option value="Sound Meditation">Sound Meditation</option>;
+                    <option value="Guided Breathing Meditation">
+                      Guided Meditation
+                    </option>
+                  </>
+                </select>
+              </StyledSelect>
+            </div>
           </StyledFlexWrapper>
           {error && errorMessage}
+
           <StyledFlexWrapper
             padding="4rem 1rem 1.5rem"
             direction="row"

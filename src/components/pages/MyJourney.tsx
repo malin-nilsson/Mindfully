@@ -16,6 +16,7 @@ import {
 import { StyledLink } from '../styledComponents/Link/StyledLink'
 import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrapper'
 import { StyledButton } from '../styledComponents/Button/StyledButton'
+import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import FeedIcon from '@mui/icons-material/Feed'
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled'
@@ -25,11 +26,10 @@ import EmojiEventsIcon from '@mui/icons-material/EmojiEvents'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-// DATE STReEAK //
+// DATE STREAK //
 import { summary } from 'date-streaks'
 // REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
-import Loader from '../styledComponents/Loader/StyledLoader'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
@@ -134,6 +134,7 @@ export default function MyJourney() {
                 direction="row"
                 align="center"
                 margin="0 1.5rem"
+                flexWrap="nowrap"
               >
                 <StyledFlexWrapper>
                   <StyledImageWrapper
@@ -142,7 +143,7 @@ export default function MyJourney() {
                     padding="0.5rem"
                   >
                     <AccessTimeFilledIcon
-                      style={{ color: '#02070f', fontSize: '2.2rem' }}
+                      style={{ color: '#02070f', fontSize: '2rem' }}
                     />
                   </StyledImageWrapper>
                 </StyledFlexWrapper>
@@ -151,11 +152,12 @@ export default function MyJourney() {
                     borderBottom="unset"
                     textTransform="uppercase"
                     fontWeight="100"
+                    fontSize="0.8rem"
                   >
                     Total Time
                   </StyledHeadingXS>
                   <StyledHeadingS
-                    fontSize="1rem"
+                    fontSize="0.9rem"
                     fontWeight="700"
                     borderBottom="unset"
                   >
@@ -165,7 +167,11 @@ export default function MyJourney() {
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
 
-              <StyledFlexWrapper direction="row" margin="0 1.5rem">
+              <StyledFlexWrapper
+                direction="row"
+                margin="0 1.5rem"
+                flexWrap="nowrap"
+              >
                 <StyledFlexWrapper align="flex-start">
                   <StyledImageWrapper
                     background="#f7dba8"
@@ -173,7 +179,7 @@ export default function MyJourney() {
                     padding="0.5rem"
                   >
                     <SelfImprovementIcon
-                      style={{ color: '#02070f', fontSize: '2.4rem' }}
+                      style={{ color: '#02070f', fontSize: '2.2rem' }}
                     />
                   </StyledImageWrapper>
                 </StyledFlexWrapper>
@@ -182,11 +188,12 @@ export default function MyJourney() {
                     borderBottom="unset"
                     textTransform="uppercase"
                     fontWeight="100"
+                    fontSize="0.8rem"
                   >
                     Total Sessions
                   </StyledHeadingXS>
                   <StyledHeadingS
-                    fontSize="1rem"
+                    fontSize="0.9rem"
                     borderBottom="unset"
                     fontWeight="700"
                     id="sessions"
@@ -197,7 +204,11 @@ export default function MyJourney() {
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
 
-              <StyledFlexWrapper direction="row" margin="0 1.5rem">
+              <StyledFlexWrapper
+                flexWrap="nowrap"
+                direction="row"
+                margin="0 1.5rem"
+              >
                 <StyledFlexWrapper align="flex-start">
                   <StyledImageWrapper
                     background="#f7dba8"
@@ -205,7 +216,7 @@ export default function MyJourney() {
                     padding="0.5rem"
                   >
                     <EmojiEventsIcon
-                      style={{ color: '#02070f', fontSize: '2.2rem' }}
+                      style={{ color: '#02070f', fontSize: '2rem' }}
                     />
                   </StyledImageWrapper>
                 </StyledFlexWrapper>
@@ -214,11 +225,12 @@ export default function MyJourney() {
                     borderBottom="unset"
                     textTransform="uppercase"
                     fontWeight="100"
+                    fontSize="0.8rem"
                   >
                     Practice streak
                   </StyledHeadingXS>
                   <StyledHeadingS
-                    fontSize="1rem"
+                    fontSize="0.9rem"
                     borderBottom="unset"
                     fontWeight="700"
                   >
@@ -275,6 +287,9 @@ export default function MyJourney() {
                             </StyledImageWrapper>
 
                             <span>{session.meditation.title}</span>
+                          </StyledFlexWrapper>
+                          <StyledFlexWrapper width="100%">
+                            <span>{toDaysMinutesSeconds(session.seconds)}</span>
                           </StyledFlexWrapper>
                           <StyledFlexWrapper width="100%">
                             <span>{session.date}</span>

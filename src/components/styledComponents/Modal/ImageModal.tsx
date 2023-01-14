@@ -16,7 +16,6 @@ import { getFavorites } from '../../../utils/getFavorites'
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
 import { saveProgress } from '../../../utils/saveProgress'
-import { Timer } from '@mui/icons-material'
 
 interface IModalProps {
   meditation: IMeditation

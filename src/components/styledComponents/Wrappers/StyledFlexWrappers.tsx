@@ -44,6 +44,11 @@ export const StyledFlexWrapper = styled.div`
   position: ${(props: IStylingProps) => props.position || ''};
   top: ${(props: IStylingProps) => props.top || ''};
   left: ${(props: IStylingProps) => props.left || ''};
+  box-sizing: border-box;
+
+  span {
+    font-size: 0.95rem;
+  }
 
   .favorites-wrapper {
     @media ${devices.tablet} {
@@ -95,12 +100,13 @@ export const StyledFlexWrapper = styled.div`
     box-sizing: border-box;
 
     @media ${devices.tablet} {
-      width: 55%;
+      width: 80%;
       padding: 1.5rem 2rem;
     }
 
     @media ${devices.desktop} {
-      width: 50%;
+      width: 65%;
+      gap: 1.5rem;
     }
 
     span {
@@ -123,6 +129,34 @@ export const StyledFlexWrapper = styled.div`
     }
   }
 
+  .filter-wrapper-mobile {
+    @media ${devices.tablet} {
+      display: none;
+    }
+  }
+  .filter-wrapper {
+    display: none;
+
+    @media ${devices.tablet} {
+      display: flex;
+      width: 70%;
+      padding: 0;
+      gap: 2.5rem;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 1rem;
+    }
+
+    button {
+      font-weight: 500;
+      width: auto;
+      font-size: 0.8rem;
+      padding: 1.1rem 1.2rem;
+    }
+  }
   .filter-link {
     &:hover {
       cursor: pointer;
@@ -289,6 +323,7 @@ export const StyledButtonWrapper = styled.div`
 `
 
 export const StyledProgressWrapper = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -296,18 +331,23 @@ export const StyledProgressWrapper = styled.div`
   gap: 2rem;
   padding: 1rem;
   background-color: var(--dark-blue);
+  font-size: 0.8rem;
 
   @media ${devices.tablet} {
     padding: 1.5rem 0;
     margin: 1rem 0;
     flex-direction: row;
-    gap: 2rem;
-    padding: 2rem;
+    padding: 2rem 1rem;
     margin: 2rem 0;
     align-items: center;
     justify-content: center;
     width: 80%;
     border-radius: 1rem;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  @media ${devices.desktop} {
+    padding: 2rem;
+    width: 85%;
   }
 `

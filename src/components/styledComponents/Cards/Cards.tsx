@@ -2,14 +2,37 @@ import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
-export const StyledCard = styled.div`
+export const StyledHomeCard = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+  background-color: ${(props: IStylingProps) =>
+    props.bgColor || 'var(--dark-blue)'};
+  color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
+
+  border: ${(props: IStylingProps) =>
+    props.border || '1px solid var(--dark-beige)'};
+  padding: 1rem 2.5rem;
+  border-radius: 0.5rem;
+  width: ${(props: IStylingProps) => props.width || '17rem'};
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    cursor: pointer;
+    transform: translateY(-0.15rem);
+  }
+`
+
+export const StyledTimerCard = styled.div`
+  align-items: ${(props: IStylingProps) => props.align || 'center'};
   display: ${(props: IStylingProps) => props.display || 'flex'};
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: ${(props: IStylingProps) => props.gap || '2rem'};
   justify-content: ${(props: IStylingProps) => props.justify || 'center'};
-  align-items: ${(props: IStylingProps) => props.align || 'center'};
   flex-wrap: wrap;
-  color: ${(props: IStylingProps) => props.color || ' var(--mid-blue)'};
+  color: ${(props: IStylingProps) => props.color || ' var(--dark-blue)'};
   padding: ${(props: IStylingProps) =>
     props.padding || ' 1.7rem 1.6rem 1.7rem'};
   background-color: ${(props: IStylingProps) =>
@@ -18,25 +41,8 @@ export const StyledCard = styled.div`
   width: ${(props: IStylingProps) => props.width || '15.5rem'};
   height: ${(props: IStylingProps) => props.height || '13rem'};
   transition: all 0.3s ease-in-out;
+  border: 1px solid var(--dark-beige);
 
-  &:hover {
-    cursor: pointer;
-    transform: translate(-0.2rem, -0.5rem);
-    background: var(--light-beige);
-  }
-
-  p {
-    margin: 0 0 1rem;
-    font-size: 0.9rem;
-  }
-  span {
-    text-align: center;
-    font-size: 0.9rem;
-    font-weight: 100;
-  }
-`
-
-export const StyledTimerCard = styled(StyledCard)`
   @media ${devices.desktop} {
     height: 14rem;
     width: 15rem;
@@ -49,7 +55,11 @@ export const StyledTimerCard = styled(StyledCard)`
   }
 `
 
-export const StyledMeditationCard = styled(StyledCard)`
+export const StyledMeditationCard = styled.div`
+  align-items: ${(props: IStylingProps) => props.align || 'center'};
+  display: ${(props: IStylingProps) => props.display || 'flex'};
+  flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
+  gap: ${(props: IStylingProps) => props.gap || '2rem'};
   background: var(--dark-blue);
   color: var(--dark-beige);
   transition: all 0.3s ease-in-out;
@@ -71,6 +81,11 @@ export const StyledMeditationCard = styled(StyledCard)`
     width: ${(props: IStylingProps) => props.width || '20%'};
     margin: unset;
     padding: ${(props: IStylingProps) => props.padding || ''};
+  }
+
+  span {
+    font-size: 0.9rem;
+    margin: 1rem 0 0;
   }
 `
 export const StyledProfileCard = styled(StyledMeditationCard)`

@@ -11,7 +11,6 @@ interface IAnimationProps {
 }
 
 export default function Animation(props: IAnimationProps) {
-  const [fiveBreath, setFiveBreath] = useState(0)
   const [isMeditating, setIsMeditating] = useState(false)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   // Refs for animation
