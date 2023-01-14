@@ -154,6 +154,7 @@ export default function ImageModal(props: IModalProps) {
         meditation={props.meditation}
         handleTime={handleTime}
         handleInterval={handleInterval}
+        stopMeditation={stopMeditation}
       ></Animation>
     </StyledImageModal>
   )

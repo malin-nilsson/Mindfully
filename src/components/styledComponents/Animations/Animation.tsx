@@ -7,9 +7,11 @@ interface IAnimationProps {
   meditation: IMeditation
   handleTime: (time: Date | number) => void
   handleInterval: (interval: NodeJS.Timer) => void
+  stopMeditation: () => void
 }
 
 export default function Animation(props: IAnimationProps) {
+  const [fiveBreath, setFiveBreath] = useState(0)
   const [isMeditating, setIsMeditating] = useState(false)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   // Refs for animation
@@ -126,38 +128,51 @@ export default function Animation(props: IAnimationProps) {
   //////////////////////////
   // FIVE MINDFUL BREATHS //
   //////////////////////////
+  let breath = 0
   const fiveMindfulBreaths = () => {
     setIsMeditating(true)
-
     if (interval.current) clearInterval(interval.current)
+    breath++
+    interval.current && props.handleInterval(interval.current)
 
-    const id = setInterval(() => {
-      fiveMindfulBreaths()
-    }, props.meditation.totalTime)
+    // After five breaths, stop medtitation
+    if (breath > 5 && ball.current && outerContainer.current && text.current) {
+      props.stopMeditation()
+      ball.current.style.animationPlayState = 'paused'
+      outerContainer.current.classList.remove('grow-five')
+      text.current.innerHTML = 'Session completed &#127882;'
+      return
+    }
+    // Until then, keep going
+    else {
+      const id = setInterval(() => {
+        fiveMindfulBreaths()
+      }, props.meditation.totalTime)
 
-    interval.current = id
-    props.handleInterval(interval.current)
+      interval.current = id
+      props.handleInterval(interval.current)
 
-    if (
-      text.current &&
-      outerContainer.current &&
-      circle.current &&
-      ball.current &&
-      button.current
-    ) {
-      button.current.style.display = 'none'
-      ball.current.style.animationPlayState = 'running'
-      text.current.innerText = 'Breathe In'
-      outerContainer.current.className = 'animation-outer-container grow-five'
+      if (
+        text.current &&
+        outerContainer.current &&
+        circle.current &&
+        ball.current &&
+        button.current
+      ) {
+        button.current.style.display = 'none'
+        ball.current.style.animationPlayState = 'running'
+        text.current.innerText = 'Breathe In'
+        outerContainer.current.className = 'animation-outer-container grow-five'
 
-      setTimeout(() => {
-        if (text.current && outerContainer.current && circle.current) {
-          text.current.innerText = 'Breath Out'
-          outerContainer.current.className =
-            'animation-outer-container shrink-five'
-          circle.current.className = 'animate-circle animate-circle-exhale'
-        }
-      }, props.meditation.breatheTime)
+        setTimeout(() => {
+          if (text.current && outerContainer.current && circle.current) {
+            text.current.innerText = 'Breath Out'
+            outerContainer.current.className =
+              'animation-outer-container shrink-five'
+            circle.current.className = 'animate-circle animate-circle-exhale'
+          }
+        }, props.meditation.breatheTime)
+      }
     }
   }
 
