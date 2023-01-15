@@ -4,7 +4,7 @@ import { devices } from '../../breakpoints/Breakpoints'
 export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
   max-width: 400px;
   margin-top: 0.8rem auto;
   padding: 2.5rem 1rem;

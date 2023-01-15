@@ -14,6 +14,9 @@ import { IMeditation } from '../../models/IMeditation'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import AudiotrackIcon from '@mui/icons-material/Audiotrack'
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
+import AppsIcon from '@mui/icons-material/Apps'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // UTILS //
@@ -243,32 +246,38 @@ export default function Explore() {
             flexWrap="nowrap"
           >
             <div className="filter-wrapper">
-              <StyledButton onClick={() => filterMeditations('All')}>
+              <StyledButton
+                gap="0.35rem"
+                onClick={() => filterMeditations('All')}
+              >
+                <AppsIcon style={{ color: '#02070f' }} />
                 All Meditations
               </StyledButton>
               <StyledButton
+                gap="0.35rem"
                 onClick={() => filterMeditations('Guided Breathing Meditation')}
               >
-                Guided Meditation
+                <VolunteerActivismIcon style={{ color: '#02070f' }} />
+                Guided Meditations
               </StyledButton>
               <StyledButton
+                gap="0.35rem"
                 onClick={() => filterMeditations('Sound Meditation')}
               >
-                Sound Meditation
+                <AudiotrackIcon style={{ color: '#02070f' }} /> Sound
+                Meditations
               </StyledButton>
             </div>
 
             <div className="filter-wrapper-mobile">
+              <span>Filter by category: </span>
               <StyledSelect>
-                <span className="select-icon">
-                  <ExpandMoreIcon style={{ color: '#000' }} fontSize="medium" />
-                </span>
                 <select onChange={(e) => filterMeditations(e.target.value)}>
                   <>
                     <option value="All">All meditations</option>;
-                    <option value="Sound Meditation">Sound Meditation</option>;
+                    <option value="Sound Meditation">Sound Meditations</option>;
                     <option value="Guided Breathing Meditation">
-                      Guided Meditation
+                      Guided Meditations
                     </option>
                   </>
                 </select>

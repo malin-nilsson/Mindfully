@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 
 export const StyledSelect = styled.div`
-  margin: 0;
+  margin: 0.5rem 0;
   padding: 0;
   position: relative;
   box-sizing: border-box;
   position: relative;
   background-color: var(--dark-beige);
-  border-radius: 10px;
+  border-radius: 0.625rem;
   display: flex;
   justify-content: center;
   align-items: center;

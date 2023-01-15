@@ -197,8 +197,8 @@ export default function Favorites() {
             {noFavorites || (favorites && favorites.length < 1) ? (
               <StyledFlexWrapper color="var(--dark-beige)">
                 <p>
-                  Tap the heart icon on any meditation to add to your Favorites
-                  list.
+                  Tap the heart icon on any meditation to add it to your
+                  Favorites list.
                 </p>
               </StyledFlexWrapper>
             ) : (

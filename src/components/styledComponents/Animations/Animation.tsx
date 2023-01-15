@@ -19,7 +19,6 @@ export default function Animation(props: IAnimationProps) {
   const text = useRef<HTMLParagraphElement | null>(null)
   const ball = useRef<HTMLDivElement | null>(null)
   const button = useRef<HTMLButtonElement | null>(null)
-  //
 
   const handleFourBreathing = () => {
     props.handleTime(new Date())
@@ -175,6 +174,7 @@ export default function Animation(props: IAnimationProps) {
     }
   }
 
+  // Apply class depending on type of meditation
   const applyClass = () => {
     if (
       props.meditation.title === '4-7-8 Breathing Technique' &&

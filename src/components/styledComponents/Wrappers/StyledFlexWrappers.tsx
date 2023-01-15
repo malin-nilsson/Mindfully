@@ -48,6 +48,7 @@ export const StyledFlexWrapper = styled.div`
 
   span {
     font-size: 0.95rem;
+    font-weight: 300;
   }
 
   .favorites-wrapper {
@@ -155,7 +156,7 @@ export const StyledFlexWrapper = styled.div`
     button {
       font-weight: 500;
       width: auto;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       padding: 1.1rem 1.2rem;
     }
   }
