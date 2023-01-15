@@ -1,4 +1,3 @@
-import React from 'react'
 import { Suspense, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import {
@@ -21,7 +20,8 @@ import { IMeditation } from '../../models/IMeditation'
 // UTILS //
 import { removeFavorite } from '../../utils/removeFavorite'
 import { saveFavorite } from '../../utils/saveFavorite'
-import { client } from '../../lib/client'
+import { getSpecificMeditation } from '../../utils/getSpecificMeditation'
+import React from 'react'
 
 const ImageModal = React.lazy(() =>
   import('../styledComponents/Modal/ImageModal'),
@@ -55,42 +55,17 @@ export default function Home() {
   })
 
   useEffect(() => {
-    client
-      .fetch(
-        `*[title == "Five Mindful Breaths"] {
-    title,
-    tag,
-    name,
-    description,
-    breatheTime,
-    holdTime,
-    totalTime,
-    _id,
-    _type,
-    icon {
-      asset -> {
-        url,
-        _id
-      }
-    },
-    image {
-      asset -> {
-        url,
-        _id
-      }
-    },
-  }`,
-      )
-      .then((data: IMeditation[]) => {
-        setSpecificMeditation(data[0])
-      })
-      .catch((error) => {
-        return error
-      })
     window.scrollTo(0, 0)
+    getNewMeditation()
     greetUser()
   }, [])
 
+  const getNewMeditation = async () => {
+    const meditation: IMeditation = await getSpecificMeditation(
+      'Five Mindful Breaths',
+    )
+    setSpecificMeditation(meditation)
+  }
   const greetUser = async () => {
     const user = await getUser()
     const name = user.firstName
@@ -111,7 +86,17 @@ export default function Home() {
         setGreeting(data[i][2].toString())
       }
     }
+    setLoader(false)
+  }
 
+  const showModal = (m: IMeditation) => {
+    setLoader(true)
+    setSpecificMeditation(m)
+    setNewMeditation(true)
+    setTimeout(stopLoader, 2000)
+  }
+
+  const stopLoader = () => {
     setLoader(false)
   }
 
@@ -157,7 +142,7 @@ export default function Home() {
           </StyledFlexWrapper>
 
           <StyledFlexWrapper margin="2rem auto">
-            <StyledHomeCard onClick={() => setNewMeditation(true)}>
+            <StyledHomeCard onClick={() => showModal(specificMeditation)}>
               <StyledImageWrapper maxHeight="2.5rem">
                 <img
                   src="/assets/icons/fiveMindful.png"
