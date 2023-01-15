@@ -10,6 +10,7 @@ import { StyledImageWrapper } from '../styledComponents/Wrappers/StyledImageWrap
 import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import CloseIcon from '@mui/icons-material/Close'
 // FIRESTORE //
 import { getFavorites } from '../../services/getFavorites'
 // FRAMER MOTION //
@@ -17,6 +18,7 @@ import { motion } from 'framer-motion'
 // SERVICES //
 import { removeFavorite } from '../../services/removeFavorite'
 import { saveFavorite } from '../../services/saveFavorite'
+import { Snackbar } from '@mui/material'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -32,6 +34,7 @@ export default function Favorites() {
   const [errorMessage, setErrorMessage] = useState('')
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
+  const [snackbar, setSnackbar] = useState(false)
   const [hideFavorites, setHideFavorites] = useState(false)
   const [loader, setLoader] = useState(true)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
@@ -99,11 +102,12 @@ export default function Favorites() {
     }
   }
 
-  const hideModal = () => {
+  const hideModal = (progress?: boolean) => {
     setLoader(false)
     setVideoModal(false)
     setImageModal(false)
     setHideFavorites(false)
+    setSnackbar(progress as boolean)
   }
 
   const stopLoader = () => {
@@ -132,8 +136,39 @@ export default function Favorites() {
     }
   }
 
+  const action = (
+    <React.Fragment>
+      <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
+    </React.Fragment>
+  )
+
   return (
     <>
+      {snackbar && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Snackbar
+            ContentProps={{
+              sx: {
+                background: 'var(--mid-blue)',
+                color: 'var(--dark-beige)',
+                border: '1px solid var(--dark-beige)',
+                fontSize: '1rem',
+              },
+            }}
+            open={snackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            autoHideDuration={4000}
+            message="Your progress has been saved &nbsp; &nbsp; &#128171;"
+            onClose={() => setSnackbar(false)}
+            action={action}
+          />
+        </motion.div>
+      )}
       {loader && <Loader />}
       {videoModal && (
         <Suspense fallback={<Loader />}>

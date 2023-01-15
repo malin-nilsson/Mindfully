@@ -16,6 +16,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import AudiotrackIcon from '@mui/icons-material/Audiotrack'
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 import AppsIcon from '@mui/icons-material/Apps'
+import CloseIcon from '@mui/icons-material/Close'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // SERVICES //
@@ -23,6 +24,7 @@ import { getFavorites } from '../../services/getFavorites'
 import { getMeditations } from '../../services/getMeditations'
 import { saveFavorite } from '../../services/saveFavorite'
 import { removeFavorite } from '../../services/removeFavorite'
+import { Snackbar } from '@mui/material'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -39,6 +41,7 @@ export default function Explore() {
   const [showFilteredMeditations, setShowFilteredMeditations] = useState(false)
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
+  const [snackbar, setSnackbar] = useState(false)
   const [loader, setLoader] = useState(true)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -133,11 +136,12 @@ export default function Explore() {
   /////////////////
   // CLOSE MODAL //
   /////////////////
-  const hideModal = () => {
+  const hideModal = (progress?: boolean) => {
     setLoader(false)
     setVideoModal(false)
     setImageModal(false)
     setHideMeditations(false)
+    setSnackbar(progress as boolean)
   }
 
   ////////////////
@@ -182,8 +186,39 @@ export default function Explore() {
     }
   }
 
+  const action = (
+    <React.Fragment>
+      <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
+    </React.Fragment>
+  )
+
   return (
     <>
+      {snackbar && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Snackbar
+            ContentProps={{
+              sx: {
+                background: 'var(--mid-blue)',
+                color: 'var(--dark-beige)',
+                border: '1px solid var(--dark-beige)',
+                fontSize: '1rem',
+              },
+            }}
+            open={snackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            autoHideDuration={4000}
+            message="Your progress has been saved &nbsp; &nbsp; &#128171;"
+            onClose={() => setSnackbar(false)}
+            action={action}
+          />
+        </motion.div>
+      )}
       {loader && <Loader />}
       {videoModal && (
         <Suspense fallback={<Loader />}>

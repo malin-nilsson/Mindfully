@@ -26,7 +26,7 @@ import { saveProgress } from '../../../services/saveProgress'
 
 interface IModalProps {
   meditation: IMeditation
-  closeModal: () => void
+  closeModal: (progress?: boolean) => void
   handleSaveFavorite: (m: IMeditation) => void
   handleRemoveFavorite: (m: IMeditation) => void
 }
@@ -230,7 +230,7 @@ export default function VideoModal(props: IModalProps) {
             onClick={() => {
               if (isMeditating) {
                 stopMeditation()
-                props.closeModal()
+                props.closeModal(true)
               } else {
                 props.closeModal()
               }

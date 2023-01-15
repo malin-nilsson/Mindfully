@@ -19,7 +19,7 @@ import { saveProgress } from '../../../services/saveProgress'
 
 interface IModalProps {
   meditation: IMeditation
-  closeModal: () => void
+  closeModal: (progress?: boolean) => void
   handleSaveFavorite: (m: IMeditation) => void
   handleRemoveFavorite: (m: IMeditation) => void
 }
@@ -76,8 +76,11 @@ export default function ImageModal(props: IModalProps) {
       date: new Date().toDateString(),
     }
 
-    if (time === 0 || Number.isNaN(time)) return
-
+    if (time === 0 || Number.isNaN(time)) {
+      props.closeModal()
+      return
+    }
+    props.closeModal(true)
     saveProgress(meditation)
   }
 
@@ -134,7 +137,6 @@ export default function ImageModal(props: IModalProps) {
           role="button"
           tabIndex={0}
           onClick={() => {
-            props.closeModal()
             stopMeditation()
           }}
         >

@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { Suspense, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import {
@@ -14,15 +16,17 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { getUser } from '../../services/getUser'
 // MUI //
+import { Snackbar } from '@mui/material'
+
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import CloseIcon from '@mui/icons-material/Close'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
 // SERVICES //
 import { removeFavorite } from '../../services/removeFavorite'
 import { saveFavorite } from '../../services/saveFavorite'
 import { getSpecificMeditation } from '../../services/getSpecificMeditation'
-import React from 'react'
 
 const ImageModal = React.lazy(() =>
   import('../styledComponents/Modal/ImageModal'),
@@ -33,6 +37,7 @@ export default function Home() {
   const [greeting, setGreeting] = useState('')
   const [loader, setLoader] = useState(true)
   const [newMeditation, setNewMeditation] = useState(false)
+  const [snackbar, setSnackbar] = useState(false)
   const [specificMeditation, setSpecificMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
@@ -101,8 +106,9 @@ export default function Home() {
     setLoader(false)
   }
 
-  const hideModal = () => {
+  const hideModal = (progress?: boolean) => {
     setNewMeditation(false)
+    setSnackbar(progress as boolean)
   }
 
   const handleSaveFavorite = async (m: IMeditation) => {
@@ -113,8 +119,39 @@ export default function Home() {
     await removeFavorite(m)
   }
 
+  const action = (
+    <React.Fragment>
+      <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
+    </React.Fragment>
+  )
+
   return (
     <>
+      {snackbar && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Snackbar
+            ContentProps={{
+              sx: {
+                background: 'var(--mid-blue)',
+                color: 'var(--dark-beige)',
+                border: '1px solid var(--dark-beige)',
+                fontSize: '1rem',
+              },
+            }}
+            open={snackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            autoHideDuration={4000}
+            message="Your progress has been saved &nbsp; &nbsp; &#128171;"
+            onClose={() => setSnackbar(false)}
+            action={action}
+          />
+        </motion.div>
+      )}
       {loader ? (
         <Loader />
       ) : (
@@ -137,7 +174,7 @@ export default function Home() {
           </StyledFlexWrapper>
 
           <StyledFlexWrapper>
-            <StyledImageWrapper maxHeight="11rem" margin="0 auto 1rem">
+            <StyledImageWrapper maxHeight="10rem" margin="0 auto 1rem">
               <img src="/assets/mountain.png" alt="Illustration of mountains" />
             </StyledImageWrapper>
           </StyledFlexWrapper>
@@ -211,7 +248,7 @@ export default function Home() {
               >
                 <StyledImageWrapper maxHeight="40px">
                   <AutoAwesomeIcon
-                    style={{ color: '#02070f', fontSize: '2.3rem' }}
+                    style={{ color: '#02070f', fontSize: '1.8rem' }}
                   />
                 </StyledImageWrapper>
                 <StyledFlexWrapper
