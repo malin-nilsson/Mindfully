@@ -29,7 +29,7 @@ export const StyledImageModal = styled.div`
     padding: 1rem 1rem 2rem;
 
     @media ${devices.tablet} {
-      padding: 1rem 1rem 0.5rem;
+      padding: 1rem 1rem 0.3rem;
     }
   }
 
@@ -69,18 +69,19 @@ export const StyledImageModal = styled.div`
     }
 
     @media ${devices.desktop} {
-      width: 55%;
+      width: 50%;
     }
 
     p {
       margin: 0.2rem 0 0.4rem;
       padding: 0.5rem;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 300;
       text-align: center;
 
       @media ${devices.desktop} {
-        padding: 0;
+        padding: 0.2rem 0;
+        line-height: 1.4rem;
       }
     }
   }

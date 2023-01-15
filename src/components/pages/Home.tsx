@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
+import { Suspense, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import {
   StyledHeadingL,
@@ -15,13 +16,16 @@ import { motion } from 'framer-motion'
 import { getUser } from '../../utils/getUser'
 // MUI //
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
-import ImageModal from '../styledComponents/Modal/ImageModal'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
 // UTILS //
 import { removeFavorite } from '../../utils/removeFavorite'
 import { saveFavorite } from '../../utils/saveFavorite'
 import { client } from '../../lib/client'
+
+const ImageModal = React.lazy(() =>
+  import('../styledComponents/Modal/ImageModal'),
+)
 
 export default function Home() {
   const [displayName, setDisplayName] = useState('')
@@ -38,18 +42,6 @@ export default function Home() {
       },
     },
     icon: {
-      asset: {
-        url: '',
-        _id: '',
-      },
-    },
-    audio: {
-      asset: {
-        url: '',
-        _id: '',
-      },
-    },
-    video: {
       asset: {
         url: '',
         _id: '',
@@ -75,18 +67,6 @@ export default function Home() {
     totalTime,
     _id,
     _type,
-    video {
-      asset -> {
-        url,
-        _id
-      }
-    },
-    audio {
-      asset -> {
-        url,
-        _id
-      }
-    },
     icon {
       asset -> {
         url,
@@ -171,14 +151,14 @@ export default function Home() {
           </StyledFlexWrapper>
 
           <StyledFlexWrapper>
-            <StyledImageWrapper maxHeight="12rem" margin="0 auto 1rem">
-              <img src="/assets/mountain.png" />
+            <StyledImageWrapper maxHeight="11rem" margin="0 auto 1rem">
+              <img src="/assets/mountain.png" alt="Illustration of mountains" />
             </StyledImageWrapper>
           </StyledFlexWrapper>
 
           <StyledFlexWrapper margin="2rem auto">
             <StyledHomeCard onClick={() => setNewMeditation(true)}>
-              <StyledImageWrapper maxHeight="40px">
+              <StyledImageWrapper maxHeight="2.5rem">
                 <img
                   src="/assets/icons/fiveMindful.png"
                   alt="Illustration of cloud smiling"
@@ -225,7 +205,7 @@ export default function Home() {
                     fontWeight="300"
                     borderBottom="unset"
                   >
-                    Find Meditation
+                    Find a Meditation
                   </StyledHeadingXS>
                   <span>Explore all meditations</span>
                 </StyledFlexWrapper>
@@ -235,19 +215,21 @@ export default function Home() {
         </motion.div>
       )}
       {newMeditation && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <ImageModal
-            meditation={specificMeditation}
-            closeModal={hideModal}
-            handleSaveFavorite={handleSaveFavorite}
-            handleRemoveFavorite={handleRemoveFavorite}
-          />
-        </motion.div>
+        <Suspense fallback={<Loader />}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <ImageModal
+              meditation={specificMeditation}
+              closeModal={hideModal}
+              handleSaveFavorite={handleSaveFavorite}
+              handleRemoveFavorite={handleRemoveFavorite}
+            />
+          </motion.div>
+        </Suspense>
       )}
     </>
   )

@@ -133,7 +133,7 @@ export default function MyJourney() {
               <StyledFlexWrapper
                 direction="row"
                 align="center"
-                margin="0 1.5rem"
+                margin="0 0.5rem"
                 flexWrap="nowrap"
               >
                 <StyledFlexWrapper>
@@ -169,7 +169,7 @@ export default function MyJourney() {
 
               <StyledFlexWrapper
                 direction="row"
-                margin="0 1.5rem"
+                margin="0 0.5rem"
                 flexWrap="nowrap"
               >
                 <StyledFlexWrapper align="flex-start">
@@ -207,7 +207,7 @@ export default function MyJourney() {
               <StyledFlexWrapper
                 flexWrap="nowrap"
                 direction="row"
-                margin="0 1.5rem"
+                margin="0 0.5rem"
               >
                 <StyledFlexWrapper align="flex-start">
                   <StyledImageWrapper
