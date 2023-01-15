@@ -27,10 +27,24 @@ export const StyledLandingPageWrapper = styled.div`
     &.blue {
       background-color: var(--mid-blue);
       height: 100%;
-      overflow: hidden;
+      overflow: unset;
+      padding: 1.5rem 0;
+
+      @media ${devices.tablet} {
+        padding: unset;
+      }
+
+      img {
+        max-width: 15rem;
+
+        @media ${devices.tablet} {
+          max-width: 20rem;
+        }
+      }
 
       @media ${devices.desktop} {
         width: 50%;
+        overflow: hidden;
       }
     }
 

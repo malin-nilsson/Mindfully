@@ -20,9 +20,9 @@ import { Slider } from '@mui/material'
 import { IMeditation } from '../../../models/IMeditation'
 // DATE FNS //
 import { differenceInSeconds } from 'date-fns'
-// UTILS //
-import { getFavorites } from '../../../utils/getFavorites'
-import { saveProgress } from '../../../utils/saveProgress'
+// SERVICES //
+import { getFavorites } from '../../../services/getFavorites'
+import { saveProgress } from '../../../services/saveProgress'
 
 interface IModalProps {
   meditation: IMeditation

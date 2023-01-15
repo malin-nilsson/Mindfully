@@ -132,6 +132,17 @@ export const StyledFlexWrapper = styled.div`
     }
   }
 
+  .copyright {
+    font-size: 0.75rem;
+    margin-left: auto;
+    padding: 0 1.5rem;
+
+    a {
+      color: #000;
+      text-decoration: underline;
+    }
+  }
+
   .filter-wrapper-mobile {
     @media ${devices.tablet} {
       display: none;
@@ -319,9 +330,12 @@ export const StyledButtonWrapper = styled.div`
   display: flex;
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: ${(props: IStylingProps) => props.gap || ''};
+  box-sizing: border-box;
+  padding: 0 1rem;
 
   @media ${devices.tablet} {
     width: ${(props: IStylingProps) => props.width || '50%'};
+    padding: unset;
   }
 `
 

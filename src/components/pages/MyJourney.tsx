@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 // MODELS //
 import { IProgress } from '../../models/IProgress'
 // FIRESTORE //
-import { getProgress } from '../../utils/getProgress'
+import { getProgress } from '../../services/getProgress'
 // STYLED COMPONENTS //
 import {
   StyledHeadingS,

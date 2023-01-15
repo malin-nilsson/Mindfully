@@ -6,15 +6,15 @@ export const StyledHomeCard = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  gap: 2rem;
+  justify-content: ${(props: IStylingProps) => props.justify || 'flex-start'};
+  gap: ${(props: IStylingProps) => props.gap || '2rem'};
   background-color: ${(props: IStylingProps) =>
     props.bgColor || 'var(--dark-blue)'};
   color: ${(props: IStylingProps) => props.color || 'var(--dark-beige)'};
-
   border: ${(props: IStylingProps) =>
     props.border || '1px solid var(--dark-beige)'};
-  padding: 1rem 2.5rem;
+  padding: ${(props: IStylingProps) => props.padding || '1rem 2.5rem'};
+
   border-radius: 0.5rem;
   width: ${(props: IStylingProps) => props.width || '17rem'};
   transition: transform 0.2s ease-in-out;

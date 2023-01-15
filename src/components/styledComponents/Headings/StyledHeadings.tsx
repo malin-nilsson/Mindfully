@@ -82,7 +82,6 @@ export const StyledHeadingXS = styled.h5`
     props.textTransform || 'uppercase'};
   margin: 0;
   font-weight: ${(props: IStylingProps) => props.fontWeight || '500'};
-
   border-bottom: ${(props: IStylingProps) =>
     props.borderBottom || ' 2px solid var(--mid-blue)'};
 `

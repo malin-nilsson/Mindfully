@@ -29,7 +29,7 @@ import CheckIcon from '@mui/icons-material/Check'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
 // UTLS //
-import { getUser } from '../../utils/getUser'
+import { getUser } from '../../services/getUser'
 
 export default function Profile() {
   const auth = getAuth()

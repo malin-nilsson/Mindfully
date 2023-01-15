@@ -13,17 +13,16 @@ import { IMeditation } from '../../models/IMeditation'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import AudiotrackIcon from '@mui/icons-material/Audiotrack'
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 import AppsIcon from '@mui/icons-material/Apps'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-// UTILS //
-import { getFavorites } from '../../utils/getFavorites'
-import { getMeditations } from '../../utils/getMeditations'
-import { saveFavorite } from '../../utils/saveFavorite'
-import { removeFavorite } from '../../utils/removeFavorite'
+// SERVICES //
+import { getFavorites } from '../../services/getFavorites'
+import { getMeditations } from '../../services/getMeditations'
+import { saveFavorite } from '../../services/saveFavorite'
+import { removeFavorite } from '../../services/removeFavorite'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),

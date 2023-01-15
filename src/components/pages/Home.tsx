@@ -12,15 +12,16 @@ import Loader from '../styledComponents/Loader/StyledLoader'
 import { Link } from 'react-router-dom'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-import { getUser } from '../../utils/getUser'
+import { getUser } from '../../services/getUser'
 // MUI //
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 // MODELS //
 import { IMeditation } from '../../models/IMeditation'
-// UTILS //
-import { removeFavorite } from '../../utils/removeFavorite'
-import { saveFavorite } from '../../utils/saveFavorite'
-import { getSpecificMeditation } from '../../utils/getSpecificMeditation'
+// SERVICES //
+import { removeFavorite } from '../../services/removeFavorite'
+import { saveFavorite } from '../../services/saveFavorite'
+import { getSpecificMeditation } from '../../services/getSpecificMeditation'
 import React from 'react'
 
 const ImageModal = React.lazy(() =>
@@ -193,6 +194,42 @@ export default function Home() {
                     Find a Meditation
                   </StyledHeadingXS>
                   <span>Explore all meditations</span>
+                </StyledFlexWrapper>
+              </StyledHomeCard>
+            </Link>
+          </StyledFlexWrapper>
+
+          <StyledFlexWrapper margin="2rem auto">
+            <Link to="/journey">
+              <StyledHomeCard
+                width="10rem"
+                bgColor="var(--dark-beige)"
+                color="var(--dark-blue)"
+                padding="0.8rem 1.1rem"
+                gap="1rem"
+                justify="center"
+              >
+                <StyledImageWrapper maxHeight="40px">
+                  <AutoAwesomeIcon
+                    style={{ color: '#02070f', fontSize: '2.3rem' }}
+                  />
+                </StyledImageWrapper>
+                <StyledFlexWrapper
+                  justify="center"
+                  align="flex-start"
+                  gap="0.3rem"
+                  margin="unset"
+                  color="var(--dark-blue)"
+                >
+                  <StyledHeadingXS
+                    color="var(--dark-blue)"
+                    fontSize="1rem"
+                    borderBottom="unset"
+                    fontWeight="300"
+                    textTransform="unset"
+                  >
+                    Your progress
+                  </StyledHeadingXS>
                 </StyledFlexWrapper>
               </StyledHomeCard>
             </Link>

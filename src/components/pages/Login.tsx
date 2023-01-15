@@ -233,6 +233,13 @@ export default function Login() {
                 Don't have an account? <Link to="/signup">Create one.</Link>
               </p>
             </StyledForm>
+            <div className="copyright">
+              &#169; Malin Nilsson, 2023,{' '}
+              <a href="https://www.github.com/malin-nilsson" target="_blank">
+                {' '}
+                Github
+              </a>
+            </div>
           </StyledFlexWrapper>
         </motion.div>
       ) : (

@@ -11,12 +11,12 @@ import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 // FIRESTORE //
-import { getFavorites } from '../../utils/getFavorites'
+import { getFavorites } from '../../services/getFavorites'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-// UTILS //
-import { removeFavorite } from '../../utils/removeFavorite'
-import { saveFavorite } from '../../utils/saveFavorite'
+// SERVICES //
+import { removeFavorite } from '../../services/removeFavorite'
+import { saveFavorite } from '../../services/saveFavorite'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),

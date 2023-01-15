@@ -1,6 +1,6 @@
 import { useState } from 'react'
 // REACT ROUTER //
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 // STYLED COMPONENTS //
 import styled from 'styled-components'
 import { devices } from '../../breakpoints/Breakpoints'
@@ -17,7 +17,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import AppsIcon from '@mui/icons-material/Apps'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
-// FIREBASE //
+// SERVICES //
 import { getAuth, signOut } from 'firebase/auth'
 
 export default function Navbar() {
@@ -48,7 +48,6 @@ export default function Navbar() {
             <MenuIcon fontSize="large" />
           )}
         </div>
-
         <ul
           style={{
             display: isActive && 'flex',

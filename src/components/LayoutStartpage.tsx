@@ -6,7 +6,7 @@ export default function LayoutStartpage() {
   return (
     <StyledLandingPageWrapper>
       <div className="landingpage-box blue">
-        <StyledImageWrapper maxHeight="20rem">
+        <StyledImageWrapper>
           <img src="/assets/flowers.png" />
         </StyledImageWrapper>
       </div>

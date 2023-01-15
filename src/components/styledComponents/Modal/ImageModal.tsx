@@ -11,11 +11,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import CloseIcon from '@mui/icons-material/Close'
 // MODELS //
 import { IMeditation } from '../../../models/IMeditation'
-// UTILS //
-import { getFavorites } from '../../../utils/getFavorites'
+// SERVICES //
+import { getFavorites } from '../../../services/getFavorites'
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
-import { saveProgress } from '../../../utils/saveProgress'
+import { saveProgress } from '../../../services/saveProgress'
 
 interface IModalProps {
   meditation: IMeditation
