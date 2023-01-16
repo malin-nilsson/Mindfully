@@ -24,8 +24,8 @@ export const StyledImageWrapper = styled.span`
 
   .profile-picture {
     border-radius: 50%;
-    height: 8rem;
-    width: 8rem;
+    height: 6.5rem;
+    width: 6.5rem;
   }
 
   .image {
@@ -37,10 +37,11 @@ export const StyledImageWrapper = styled.span`
       right: 0;
       display: flex;
       background-color: var(--dark-beige);
+      border: 1px solid var(--dark-blue);
       border-radius: 50%;
       padding: 0.5rem;
       margin-right: -10px;
-      margin-bottom: -5px;
+      margin-bottom: -10px;
       transition: transform 0.2s ease-in-out;
 
       &:hover {

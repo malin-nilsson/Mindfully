@@ -44,6 +44,7 @@ export const StyledFlexWrapper = styled.div`
   position: ${(props: IStylingProps) => props.position || ''};
   top: ${(props: IStylingProps) => props.top || ''};
   left: ${(props: IStylingProps) => props.left || ''};
+  border: ${(props: IStylingProps) => props.border || ''};
   box-sizing: border-box;
 
   span {

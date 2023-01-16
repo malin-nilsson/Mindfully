@@ -3,7 +3,10 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { IUser } from '../../models/IUser'
 // STYLED COMPONENTS //
 import { StyledProfileCard } from '../styledComponents/Cards/Cards'
-import { StyledHeadingXL } from '../styledComponents/Headings/StyledHeadings'
+import {
+  StyledHeadingL,
+  StyledHeadingXL,
+} from '../styledComponents/Headings/StyledHeadings'
 import {
   StyledButtonWrapper,
   StyledFlexWrapper,
@@ -26,9 +29,8 @@ import { setDoc, doc } from 'firebase/firestore'
 import { motion } from 'framer-motion'
 // MUI //
 import CheckIcon from '@mui/icons-material/Check'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera'
-// UTLS //
+// SERVICES //
 import { getUser } from '../../services/getUser'
 
 export default function Profile() {
@@ -40,6 +42,7 @@ export default function Profile() {
   const [newFirstName, setNewFirstName] = useState('')
   const [newEmail, setNewEmail] = useState('')
   const [newPassword, setNewPassword] = useState('')
+  const [firstCharacter, setFirstCharacter] = useState('')
   const [profilePicture, setProfilePicture] = useState<File>()
   const [pictureURL, setPictureURL] = useState('')
   const [uploadPicture, setUploadPicture] = useState(false)
@@ -62,6 +65,8 @@ export default function Profile() {
     const user: IUser = await getUser()
     setNewFirstName(user.firstName as string)
     setNewEmail(user.email as string)
+    const firstCharacter = user.firstName && user.firstName.charAt(0)
+    setFirstCharacter(firstCharacter as string)
     getProfilePicture()
   }
 
@@ -283,7 +288,21 @@ export default function Profile() {
                       </div>
                     ) : (
                       <div className="image">
-                        <AccountCircleIcon style={{ fontSize: '6rem' }} />
+                        <StyledFlexWrapper
+                          borderRadius="50%"
+                          height="6.5rem"
+                          width="6.5rem"
+                          bgColor="var(--light-beige)"
+                          border="1px solid var(--light-beige)"
+                        >
+                          <StyledHeadingL
+                            color="var(--dark-blue)"
+                            fontSize="2.4rem"
+                          >
+                            {firstCharacter}
+                          </StyledHeadingL>{' '}
+                        </StyledFlexWrapper>
+
                         <span
                           className="upload-icon"
                           onClick={() => {
