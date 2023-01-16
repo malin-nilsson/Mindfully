@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 // STYLED COMPONENTS/
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrappers'
@@ -16,6 +17,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled'
 import StopCircleIcon from '@mui/icons-material/StopCircle'
 import { Slider } from '@mui/material'
+import { Snackbar } from '@mui/material'
 // MODELS //
 import { IMeditation } from '../../../models/IMeditation'
 // DATE FNS //
@@ -23,6 +25,8 @@ import { differenceInSeconds } from 'date-fns'
 // SERVICES //
 import { getFavorites } from '../../../services/getFavorites'
 import { saveProgress } from '../../../services/saveProgress'
+// FRAMER MOTION //
+import { motion } from 'framer-motion'
 
 interface IModalProps {
   meditation: IMeditation
@@ -35,6 +39,7 @@ export default function VideoModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
   const [isMeditating, setIsMeditating] = useState(false)
   const [sliderValue, setSliderValue] = useState(5)
+  const [snackbar, setSnackbar] = useState(false)
   const [startTime, setStartTime] = useState<Date | number>()
   const audioRef = useRef<HTMLAudioElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -172,7 +177,15 @@ export default function VideoModal(props: IModalProps) {
     if (time === 0 || Number.isNaN(time)) return
 
     saveProgress(meditation)
+    setSnackbar(true)
   }
+
+  // SNACKBAR CLOSE ICON //
+  const action = (
+    <React.Fragment>
+      <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
+    </React.Fragment>
+  )
 
   return (
     <StyledVideo>
@@ -381,6 +394,31 @@ export default function VideoModal(props: IModalProps) {
           </StyledFlexWrapper>
         </StyledFlexWrapper>
       </div>
+      {snackbar && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Snackbar
+            ContentProps={{
+              sx: {
+                background: 'var(--mid-blue)',
+                color: 'var(--dark-beige)',
+                border: '1px solid var(--dark-beige)',
+                fontSize: '1rem',
+              },
+            }}
+            open={snackbar}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+            autoHideDuration={5000}
+            message="Your meditation time has been saved &nbsp; &#127942;"
+            onClose={() => setSnackbar(false)}
+            action={action}
+          />
+        </motion.div>
+      )}
     </StyledVideo>
   )
 }

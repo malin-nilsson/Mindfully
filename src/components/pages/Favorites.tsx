@@ -172,7 +172,7 @@ export default function Favorites() {
             open={snackbar}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             autoHideDuration={4000}
-            message="Your progress has been saved &nbsp; &nbsp; &#127942;"
+            message="Your progress has been saved &nbsp; &#127942;"
             onClose={() => setSnackbar(false)}
             action={action}
           />

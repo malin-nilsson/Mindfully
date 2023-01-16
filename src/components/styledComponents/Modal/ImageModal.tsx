@@ -18,6 +18,7 @@ import { getFavorites } from '../../../services/getFavorites'
 import { saveProgress } from '../../../services/saveProgress'
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
+// FRAMER MOTION //
 import { motion } from 'framer-motion'
 
 interface IModalProps {
@@ -31,6 +32,7 @@ export default function ImageModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
   const [isMeditating, setIsMeditating] = useState(false)
   const [snackbar, setSnackbar] = useState(false)
+  const [alternativeSnackbar, setAlternativeSnackbar] = useState(false)
   const [startTime, setStartTime] = useState<Date | number>()
   const [intervalNo, setintervalNo] = useState<ReturnType<
     typeof setInterval
@@ -93,7 +95,11 @@ export default function ImageModal(props: IModalProps) {
     setintervalNo(interval)
   }
 
-  // SNACKBAR CLOSE ICON //
+  // SNACKBAR //
+  const handleSnackbar = () => {
+    setAlternativeSnackbar(true)
+  }
+
   const action = (
     <React.Fragment>
       <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
@@ -169,6 +175,7 @@ export default function ImageModal(props: IModalProps) {
           handleTime={handleTime}
           handleInterval={handleInterval}
           stopMeditation={stopMeditation}
+          handleSnackbar={handleSnackbar}
         ></Animation>
         {snackbar && (
           <motion.div
@@ -191,6 +198,31 @@ export default function ImageModal(props: IModalProps) {
               autoHideDuration={6000}
               message="We're saving your progress as you meditate &nbsp; &#128171;"
               onClose={() => setSnackbar(false)}
+              action={action}
+            />
+          </motion.div>
+        )}
+        {alternativeSnackbar && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Snackbar
+              ContentProps={{
+                sx: {
+                  background: 'var(--mid-blue)',
+                  color: 'var(--dark-beige)',
+                  border: '1px solid var(--dark-beige)',
+                  fontSize: '0.9rem',
+                },
+              }}
+              open={alternativeSnackbar}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              autoHideDuration={6000}
+              message="Your meditation time has been saved &nbsp; &#128171;"
+              onClose={() => setAlternativeSnackbar(false)}
               action={action}
             />
           </motion.div>

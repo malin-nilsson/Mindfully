@@ -14,6 +14,7 @@ interface IAnimationProps {
   handleTime: (time: Date | number) => void
   handleInterval: (interval: NodeJS.Timer) => void
   stopMeditation: () => void
+  handleSnackbar: () => void
 }
 
 export default function Animation(props: IAnimationProps) {
@@ -160,6 +161,7 @@ export default function Animation(props: IAnimationProps) {
       return
     }
     saveProgress(meditation)
+    props.handleSnackbar()
   }
 
   const handleInterval = (interval: NodeJS.Timer) => {
@@ -178,10 +180,11 @@ export default function Animation(props: IAnimationProps) {
 
     // After five breaths, stop medtitation
     if (breath > 5 && ball.current && outerContainer.current && text.current) {
-      stopMeditation()
       ball.current.style.animationPlayState = 'paused'
       outerContainer.current.classList.remove('grow-five')
       text.current.innerHTML = 'Session completed &#127882;'
+      stopMeditation()
+
       return
     }
     // Until then, keep going
