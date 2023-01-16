@@ -102,7 +102,7 @@ export const StyledFlexWrapper = styled.div`
     box-sizing: border-box;
 
     @media ${devices.tablet} {
-      width: 80%;
+      width: 85%;
       padding: 1.5rem 2rem;
     }
 

@@ -239,7 +239,7 @@ export default function Favorites() {
             </StyledFlexWrapper>
 
             {noFavorites || (favorites && favorites.length < 1) ? (
-              <StyledFlexWrapper color="var(--dark-beige)">
+              <StyledFlexWrapper color="var(--dark-beige)" padding="0 2rem">
                 <p>
                   Tap the heart icon on any meditation to add it to your
                   Favorites list.
