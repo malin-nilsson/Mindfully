@@ -69,19 +69,19 @@ export const StyledImageModal = styled.div`
     }
 
     @media ${devices.desktop} {
-      width: 50%;
+      width: 45%;
     }
 
     p {
       margin: 0.2rem 0 0.4rem;
       padding: 0.5rem;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 300;
       text-align: center;
 
       @media ${devices.desktop} {
         padding: 0.2rem 0;
-        line-height: 1.4rem;
+        line-height: 1.3rem;
       }
     }
   }

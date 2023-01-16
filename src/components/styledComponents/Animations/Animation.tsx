@@ -1,5 +1,7 @@
+import { differenceInSeconds } from 'date-fns'
 import { useRef, useState } from 'react'
 import { IMeditation } from '../../../models/IMeditation'
+import { saveProgress } from '../../../services/saveProgress'
 import { StyledButton } from '../Button/StyledButton'
 import { StyledAnimation } from './StyledAnimation'
 
@@ -13,6 +15,9 @@ interface IAnimationProps {
 export default function Animation(props: IAnimationProps) {
   const [isMeditating, setIsMeditating] = useState(false)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [intervalNo, setintervalNo] = useState<ReturnType<
+    typeof setInterval
+  > | null>(null)
   // Refs for animation
   const outerContainer = useRef<HTMLDivElement | null>(null)
   const circle = useRef<HTMLDivElement | null>(null)
@@ -31,13 +36,13 @@ export default function Animation(props: IAnimationProps) {
   }
 
   const handleFiveBreaths = () => {
-    props.handleTime(new Date())
+    handleTime(new Date())
     fiveMindfulBreaths()
   }
 
-  ////////////////////
-  /// BOX BREATHING //
-  ////////////////////
+  //////////////////////////////
+  /// BOX BREATHING ANIMATION //
+  /////////////////////////////
   const boxBreathing = () => {
     setIsMeditating(true)
 
@@ -78,9 +83,9 @@ export default function Animation(props: IAnimationProps) {
     }
   }
 
-  //////////////////////
-  /// 4-7-8 BREATHING //
-  //////////////////////
+  ////////////////////////////////
+  /// 4-7-8 BREATHING ANIMATION //
+  ////////////////////////////////
   const fourBreathing = () => {
     setIsMeditating(true)
 
@@ -123,19 +128,53 @@ export default function Animation(props: IAnimationProps) {
     }
   }
 
-  //////////////////////////
-  // FIVE MINDFUL BREATHS //
-  //////////////////////////
+  ///////////////////////////////////////////////
+  // STOP FIVE MINDFUL BREATHS & SAVE PROGRESS //
+  ///////////////////////////////////////////////
+  /* We have to handle Five Mindful Breaths in this
+  component due to different functionality */
+  let startTime: number | Date
+  const handleTime = (time: number | Date) => {
+    startTime = time
+  }
+  const stopMeditation = () => {
+    setIsMeditating(false)
+    clearInterval(intervalNo as NodeJS.Timer)
+    // get time / results & save
+    const result = differenceInSeconds(new Date(), startTime as number)
+    saveTime(result)
+  }
+  const saveTime = async (time: number) => {
+    const meditation = {
+      seconds: time,
+      meditation: props.meditation,
+      id: Math.floor(100000 + Math.random() * 900000),
+      date: new Date().toDateString(),
+    }
+
+    if (time === 0 || Number.isNaN(time)) {
+      return
+    }
+    saveProgress(meditation)
+  }
+
+  const handleInterval = (interval: NodeJS.Timer) => {
+    setintervalNo(interval)
+  }
+
+  ////////////////////////////////////
+  // FIVE MINDFUL BREATHS ANIMATION //
+  ////////////////////////////////////
   let breath = 0
   const fiveMindfulBreaths = () => {
     setIsMeditating(true)
     if (interval.current) clearInterval(interval.current)
     breath++
-    interval.current && props.handleInterval(interval.current)
+    interval.current && handleInterval(interval.current)
 
     // After five breaths, stop medtitation
     if (breath > 5 && ball.current && outerContainer.current && text.current) {
-      props.stopMeditation()
+      stopMeditation()
       ball.current.style.animationPlayState = 'paused'
       outerContainer.current.classList.remove('grow-five')
       text.current.innerHTML = 'Session completed &#127882;'

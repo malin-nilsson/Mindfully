@@ -191,7 +191,9 @@ export const StyledAnimation = styled.div`
       width: 30%;
     }
     @media ${devices.desktop} {
-      width: 10%;
+      width: auto;
+      padding: 0.5rem 1.3rem;
+      font-size: 0.9rem;
     }
   }
 `

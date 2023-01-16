@@ -52,6 +52,7 @@ export default function ImageModal(props: IModalProps) {
 
   const handleTime = (time: number | Date) => {
     setStartTime(time)
+    console.log(time)
   }
 
   ////////////////////////////
@@ -69,6 +70,7 @@ export default function ImageModal(props: IModalProps) {
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
   const saveTime = async (time: number) => {
+    console.log(time)
     const meditation = {
       seconds: time,
       meditation: props.meditation,
@@ -80,8 +82,8 @@ export default function ImageModal(props: IModalProps) {
       props.closeModal()
       return
     }
-    props.closeModal(true)
     saveProgress(meditation)
+    props.closeModal(true)
   }
 
   const handleInterval = (interval: NodeJS.Timer) => {
@@ -144,7 +146,7 @@ export default function ImageModal(props: IModalProps) {
         </StyledImageWrapper>
       </StyledFlexWrapper>
       <StyledFlexWrapper padding="0" gap="0.5rem">
-        <StyledHeadingM color="var(--dark-blue)">
+        <StyledHeadingM color="var(--dark-blue)" fontSize="1.85rem">
           {props.meditation.title}
         </StyledHeadingM>
         <div className="description">

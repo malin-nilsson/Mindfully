@@ -234,7 +234,7 @@ export default function Login() {
               </p>
             </StyledForm>
             <div className="copyright">
-              &#169; Malin Nilsson, 2023,{' '}
+              &#169; Malin Nilsson 2023,{' '}
               <a href="https://www.github.com/malin-nilsson" target="_blank">
                 {' '}
                 Github

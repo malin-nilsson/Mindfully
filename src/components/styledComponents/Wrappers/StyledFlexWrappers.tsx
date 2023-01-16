@@ -106,7 +106,7 @@ export const StyledFlexWrapper = styled.div`
     }
 
     @media ${devices.desktop} {
-      width: 65%;
+      width: 70%;
       gap: 1.5rem;
     }
 
@@ -135,7 +135,7 @@ export const StyledFlexWrapper = styled.div`
   .copyright {
     font-size: 0.75rem;
     margin-left: auto;
-    padding: 0 1.5rem;
+    padding: 0.5rem 1.5rem;
 
     a {
       color: #000;
