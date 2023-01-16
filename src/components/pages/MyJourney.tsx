@@ -238,7 +238,7 @@ export default function MyJourney() {
                     fontWeight="700"
                   >
                     {' '}
-                    {currentStreak} days
+                    {currentStreak} {currentStreak === 1 ? 'day' : 'days'}
                   </StyledHeadingS>
                 </StyledFlexWrapper>
               </StyledFlexWrapper>
