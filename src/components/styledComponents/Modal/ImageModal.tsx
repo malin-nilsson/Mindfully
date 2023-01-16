@@ -100,9 +100,18 @@ export default function ImageModal(props: IModalProps) {
     setAlternativeSnackbar(true)
   }
 
-  const action = (
+  const actionSnackbar = (
     <React.Fragment>
       <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
+    </React.Fragment>
+  )
+
+  const actionAlernativeSnackbar = (
+    <React.Fragment>
+      <CloseIcon
+        fontSize="small"
+        onClick={() => setAlternativeSnackbar(false)}
+      />
     </React.Fragment>
   )
 
@@ -198,7 +207,7 @@ export default function ImageModal(props: IModalProps) {
               autoHideDuration={6000}
               message="We're saving your progress as you meditate &nbsp; &#128171;"
               onClose={() => setSnackbar(false)}
-              action={action}
+              action={actionSnackbar}
             />
           </motion.div>
         )}
@@ -222,8 +231,10 @@ export default function ImageModal(props: IModalProps) {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               autoHideDuration={6000}
               message="Your meditation time has been saved &nbsp; &#128171;"
-              onClose={() => setAlternativeSnackbar(false)}
-              action={action}
+              onClose={() => {
+                setAlternativeSnackbar(false)
+              }}
+              action={actionAlernativeSnackbar}
             />
           </motion.div>
         )}
