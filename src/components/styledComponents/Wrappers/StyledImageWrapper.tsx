@@ -18,7 +18,7 @@ export const StyledImageWrapper = styled.span`
   }
 
   span {
-    font-size: 1rem;
+    font-size: 0.95rem;
     margin: 1rem 0;
   }
 

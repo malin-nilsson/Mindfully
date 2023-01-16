@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledFlexWrapper } from '../Wrappers/StyledFlexWrappers'
@@ -9,14 +10,15 @@ import { StyledImageModal } from './StyledImageModal'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import CloseIcon from '@mui/icons-material/Close'
+import { Snackbar } from '@mui/material'
 // MODELS //
 import { IMeditation } from '../../../models/IMeditation'
 // SERVICES //
 import { getFavorites } from '../../../services/getFavorites'
 import { saveProgress } from '../../../services/saveProgress'
-
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
+import { motion } from 'framer-motion'
 
 interface IModalProps {
   meditation: IMeditation
@@ -28,6 +30,7 @@ interface IModalProps {
 export default function ImageModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
   const [isMeditating, setIsMeditating] = useState(false)
+  const [snackbar, setSnackbar] = useState(false)
   const [startTime, setStartTime] = useState<Date | number>()
   const [intervalNo, setintervalNo] = useState<ReturnType<
     typeof setInterval
@@ -53,7 +56,7 @@ export default function ImageModal(props: IModalProps) {
 
   const handleTime = (time: number | Date) => {
     setStartTime(time)
-    console.log(time)
+    setSnackbar(true)
   }
 
   /////////////////////////////
@@ -71,7 +74,6 @@ export default function ImageModal(props: IModalProps) {
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
   const saveTime = async (time: number) => {
-    console.log(time)
     const meditation = {
       seconds: time,
       meditation: props.meditation,
@@ -91,75 +93,109 @@ export default function ImageModal(props: IModalProps) {
     setintervalNo(interval)
   }
 
-  return (
-    <StyledImageModal
-      backgroundImage={`url(${props.meditation.image?.asset.url})`}
-    >
-      <StyledFlexWrapper
-        align="flex-end"
-        justify="flex-end"
-        direction="row"
-        className="modal-wrapper"
-        width="auto"
-        margin="unset"
-        gap="1rem"
-      >
-        <StyledImageWrapper
-          borderRadius="50%"
-          background="var(--dark-blue)"
-          padding="0.6rem"
-          className="icon"
-          role="button"
-          tabIndex={0}
-          onClick={() => {
-            if (fillHeart) {
-              setFillHeart(false)
-              props.handleRemoveFavorite(props.meditation)
-            } else {
-              setFillHeart(true)
-              props.handleSaveFavorite(props.meditation)
-            }
-          }}
-        >
-          {fillHeart ? (
-            <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="medium" />
-          ) : (
-            <FavoriteBorderIcon
-              style={{ color: '#f7dba8' }}
-              fontSize="medium"
-            />
-          )}
-        </StyledImageWrapper>
+  // SNACKBAR CLOSE ICON //
+  const action = (
+    <React.Fragment>
+      <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />
+    </React.Fragment>
+  )
 
-        <StyledImageWrapper
+  return (
+    <>
+      <StyledImageModal
+        backgroundImage={`url(${props.meditation.image?.asset.url})`}
+      >
+        <StyledFlexWrapper
           align="flex-end"
-          borderRadius="50%"
-          background="var(--dark-blue)"
-          padding="0.6rem"
-          className="icon"
-          role="button"
-          tabIndex={0}
-          onClick={() => {
-            stopMeditation()
-          }}
+          justify="flex-end"
+          direction="row"
+          className="modal-wrapper"
+          width="auto"
+          margin="unset"
+          gap="1rem"
         >
-          <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
-        </StyledImageWrapper>
-      </StyledFlexWrapper>
-      <StyledFlexWrapper padding="0" gap="0.5rem">
-        <StyledHeadingM color="var(--dark-blue)" fontSize="1.85rem">
-          {props.meditation.title}
-        </StyledHeadingM>
-        <div className="description">
-          <p>{props.meditation.description}</p>
-        </div>
-      </StyledFlexWrapper>
-      <Animation
-        meditation={props.meditation}
-        handleTime={handleTime}
-        handleInterval={handleInterval}
-        stopMeditation={stopMeditation}
-      ></Animation>
-    </StyledImageModal>
+          <StyledImageWrapper
+            borderRadius="50%"
+            background="var(--dark-blue)"
+            padding="0.6rem"
+            className="icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              if (fillHeart) {
+                setFillHeart(false)
+                props.handleRemoveFavorite(props.meditation)
+              } else {
+                setFillHeart(true)
+                props.handleSaveFavorite(props.meditation)
+              }
+            }}
+          >
+            {fillHeart ? (
+              <FavoriteIcon style={{ color: '#f7dba8' }} fontSize="medium" />
+            ) : (
+              <FavoriteBorderIcon
+                style={{ color: '#f7dba8' }}
+                fontSize="medium"
+              />
+            )}
+          </StyledImageWrapper>
+
+          <StyledImageWrapper
+            align="flex-end"
+            borderRadius="50%"
+            background="var(--dark-blue)"
+            padding="0.6rem"
+            className="icon"
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              stopMeditation()
+            }}
+          >
+            <CloseIcon style={{ color: '#f7dba8' }} fontSize="medium" />
+          </StyledImageWrapper>
+        </StyledFlexWrapper>
+        <StyledFlexWrapper padding="0" gap="0.5rem">
+          <StyledHeadingM color="var(--dark-blue)" fontSize="1.85rem">
+            {props.meditation.title}
+          </StyledHeadingM>
+          <div className="description">
+            <p>{props.meditation.description}</p>
+          </div>
+        </StyledFlexWrapper>
+        <Animation
+          meditation={props.meditation}
+          handleTime={handleTime}
+          handleInterval={handleInterval}
+          stopMeditation={stopMeditation}
+        ></Animation>
+        {snackbar && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Snackbar
+              ContentProps={{
+                sx: {
+                  background: 'var(--mid-blue)',
+                  color: 'var(--dark-beige)',
+                  border: '1px solid var(--dark-beige)',
+                  fontSize: '0.9rem',
+                },
+              }}
+              open={snackbar}
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              autoHideDuration={6000}
+              message="We're saving your progress as you meditate &nbsp; &#128171;"
+              onClose={() => setSnackbar(false)}
+              action={action}
+            />
+          </motion.div>
+        )}
+      </StyledImageModal>
+    </>
   )
 }
