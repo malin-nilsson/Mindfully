@@ -13,9 +13,10 @@ import CloseIcon from '@mui/icons-material/Close'
 import { IMeditation } from '../../../models/IMeditation'
 // SERVICES //
 import { getFavorites } from '../../../services/getFavorites'
+import { saveProgress } from '../../../services/saveProgress'
+
 // DATE-FNS //
 import { differenceInSeconds } from 'date-fns'
-import { saveProgress } from '../../../services/saveProgress'
 
 interface IModalProps {
   meditation: IMeditation
@@ -55,9 +56,9 @@ export default function ImageModal(props: IModalProps) {
     console.log(time)
   }
 
-  ////////////////////////////
+  /////////////////////////////
   // STOP MEDITATION / TIMER //
-  ////////////////////////////
+  /////////////////////////////
   const stopMeditation = () => {
     setIsMeditating(false)
     clearInterval(intervalNo as NodeJS.Timer)

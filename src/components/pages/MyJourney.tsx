@@ -45,6 +45,9 @@ export default function MyJourney() {
     showProgress()
   }, [])
 
+  /////////////////////////
+  // GET & SHOW PROGRESS //
+  /////////////////////////
   const showProgress = async () => {
     const sessions: IProgress[] = await getProgress()
 

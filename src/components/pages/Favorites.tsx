@@ -11,14 +11,13 @@ import Loader from '../styledComponents/Loader/StyledLoader'
 // MUI //
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import CloseIcon from '@mui/icons-material/Close'
-// FIRESTORE //
-import { getFavorites } from '../../services/getFavorites'
+import { Snackbar } from '@mui/material'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // SERVICES //
 import { removeFavorite } from '../../services/removeFavorite'
 import { saveFavorite } from '../../services/saveFavorite'
-import { Snackbar } from '@mui/material'
+import { getFavorites } from '../../services/getFavorites'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -76,6 +75,9 @@ export default function Favorites() {
     showFavorites()
   }, [favorites])
 
+  ///////////////////
+  // GET FAVORITES //
+  ///////////////////
   const showFavorites = async () => {
     const faves = await getFavorites()
 
@@ -88,6 +90,9 @@ export default function Favorites() {
     }
   }
 
+  ///////////
+  // MODAL //
+  ///////////
   const showModal = (m: IMeditation) => {
     setSelectedMeditation(m)
     setLoader(true)
@@ -114,6 +119,9 @@ export default function Favorites() {
     setLoader(false)
   }
 
+  //////////////////////////////////////
+  // HANDLE SAVING/REMOVING FAVORITES //
+  //////////////////////////////////////
   const handleSaveFavorite = async (m: IMeditation) => {
     setError(false)
     const updatedFavorites = (await saveFavorite(m)) as IMeditation[] | string
@@ -136,6 +144,7 @@ export default function Favorites() {
     }
   }
 
+  // SNACKBAR CLOSE ICON //
   const action = (
     <React.Fragment>
       <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />

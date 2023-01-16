@@ -18,7 +18,6 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  updateProfile,
   getAdditionalUserInfo,
 } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'

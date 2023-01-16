@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { Suspense, useEffect, useState } from 'react'
 // STYLED COMPONENTS //
 import {
@@ -17,7 +16,6 @@ import { motion } from 'framer-motion'
 import { getUser } from '../../services/getUser'
 // MUI //
 import { Snackbar } from '@mui/material'
-
 import SelfImprovementIcon from '@mui/icons-material/SelfImprovement'
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
 import CloseIcon from '@mui/icons-material/Close'
@@ -66,12 +64,19 @@ export default function Home() {
     greetUser()
   }, [])
 
+  ///////////////////////////////////
+  // GET NEW / FEATURED MEDITATION //
+  ///////////////////////////////////
   const getNewMeditation = async () => {
     const meditation: IMeditation = await getSpecificMeditation(
       'Five Mindful Breaths',
     )
     setSpecificMeditation(meditation)
   }
+
+  //////////////
+  // GREETING //
+  //////////////
   const greetUser = async () => {
     const user = await getUser()
     const name = user.firstName
@@ -95,6 +100,9 @@ export default function Home() {
     setLoader(false)
   }
 
+  ///////////
+  // MODAL //
+  //////////
   const showModal = (m: IMeditation) => {
     setLoader(true)
     setSpecificMeditation(m)
@@ -102,15 +110,18 @@ export default function Home() {
     setTimeout(stopLoader, 2000)
   }
 
-  const stopLoader = () => {
-    setLoader(false)
-  }
-
   const hideModal = (progress?: boolean) => {
     setNewMeditation(false)
     setSnackbar(progress as boolean)
   }
 
+  const stopLoader = () => {
+    setLoader(false)
+  }
+
+  /////////////////////////////
+  // SAVE / REMOVE FAVORITES //
+  /////////////////////////////
   const handleSaveFavorite = async (m: IMeditation) => {
     saveFavorite(m)
   }
@@ -119,6 +130,7 @@ export default function Home() {
     await removeFavorite(m)
   }
 
+  // SNACKBAR CLOSE ICON //
   const action = (
     <React.Fragment>
       <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />

@@ -1,9 +1,13 @@
-import { differenceInSeconds } from 'date-fns'
 import { useRef, useState } from 'react'
+// DATE FNS //
+import { differenceInSeconds } from 'date-fns'
+// MODELS //
 import { IMeditation } from '../../../models/IMeditation'
-import { saveProgress } from '../../../services/saveProgress'
+// STYLED COMPONENTS //
 import { StyledButton } from '../Button/StyledButton'
 import { StyledAnimation } from './StyledAnimation'
+// SERVICES //
+import { saveProgress } from '../../../services/saveProgress'
 
 interface IAnimationProps {
   meditation: IMeditation

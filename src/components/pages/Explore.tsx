@@ -17,6 +17,7 @@ import AudiotrackIcon from '@mui/icons-material/Audiotrack'
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 import AppsIcon from '@mui/icons-material/Apps'
 import CloseIcon from '@mui/icons-material/Close'
+import { Snackbar } from '@mui/material'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
 // SERVICES //
@@ -24,7 +25,6 @@ import { getFavorites } from '../../services/getFavorites'
 import { getMeditations } from '../../services/getMeditations'
 import { saveFavorite } from '../../services/saveFavorite'
 import { removeFavorite } from '../../services/removeFavorite'
-import { Snackbar } from '@mui/material'
 
 const VideoModal = React.lazy(() =>
   import('../styledComponents/Modal/VideoModal'),
@@ -87,6 +87,7 @@ export default function Explore() {
     showMeditations()
   }, [dependencyExpression])
 
+  // GET & SHOW MEDITATIONS //
   const showMeditations = async () => {
     const meditations: IMeditation[] = await getMeditations()
     setAllMeditations(meditations)
@@ -110,6 +111,9 @@ export default function Explore() {
     }
   }
 
+  /////////////////////////////////////
+  // CHECK IF MEDITATION IS FAVORITE //
+  /////////////////////////////////////
   const checkIfFavorite = (m: IMeditation) => {
     return favorites?.includes(m)
   }
@@ -164,6 +168,9 @@ export default function Explore() {
     setLoader(false)
   }
 
+  //////////////////////////////////////
+  // HANDLE SAVING/REMOVING FAVORITES //
+  //////////////////////////////////////
   const handleSaveFavorite = async (m: IMeditation) => {
     setError(false)
     const updatedFavorites = (await saveFavorite(m)) as IMeditation[] | string
@@ -186,6 +193,7 @@ export default function Explore() {
     }
   }
 
+  // SNACKBAR CLOSE ICON //
   const action = (
     <React.Fragment>
       <CloseIcon fontSize="small" onClick={() => setSnackbar(false)} />

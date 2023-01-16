@@ -127,9 +127,9 @@ export default function VideoModal(props: IModalProps) {
     }
   }
 
-  ////////////////////////////
+  //////////////////////////////
   // START MEDITATION / TIMER //
-  ////////////////////////////
+  /////////////////////////////
   const startMeditation = () => {
     // start video & audio
     audioRef.current?.play()
@@ -141,7 +141,7 @@ export default function VideoModal(props: IModalProps) {
     setIsMeditating(true)
   }
 
-  ////////////////////////////
+  /////////////////////////////
   // STOP MEDITATION / TIMER //
   ////////////////////////////
   const stopMeditation = () => {

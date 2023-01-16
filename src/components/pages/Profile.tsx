@@ -61,6 +61,9 @@ export default function Profile() {
     getUserInfo()
   }, [])
 
+  /////////////////////////////////
+  // GET USER INFO FROM FIREBASE //
+  /////////////////////////////////
   const getUserInfo = async () => {
     const user: IUser = await getUser()
     setNewFirstName(user.firstName as string)
