@@ -80,7 +80,7 @@ export default function ImageModal(props: IModalProps) {
       seconds: time,
       meditation: props.meditation,
       id: Math.floor(100000 + Math.random() * 900000),
-      date: new Date().toDateString(),
+      date: new Date().toISOString(),
     }
 
     if (time === 0 || Number.isNaN(time)) {

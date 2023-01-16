@@ -30,6 +30,7 @@ import { motion } from 'framer-motion'
 import { summary } from 'date-streaks'
 // REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
+import { format, parseISO } from 'date-fns'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
@@ -295,7 +296,12 @@ export default function MyJourney() {
                             <span>{toDaysMinutesSeconds(session.seconds)}</span>
                           </StyledFlexWrapper>
                           <StyledFlexWrapper width="100%">
-                            <span>{session.date}</span>
+                            <span>
+                              {format(
+                                parseISO(session.date),
+                                'eeee do MMM, yyyy',
+                              )}
+                            </span>
                           </StyledFlexWrapper>
                         </div>
                       )
