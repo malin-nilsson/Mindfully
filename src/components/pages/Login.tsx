@@ -235,7 +235,11 @@ export default function Login() {
             </StyledForm>
             <div className="copyright">
               &#169; Malin Nilsson 2023,{' '}
-              <a href="https://www.github.com/malin-nilsson" target="_blank">
+              <a
+                href="https://www.github.com/malin-nilsson"
+                target="_blank"
+                rel="noreferrer"
+              >
                 {' '}
                 Github
               </a>

@@ -1,12 +1,18 @@
 import { authUser } from '../fixtures/auth-user'
 import '../support/commands.ts'
 
+beforeEach(() => {
+  const { email, password } = authUser
+  cy.visit('http://localhost:3000')
+  cy.login(email, password)
+})
+
+afterEach(() => {
+  cy.logout()
+})
+
 describe('Save Progress Test', () => {
   it('should save meditation progress', () => {
-    const { email, password } = authUser
-    // Log in
-    cy.visit('http://localhost:3000')
-    cy.login(email, password)
     /* Go to progress page and store session 
     amount so we can use it later */
     cy.get('.mobile-menu-icon').click()
@@ -32,6 +38,5 @@ describe('Save Progress Test', () => {
         expect(newSessionAmount).to.equal(oldSessionAmount + 1)
       })
     })
-    cy.logout()
   })
 })
