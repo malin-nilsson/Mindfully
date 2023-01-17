@@ -216,7 +216,7 @@ export default function VideoModal(props: IModalProps) {
           direction="row"
           width="auto"
           margin="unset"
-          gap="1rem"
+          gap="0.5rem"
           className="modal-wrapper"
         >
           <StyledImageWrapper

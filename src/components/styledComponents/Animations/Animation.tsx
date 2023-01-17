@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 // DATE FNS //
 import { differenceInSeconds } from 'date-fns'
 // MODELS //
@@ -29,6 +29,10 @@ export default function Animation(props: IAnimationProps) {
   const text = useRef<HTMLParagraphElement | null>(null)
   const ball = useRef<HTMLDivElement | null>(null)
   const button = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    applyClass()
+  }, [])
 
   const handleFourBreathing = () => {
     props.handleTime(new Date())

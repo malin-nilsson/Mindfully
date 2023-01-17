@@ -120,7 +120,7 @@ export const StyledFlexWrapper = styled.div`
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 0.2rem 0;
+      padding: 0.2rem 0 0.6rem;
       border-bottom: 1px solid var(--mid-blue);
     }
   }
