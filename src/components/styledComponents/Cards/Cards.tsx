@@ -14,10 +14,13 @@ export const StyledHomeCard = styled.div`
   border: ${(props: IStylingProps) =>
     props.border || '1px solid var(--dark-beige)'};
   padding: ${(props: IStylingProps) => props.padding || '1rem 2.5rem'};
-
   border-radius: 0.5rem;
-  width: ${(props: IStylingProps) => props.width || '17rem'};
+  width: ${(props: IStylingProps) => props.width || 'auto'};
   transition: transform 0.2s ease-in-out;
+
+  @media ${devices.tablet} {
+    width: ${(props: IStylingProps) => props.width || '17rem'};
+  }
 
   &:hover {
     cursor: pointer;
