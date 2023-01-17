@@ -3,7 +3,6 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledImageModal = styled.div`
-  height: 100%;
   width: 100vw;
   background: black;
   display: flex;
@@ -18,9 +17,11 @@ export const StyledImageModal = styled.div`
   left: 0;
   z-index: 20;
   overflow: hidden;
+  padding-bottom: 15rem;
 
   @media ${devices.tablet} {
     height: 100vh;
+    padding-bottom: unset;
   }
 
   @media ${devices.desktop} {
