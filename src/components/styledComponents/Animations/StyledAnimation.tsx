@@ -196,4 +196,15 @@ export const StyledAnimation = styled.div`
       font-size: 0.9rem;
     }
   }
+
+  /* SAFARI */
+  .animation-inner-container,
+  .animation-ball:not(:root:root) {
+    outline: none;
+    border: 1px solid var(--light-beige);
+  }
+  .animation-ball:not(:root:root) {
+    outline: none;
+    border: 1px solid var(--light-blue);
+  }
 `

@@ -30,7 +30,6 @@ import { motion } from 'framer-motion'
 import { summary } from 'date-streaks'
 // REACT ROUTER //
 import { useNavigate } from 'react-router-dom'
-import { format, parseISO } from 'date-fns'
 
 export default function MyJourney() {
   const [progress, setProgress] = useState<IProgress[]>()
@@ -54,7 +53,7 @@ export default function MyJourney() {
 
     if (sessions) {
       sessions.sort((a, b) => {
-        return +new Date(b.date) - +new Date(a.date)
+        return +a.date - +b.date || b.seconds - a.seconds
       })
       setProgress(sessions as IProgress[])
       setLoader(false)
@@ -137,8 +136,10 @@ export default function MyJourney() {
               <StyledFlexWrapper
                 direction="row"
                 align="center"
+                justify="space-around"
                 margin="0 0.5rem"
                 flexWrap="nowrap"
+                className="safari_only"
               >
                 <StyledFlexWrapper>
                   <StyledImageWrapper
@@ -175,6 +176,7 @@ export default function MyJourney() {
                 direction="row"
                 margin="0 0.5rem"
                 flexWrap="nowrap"
+                className="safari_only"
               >
                 <StyledFlexWrapper align="flex-start">
                   <StyledImageWrapper
@@ -212,6 +214,7 @@ export default function MyJourney() {
                 flexWrap="nowrap"
                 direction="row"
                 margin="0 0.5rem"
+                className="safari_only"
               >
                 <StyledFlexWrapper align="flex-start">
                   <StyledImageWrapper
@@ -296,12 +299,7 @@ export default function MyJourney() {
                             <span>{toDaysMinutesSeconds(session.seconds)}</span>
                           </StyledFlexWrapper>
                           <StyledFlexWrapper width="100%">
-                            <span>
-                              {format(
-                                parseISO(session.date),
-                                'eeee do MMM, yyyy',
-                              )}
-                            </span>
+                            <span>{session.date.replace(/,/g, '')}</span>
                           </StyledFlexWrapper>
                         </div>
                       )

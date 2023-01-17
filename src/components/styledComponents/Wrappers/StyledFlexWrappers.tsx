@@ -53,13 +53,11 @@ export const StyledFlexWrapper = styled.div`
   }
 
   .favorites-wrapper {
-    @media ${devices.tablet} {
-      width: 100%;
-      margin: 2rem 0;
-    }
+    width: 100%;
+    box-sizing: border-box;
 
-    @media ${devices.desktop} {
-      width: 100%;
+    @media ${devices.tablet} {
+      margin: 2rem 0;
     }
   }
 
@@ -367,5 +365,10 @@ export const StyledProgressWrapper = styled.div`
   @media ${devices.desktop} {
     padding: 2rem;
     width: 85%;
+  }
+
+  /* SAFARI */
+  .safari_only:not(:root:root) {
+    margin: 0.5rem 0;
   }
 `

@@ -70,6 +70,7 @@ export const StyledMeditationCard = styled.div`
   border-radius: 15px;
   justify-content: center;
   height: 11rem;
+  margin: 0.5rem 1rem;
 
   &:hover {
     cursor: pointer;
