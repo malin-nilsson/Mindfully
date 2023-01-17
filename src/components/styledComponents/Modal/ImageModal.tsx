@@ -76,11 +76,18 @@ export default function ImageModal(props: IModalProps) {
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
   const saveTime = async (time: number) => {
+    const timeFormat: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }
+
     const meditation = {
       seconds: time,
       meditation: props.meditation,
       id: Math.floor(100000 + Math.random() * 900000),
-      date: new Date().toISOString(),
+      date: new Date().toLocaleDateString('en-US', timeFormat),
     }
 
     if (time === 0 || Number.isNaN(time)) {
@@ -127,7 +134,7 @@ export default function ImageModal(props: IModalProps) {
           className="modal-wrapper"
           width="auto"
           margin="unset"
-          gap="1rem"
+          gap="0.5rem"
         >
           <StyledImageWrapper
             borderRadius="50%"

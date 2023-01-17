@@ -3,7 +3,7 @@ import { devices } from '../../breakpoints/Breakpoints'
 import { IStylingProps } from '../models/IStylingProps'
 
 export const StyledImageModal = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   background: black;
   display: flex;
@@ -18,6 +18,10 @@ export const StyledImageModal = styled.div`
   left: 0;
   z-index: 20;
   overflow: hidden;
+
+  @media ${devices.tablet} {
+    height: 100vh;
+  }
 
   @media ${devices.desktop} {
     justify-content: flex-start;

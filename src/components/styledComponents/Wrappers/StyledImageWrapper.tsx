@@ -50,4 +50,9 @@ export const StyledImageWrapper = styled.span`
       }
     }
   }
+
+  //SAFARI //
+  :not(:root:root) {
+    margin-right: 0.5rem;
+  }
 `

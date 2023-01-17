@@ -150,11 +150,18 @@ export default function Animation(props: IAnimationProps) {
     saveTime(result)
   }
   const saveTime = async (time: number) => {
+    const timeFormat: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }
+
     const meditation = {
       seconds: time,
       meditation: props.meditation,
       id: Math.floor(100000 + Math.random() * 900000),
-      date: new Date().toDateString(),
+      date: new Date().toLocaleDateString('en-US', timeFormat),
     }
 
     if (time === 0 || Number.isNaN(time)) {
@@ -243,7 +250,7 @@ export default function Animation(props: IAnimationProps) {
   return (
     <StyledAnimation>
       <div ref={outerContainer} className="animation-outer-container">
-        <div className="animation-inner-container"></div>
+        <div className="animation-inner-container safari_only"></div>
         <div ref={circle} className="animate-circle" id="animate-circle">
           <p ref={text} className="animation-text">
             Ready?
