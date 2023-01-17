@@ -167,11 +167,18 @@ export default function VideoModal(props: IModalProps) {
   // SAVE PROGRESS IN FIRESTORE //
   ////////////////////////////////
   const saveTime = async (time: number) => {
+    const timeFormat: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    }
+
     const meditation = {
       seconds: time,
       meditation: props.meditation,
       id: Math.floor(100000 + Math.random() * 900000),
-      date: new Date().toISOString(),
+      date: new Date().toLocaleDateString('en-US', timeFormat),
     }
 
     if (time === 0 || Number.isNaN(time)) return
@@ -191,8 +198,15 @@ export default function VideoModal(props: IModalProps) {
     <StyledVideo>
       <div className="video-container">
         <div className="video">
-          <video ref={videoRef} loop muted>
+          <video
+            ref={videoRef}
+            poster={props.meditation.image?.asset.url}
+            loop
+            muted
+            playsInline
+          >
             <source src={props.meditation.video?.asset.url} />
+            Your browser does not support the video tag.
           </video>
         </div>
 
