@@ -1,5 +1,3 @@
-Meditation app built with React, Firebase and Sanity.io.
-
 # Mindfully meditation app ☁️
 Final project in Front End Development at Medieinstitutet.
 
