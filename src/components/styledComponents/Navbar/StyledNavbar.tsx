@@ -17,6 +17,7 @@ import PersonIcon from '@mui/icons-material/Person'
 import AppsIcon from '@mui/icons-material/Apps'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
+import LogoutIcon from '@mui/icons-material/Logout'
 // SERVICES //
 import { getAuth, signOut } from 'firebase/auth'
 
@@ -114,7 +115,7 @@ export default function Navbar() {
                 signOut(auth)
               }}
             >
-              Sign out
+              <LogoutIcon /> Sign out
             </StyledButton>
           </StyledFlexWrapper>
         </ul>

@@ -80,9 +80,13 @@ export const StyledImageModal = styled.div`
     p {
       margin: 0.2rem 0 0.4rem;
       padding: 0.5rem;
-      font-size: 0.9rem;
+      font-size: 1rem;
       font-weight: 300;
       text-align: center;
+
+      @media ${devices.tablet} {
+        font-size: 0.9rem;
+      }
 
       @media ${devices.desktop} {
         padding: 0.2rem 0;

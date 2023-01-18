@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 // STYLED COMPONENTS //
 import { StyledButton } from '../styledComponents/Button/StyledButton'
 import { StyledForm } from '../styledComponents/Form/StyledForm'

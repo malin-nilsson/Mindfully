@@ -11,6 +11,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import EmailIcon from '@mui/icons-material/Email'
 import LockIcon from '@mui/icons-material/Lock'
 import CheckIcon from '@mui/icons-material/Check'
+import LoginIcon from '@mui/icons-material/Login'
 // REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
 // FIREBASE //
@@ -215,6 +216,7 @@ export default function Login() {
                 border="1px solid var(--mid-blue)"
                 id="login-btn"
               >
+                <LoginIcon />
                 Log in
               </StyledButton>
               <StyledButton
@@ -226,7 +228,8 @@ export default function Login() {
                 border="1px solid var(--dark-beige)"
                 width="100%"
               >
-                <GoogleIcon></GoogleIcon>Log in with Google
+                <GoogleIcon />
+                Log in with Google
               </StyledButton>
 
               <p>

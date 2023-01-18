@@ -375,13 +375,13 @@ export default function Profile() {
                         direction="row"
                         width="100%"
                         gap="1rem"
+                        padding="0"
                       >
                         <StyledButton
                           onClick={() => {
                             setDisabledName(!disabledName)
                             clearMessagesAndErrors()
                           }}
-                          padding="0.8rem"
                           fontSize="0.8rem"
                           borderRadius="0.5rem"
                         >
@@ -394,7 +394,6 @@ export default function Profile() {
                             onClick={() => {
                               saveFirstName()
                             }}
-                            padding="0.8rem"
                             fontSize="0.8rem"
                             borderRadius="0.5rem"
                             bgColor="var(--dark-blue)"
@@ -430,13 +429,13 @@ export default function Profile() {
                         direction="row"
                         width="100%"
                         gap="1rem"
+                        padding="0"
                       >
                         <StyledButton
                           onClick={() => {
                             setDisabledEmail(!disabledEmail)
                             clearMessagesAndErrors()
                           }}
-                          padding="0.8rem"
                           fontSize="0.8rem"
                           borderRadius="0.5rem"
                           id="edit-email-btn"
@@ -450,7 +449,6 @@ export default function Profile() {
                             onClick={() => {
                               saveEmail()
                             }}
-                            padding="0.8rem"
                             fontSize="0.8rem"
                             borderRadius="0.5rem"
                             bgColor="var(--dark-blue)"
@@ -498,13 +496,13 @@ export default function Profile() {
                         direction="row"
                         width="100%"
                         gap="1rem"
+                        padding="0"
                       >
                         <StyledButton
                           onClick={() => {
                             setDisabledPassword(!disabledPassword)
                             clearMessagesAndErrors()
                           }}
-                          padding="0.8rem"
                           fontSize="0.8rem"
                           borderRadius="0.5rem"
                           id="edit-password-btn"
@@ -518,7 +516,6 @@ export default function Profile() {
                             onClick={() => {
                               savePassword()
                             }}
-                            padding="0.8rem"
                             fontSize="0.8rem"
                             borderRadius="0.5rem"
                             bgColor="var(--dark-blue)"

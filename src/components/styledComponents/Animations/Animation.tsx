@@ -30,10 +30,6 @@ export default function Animation(props: IAnimationProps) {
   const ball = useRef<HTMLDivElement | null>(null)
   const button = useRef<HTMLButtonElement | null>(null)
 
-  useEffect(() => {
-    applyClass()
-  }, [])
-
   const handleFourBreathing = () => {
     props.handleTime(new Date())
     fourBreathing()
@@ -233,20 +229,11 @@ export default function Animation(props: IAnimationProps) {
 
   // Apply class depending on type of meditation
   const applyClass = () => {
-    if (
-      props.meditation.title === '4-7-8 Breathing Technique' &&
-      ball.current
-    ) {
+    if (props.meditation.title === '4-7-8 Breathing Technique') {
       return 'animation-ball-container-478'
-    } else if (
-      props.meditation.title === 'Box Breathing Technique' &&
-      ball.current
-    ) {
+    } else if (props.meditation.title === 'Box Breathing Technique') {
       return 'animation-ball-container-box'
-    } else if (
-      props.meditation.title === 'Five Mindful Breaths' &&
-      ball.current
-    ) {
+    } else if (props.meditation.title === 'Five Mindful Breaths') {
       return 'animation-ball-container-five'
     }
   }

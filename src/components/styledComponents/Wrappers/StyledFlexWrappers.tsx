@@ -222,6 +222,8 @@ export const StyledFlexWrapper = styled.div`
       &:disabled {
         background-color: #908b8b;
         color: var(--light-beige);
+        -webkit-text-fill-color: var(--light-beige);
+        opacity: 1; /* required on iOS */
       }
     }
 
@@ -330,7 +332,7 @@ export const StyledButtonWrapper = styled.div`
   flex-direction: ${(props: IStylingProps) => props.direction || 'column'};
   gap: ${(props: IStylingProps) => props.gap || ''};
   box-sizing: border-box;
-  padding: 0 1rem;
+  padding: ${(props: IStylingProps) => props.padding || '0 1rem'};
 
   @media ${devices.tablet} {
     width: ${(props: IStylingProps) => props.width || '50%'};

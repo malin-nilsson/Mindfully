@@ -91,6 +91,11 @@ export const StyledMeditationCard = styled.div`
     font-size: 0.9rem;
     margin: 1rem 0 0;
   }
+
+  //SAFARI //
+  :not(:root:root) {
+    margin: 0.5rem;
+  }
 `
 export const StyledProfileCard = styled(StyledMeditationCard)`
   height: unset;
