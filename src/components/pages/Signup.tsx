@@ -10,6 +10,7 @@ import GoogleIcon from '@mui/icons-material/Google'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import EmailIcon from '@mui/icons-material/Email'
 import LockIcon from '@mui/icons-material/Lock'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 // REACT ROUTER //
 import { Link, useNavigate } from 'react-router-dom'
 // FIREBASE //
@@ -24,8 +25,6 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../../firebase/config'
 // FRAMER MOTION //
 import { motion } from 'framer-motion'
-// MUI //
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 
 export default function Signup() {
   const auth = getAuth()

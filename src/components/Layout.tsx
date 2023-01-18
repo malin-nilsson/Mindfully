@@ -3,6 +3,7 @@ import { StyledHeroBg } from './styledComponents/Hero/StyledHero'
 import Navbar from './styledComponents/Navbar/StyledNavbar'
 import { StyledGridWrapper } from './styledComponents/Wrappers/StyledGridWrapper'
 
+// LOGGED-IN LAYOUT //
 export default function Layout() {
   return (
     <>

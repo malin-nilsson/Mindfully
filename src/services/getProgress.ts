@@ -13,7 +13,7 @@ export const getProgress = async () => {
       // Get docs for user
       const docSnap = await getDoc(userRef)
       if (docSnap.exists()) {
-        // Get user favorites
+        // Get user progress
         const progress = docSnap.data().progress
 
         if (progress) {
