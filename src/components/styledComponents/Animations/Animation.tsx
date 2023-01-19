@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 // DATE FNS //
 import { differenceInSeconds } from 'date-fns'
 // MODELS //
@@ -18,12 +18,11 @@ interface IAnimationProps {
 }
 
 export default function Animation(props: IAnimationProps) {
-  const [isMeditating, setIsMeditating] = useState(false)
   const interval = useRef<ReturnType<typeof setInterval> | null>(null)
   const [intervalNo, setintervalNo] = useState<ReturnType<
     typeof setInterval
   > | null>(null)
-  // Refs for animation
+  // Refs for animation //
   const outerContainer = useRef<HTMLDivElement | null>(null)
   const circle = useRef<HTMLDivElement | null>(null)
   const text = useRef<HTMLParagraphElement | null>(null)
@@ -49,8 +48,6 @@ export default function Animation(props: IAnimationProps) {
   /// BOX BREATHING ANIMATION //
   /////////////////////////////
   const boxBreathing = () => {
-    setIsMeditating(true)
-
     if (interval.current) clearInterval(interval.current)
 
     const id = setInterval(() => {
@@ -92,8 +89,6 @@ export default function Animation(props: IAnimationProps) {
   /// 4-7-8 BREATHING ANIMATION //
   ////////////////////////////////
   const fourBreathing = () => {
-    setIsMeditating(true)
-
     if (interval.current) clearInterval(interval.current)
 
     const id = setInterval(() => {
@@ -143,7 +138,6 @@ export default function Animation(props: IAnimationProps) {
     startTime = time
   }
   const stopMeditation = () => {
-    setIsMeditating(false)
     clearInterval(intervalNo as NodeJS.Timer)
     // get time / results & save
     const result = differenceInSeconds(new Date(), startTime as number)
@@ -180,7 +174,6 @@ export default function Animation(props: IAnimationProps) {
   ////////////////////////////////////
   let breath = 0
   const fiveMindfulBreaths = () => {
-    setIsMeditating(true)
     if (interval.current) clearInterval(interval.current)
     breath++
     interval.current && handleInterval(interval.current)

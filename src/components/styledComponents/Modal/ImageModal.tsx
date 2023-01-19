@@ -30,7 +30,6 @@ interface IModalProps {
 
 export default function ImageModal(props: IModalProps) {
   const [fillHeart, setFillHeart] = useState(false)
-  const [isMeditating, setIsMeditating] = useState(false)
   const [snackbar, setSnackbar] = useState(false)
   const [alternativeSnackbar, setAlternativeSnackbar] = useState(false)
   const [startTime, setStartTime] = useState<Date | number>()
@@ -65,7 +64,6 @@ export default function ImageModal(props: IModalProps) {
   // STOP MEDITATION / TIMER //
   /////////////////////////////
   const stopMeditation = () => {
-    setIsMeditating(false)
     clearInterval(intervalNo as NodeJS.Timer)
     // get time / results & save
     const result = differenceInSeconds(new Date(), startTime as number)
