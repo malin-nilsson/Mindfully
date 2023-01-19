@@ -66,9 +66,13 @@ export default function Signup() {
         }
       })
       .catch((error) => {
-        setErrorMessage(error.message)
         setError(true)
         setRegistering(false)
+        if (error.code.includes('auth/popup-closed-by-user')) {
+          return
+        } else {
+          setErrorMessage(error.message)
+        }
       })
   }
 

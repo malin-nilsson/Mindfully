@@ -73,9 +73,14 @@ export default function Login() {
         }
       })
       .catch((error) => {
-        setError(true)
-        setErrorMessage(error.message)
+        setLoader(false)
         setAuthing(false)
+        setError(true)
+        if (error.code.includes('auth/popup-closed-by-user')) {
+          return
+        } else {
+          setErrorMessage(error.message)
+        }
       })
   }
 
