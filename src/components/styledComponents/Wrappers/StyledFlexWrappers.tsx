@@ -367,6 +367,7 @@ export const StyledProgressWrapper = styled.div`
   @media ${devices.desktop} {
     padding: 2rem;
     width: 85%;
+    gap: 3.5rem;
   }
 
   /* SAFARI */
