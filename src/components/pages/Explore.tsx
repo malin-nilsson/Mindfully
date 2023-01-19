@@ -145,6 +145,7 @@ export default function Explore() {
     setVideoModal(false)
     setImageModal(false)
     setHideMeditations(false)
+    setShowFilteredMeditations(false)
     setSnackbar(progress as boolean)
   }
 
@@ -160,7 +161,7 @@ export default function Explore() {
       setTimeout(stopLoader, 2000)
     } else if (m.tag === 'Sound Meditation') {
       setVideoModal(true)
-      setTimeout(stopLoader, 2500)
+      setTimeout(stopLoader, 2000)
     }
   }
 
