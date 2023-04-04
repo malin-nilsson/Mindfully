@@ -1,7 +1,7 @@
 # Meditation app 
-For this React project I wanted to explore Firebase for storage, authentication and authorization and I also wanted to implement a headless CMS to handle new content for the site.
+For this React project I wanted to explore Firebase for storage, authentication and authorization and practice implementing a headless CMS to handle new content for the site. I also also wanted to revisit Cypress for some testing.
 
-Users can track their progress and see details about their previous meditations 🏆 and also save favorite meditations ❤️. End-to-end tests were implemented using Cypress.
+Users can track their progress and see details about their previous meditations 🏆 and also save favorite meditations ❤️
 
 https://bit.ly/3ZEyaMG
 
