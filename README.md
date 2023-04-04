@@ -1,9 +1,9 @@
 # Meditation app 
-Project built with React, TypeScript, Firebase and Sanity.io, designed to help you pay attention to your breath.
+For this React project I wanted to practice storage, authentication and authorization using Firebase and I also wanted to implement a headless CMS to upload new content to the site.
 
-The project features authentication and authorization using Firebase where users can create an account and log in 🔒, track their progress 🏆 and save favorite meditations ❤️. End-to-end tests were implemented using Cypress.
+Users can track their progress and see details about their previous meditations 🏆 and also save favorite meditations ❤️. End-to-end tests were implemented using Cypress.
 
-Live url: https://bit.ly/3ZEyaMG
+https://bit.ly/3ZEyaMG
 
 ## Screenshot
 ![](./public/assets/screenshot.png)
