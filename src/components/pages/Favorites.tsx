@@ -35,7 +35,7 @@ export default function Favorites() {
   const [imageModal, setImageModal] = useState(false)
   const [snackbar, setSnackbar] = useState(false)
   const [hideFavorites, setHideFavorites] = useState(false)
-  const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(false)
   const [selectedMeditation, setSelectedMeditation] = useState<IMeditation>({
     title: '',
     tag: '',
@@ -100,10 +100,10 @@ export default function Favorites() {
 
     if (m.tag === 'Guided Breathing Meditation') {
       setImageModal(true)
-      setTimeout(stopLoader, 2000)
+      setTimeout(stopLoader, 1000)
     } else if (m.tag === 'Sound Meditation') {
       setVideoModal(true)
-      setTimeout(stopLoader, 2500)
+      setTimeout(stopLoader, 1000)
     }
   }
 

@@ -42,7 +42,7 @@ export default function Explore() {
   const [videoModal, setVideoModal] = useState(false)
   const [imageModal, setImageModal] = useState(false)
   const [snackbar, setSnackbar] = useState(false)
-  const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [hideMeditations, setHideMeditations] = useState(false)
@@ -158,10 +158,10 @@ export default function Explore() {
     setSelectedMeditation(m)
     if (m.tag === 'Guided Breathing Meditation') {
       setImageModal(true)
-      setTimeout(stopLoader, 2000)
+      setTimeout(stopLoader, 1000)
     } else if (m.tag === 'Sound Meditation') {
       setVideoModal(true)
-      setTimeout(stopLoader, 2000)
+      setTimeout(stopLoader, 1000)
     }
   }
 

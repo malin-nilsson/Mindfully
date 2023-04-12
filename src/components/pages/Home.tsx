@@ -33,7 +33,7 @@ const ImageModal = React.lazy(() =>
 export default function Home() {
   const [displayName, setDisplayName] = useState('')
   const [greeting, setGreeting] = useState('')
-  const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(false)
   const [newMeditation, setNewMeditation] = useState(false)
   const [snackbar, setSnackbar] = useState(false)
   const [specificMeditation, setSpecificMeditation] = useState<IMeditation>({
@@ -107,7 +107,7 @@ export default function Home() {
     setLoader(true)
     setSpecificMeditation(m)
     setNewMeditation(true)
-    setTimeout(stopLoader, 2000)
+    setTimeout(stopLoader, 1000)
   }
 
   const hideModal = (progress?: boolean) => {
