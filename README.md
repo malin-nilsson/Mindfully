@@ -1,11 +1,9 @@
-# Mindfully meditation app ☁️
-Final project in Front End Development at Medieinstitutet.
+# Meditation app 
+For this React project I wanted to explore Firebase for storage, authentication and authorization. I also wanted to practice implementing a headless CMS to handle new content for the site, as well as revisit Cypress for some testing.
 
-Mindfully is a meditation app built with React, TypeScript, Firebase and Sanity.io, designed to help you relax and pay attention to your breath.
+Users can track their progress and see details about their previous meditations 🏆 and also save favorite meditations ❤️
 
-This project features authentication and authorization using Firebase where users can create an account and log in 🔒, track their progress 🏆 and save favorite meditations ❤️. End-to-end tests were implemented using Cypress.
-
-Live site: https://bit.ly/3ZEyaMG
+https://bit.ly/3ZEyaMG
 
 ## Screenshot
 ![](./public/assets/screenshot.png)
